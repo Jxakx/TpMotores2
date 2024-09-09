@@ -10,11 +10,12 @@ public class Player : MonoBehaviour
     [SerializeField] float smoothedMove;
     private bool lookRight = true;
 
-    [SerializeField] float jumpForce;
+    
     [SerializeField] LayerMask floor;
     [SerializeField] Transform floorController;
     [SerializeField] Vector3 boxDimensions;
-    //private bool jump = false;
+    [SerializeField] float jumpForce = 5f;
+    private bool isGrounded;
 
     private void Start()
     {
@@ -24,6 +25,13 @@ public class Player : MonoBehaviour
     void Update()
     {
         transform.position += controller.GetMoveDir() * speed * Time.deltaTime;
+
+        isGrounded = Physics2D.OverlapBox(floorController.position, boxDimensions, 0f, floor);
+
+        if (controller.IsJumping() && isGrounded)
+        {
+            Jump();
+        }
     }
 
     private void FixedUpdate()
@@ -47,5 +55,10 @@ public class Player : MonoBehaviour
         Vector3 escala = transform.localScale;
         escala.x *= -1;
         transform.localScale = escala;
+    }
+
+    private void Jump()
+    {
+        rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
     }
 }

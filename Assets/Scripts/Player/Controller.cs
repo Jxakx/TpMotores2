@@ -5,4 +5,5 @@ using UnityEngine;
 public abstract class Controller : MonoBehaviour
 {
     public abstract Vector3 GetMoveDir();
+    public abstract bool IsJumping();
 }

@@ -7,24 +7,23 @@ using UnityEngine.UI;
 public class ButtonController : Controller
 {
     Vector3 dir;
-    [SerializeField] EventTrigger upButton;
+    [SerializeField] EventTrigger jumpButton;
     [SerializeField] EventTrigger rightButton;
     [SerializeField] EventTrigger leftButton;
+    private bool jump = false;
 
-    private void Start()
-    {
-        /*upButton.onClick.AddListener(new UnityEngine.Events.UnityAction(PressUpButton));
-        rightButton.onClick.AddListener(new UnityEngine.Events.UnityAction(PressRightButton));
-        leftButton.onClick.AddListener(new UnityEngine.Events.UnityAction(PressLeftButton));*/
-    }
     public override Vector3 GetMoveDir()
     {
         return dir;
     }
 
-    public void PressUpButton()
+    public override bool IsJumping()
     {
-        dir = Vector3.up;
+        return jump;
+    }
+    public void PressJumpButton()
+    {
+        jump = true;
     }
 
     public void PressRightButton()
@@ -40,5 +39,6 @@ public class ButtonController : Controller
     public void stopMovement()
     {
         dir = Vector3.zero;
+        jump = false;
     }
 }
