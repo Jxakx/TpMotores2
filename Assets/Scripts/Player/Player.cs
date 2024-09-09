@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     [SerializeField] Transform floorController;
     [SerializeField] Vector3 boxDimensions;
     [SerializeField] float jumpForce = 5f;
-    private bool isGrounded;
+    private bool isGrounded = false;
 
     private void Start()
     {
@@ -24,23 +24,28 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        transform.position += controller.GetMoveDir() * speed * Time.deltaTime;
-
         isGrounded = Physics2D.OverlapBox(floorController.position, boxDimensions, 0f, floor);
-
-        if (controller.IsJumping() && isGrounded)
-        {
-            Jump();
-        }
     }
 
     private void FixedUpdate()
     {
-        Move(speed * Time.fixedDeltaTime);
+        // Movemos al jugador en función de la entrada del controlador
+        rb.velocity = new Vector2(controller.GetMoveDir().x * speed, rb.velocity.y);
+
+        // Si se presiona el botón de salto y el jugador está en el suelo, saltamos
+        if (controller.IsJumping() && isGrounded)
+        {
+            Jump();
+        }
+
+        // Gestionamos la dirección en la que mira el personaje
+        Move();
     }
-    private void Move(float move)
+    private void Move()
     {
-        if(move > 0 && !lookRight)
+        float move = rb.velocity.x;
+
+        if (move > 0 && !lookRight)
         {
             Turn();
         }else if(move < 0 && lookRight)
@@ -59,6 +64,16 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
-        rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+    }
+
+    // Opcional: Para visualizar el OverlapBox en el editor y depurar problemas de detección
+    private void OnDrawGizmos()
+    {
+        if (floorController != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(floorController.position, boxDimensions);
+        }
     }
 }

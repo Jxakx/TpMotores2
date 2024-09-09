@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 53185586}
   - component: {fileID: 53185589}
   m_Layer: 5
-  m_Name: UpButton
+  m_Name: JumpButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -264,7 +264,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 2133374458}
           m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
-          m_MethodName: PressUpButton
+          m_MethodName: PressJumpButton
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -393,12 +393,12 @@ MonoBehaviour:
   controller: {fileID: 2133374458}
   speed: 5
   smoothedMove: 0.2
-  jumpForce: 0
   floor:
     serializedVersion: 2
-    m_Bits: 0
-  floorController: {fileID: 0}
-  boxDimensions: {x: 0, y: 0, z: 0}
+    m_Bits: 128
+  floorController: {fileID: 1224384539}
+  boxDimensions: {x: 1, y: 0.25, z: 0}
+  jumpForce: 10
 --- !u!50 &100853187
 Rigidbody2D:
   serializedVersion: 4
@@ -414,7 +414,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 2.5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1279,7 +1279,7 @@ GameObject:
   - component: {fileID: 641480411}
   - component: {fileID: 641480410}
   - component: {fileID: 641480409}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: piso (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1869,7 +1869,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1224384539}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: ControladorSuelo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1902,7 +1902,7 @@ GameObject:
   - component: {fileID: 1256701570}
   - component: {fileID: 1256701569}
   - component: {fileID: 1256701568}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: piso
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2205,7 +2205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 028fbaa6693f7e644848037b95f76836, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upButton: {fileID: 0}
+  jumpButton: {fileID: 0}
   rightButton: {fileID: 0}
   leftButton: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
