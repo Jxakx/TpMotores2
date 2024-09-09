@@ -19,7 +19,9 @@ public class ButtonController : Controller
 
     public override bool IsJumping()
     {
-        return jump;
+        bool wasJumping = jump;
+        jump = false;  // Restablecemos el estado de salto después de evaluarlo
+        return wasJumping;
     }
     public void PressJumpButton()
     {
