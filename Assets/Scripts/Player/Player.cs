@@ -17,20 +17,33 @@ public class Player : MonoBehaviour
     [SerializeField] float jumpForce = 5f;
     private bool isGrounded = false;
 
+    [Header("Animaciones")]
+
+    private Animator animator;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
         isGrounded = Physics2D.OverlapBox(floorController.position, boxDimensions, 0f, floor);
+
+        // Actualizamos el parámetro "enSuelo" en el Animator
+        animator.SetBool("enSuelo", isGrounded);
     }
 
     private void FixedUpdate()
     {
         // Movemos al jugador en función de la entrada del controlador
         rb.velocity = new Vector2(controller.GetMoveDir().x * speed, rb.velocity.y);
+
+        // Actualizar el parámetro "Horizontal" del Animator según la velocidad
+        animator.SetFloat("Horizontal", Mathf.Abs(rb.velocity.x));
+
+        animator.SetFloat("VelocidadY", rb.velocity.y);
 
         // Si se presiona el botón de salto y el jugador está en el suelo, saltamos
         if (controller.IsJumping() && isGrounded)
