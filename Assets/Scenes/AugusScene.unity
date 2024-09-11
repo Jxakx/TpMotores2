@@ -44345,7 +44345,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.0053275228}
+  m_Offset: {x: 0.0017549023, y: -0.10304791}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -44356,7 +44356,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.98934484}
+  m_Size: {x: 0.5002038, y: 0.772594}
   m_EdgeRadius: 0
 --- !u!114 &830042453
 MonoBehaviour:
@@ -44371,11 +44371,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1372089151}
-  speed: 5
-  smoothedMove: 0.2
+  speed: 8
+  smoothedMove: 10
   floor:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   floorController: {fileID: 837629376}
   boxDimensions: {x: 1, y: 0.25, z: 0}
   jumpForce: 10
@@ -44419,7 +44419,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -802240188, guid: 8de65651cf71e494abbfec309d749b63, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
