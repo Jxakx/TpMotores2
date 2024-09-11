@@ -4,15 +4,34 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public int life;
+    public int damageAttack;
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
+ 
     void Update()
     {
         
     }
+
+    public void TakeDamage(int damage)
+    {
+
+        life -= damage;
+
+        if (life <= 1.5f)
+        {
+            Death();
+        }
+    }
+
+    public virtual void Death()
+    {
+        Destroy(gameObject);
+    }
+
 }

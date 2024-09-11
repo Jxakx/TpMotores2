@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hongo : MonoBehaviour
+public class Hongo : Entity
 {
     [SerializeField] float speed;
     [SerializeField] Transform floorController;

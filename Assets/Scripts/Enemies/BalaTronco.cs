@@ -4,11 +4,35 @@ using UnityEngine;
 
 public class BalaTronco : MonoBehaviour
 {
-    public float speed;
-    public int damage;
-    void Update()
+    
+    public float speed = 2f;
+
+    public float timeLife = 4f;
+
+    float damage;
+
+    private void Start()
     {
-        transform.Translate(Time.deltaTime * speed * Vector2.right);
+        Destroy(gameObject, timeLife);
     }
 
+
+    void Update()
+    {
+        transform.position += transform.up * speed * Time.deltaTime;
+    }
+
+    public void setDamage(float dmg)
+    {
+        damage = dmg;
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == 6)
+        {
+            //collision.GetComponent<Player>().takeDamage(damage);
+        }
+        Destroy(gameObject);
+    }
 }

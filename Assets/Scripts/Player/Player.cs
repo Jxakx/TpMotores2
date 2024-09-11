@@ -5,17 +5,27 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private Rigidbody2D rb;
+    [SerializeField] int life;
     [SerializeField] Controller controller;
     [SerializeField] float speed = 5;
     [SerializeField] float smoothedMove;
     private bool lookRight = true;
 
-    
+    [Header("Salto")]
+
     [SerializeField] LayerMask floor;
     [SerializeField] Transform floorController;
     [SerializeField] Vector3 boxDimensions;
     [SerializeField] float jumpForce = 5f;
     private bool isGrounded = false;
+
+    [Header("Dash")]
+
+    [SerializeField] float dashSpeed;
+    [SerializeField] float dashTime;
+    private float starterGravity;
+    private bool canDash = true;
+    private bool canMove = true;
 
     [Header("Animaciones")]
 
@@ -25,6 +35,7 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        starterGravity = rb.gravityScale;
     }
 
     void Update()
@@ -38,7 +49,7 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         // Movemos al jugador en función de la entrada del controlador
-        rb.velocity = new Vector2(controller.GetMoveDir().x * speed, rb.velocity.y);
+        
 
         // Actualizar el parámetro "Horizontal" del Animator según la velocidad
         animator.SetFloat("Horizontal", Mathf.Abs(rb.velocity.x));
@@ -51,8 +62,19 @@ public class Player : MonoBehaviour
             Jump();
         }
 
+        if (canMove)
+        {
+            rb.velocity = new Vector2(controller.GetMoveDir().x * speed, rb.velocity.y);
+            Move();
+        }
+
+        if(controller.IsDashing() && canDash)
+        {
+            StartCoroutine(Dash());
+        }
+
         // Gestionamos la dirección en la que mira el personaje
-        Move();
+        
     }
     private void Move()
     {
@@ -78,6 +100,39 @@ public class Player : MonoBehaviour
     private void Jump()
     {
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+    }
+
+    private IEnumerator Dash()
+    {
+        canMove = false;
+        canDash = false;
+        rb.gravityScale = 0;
+        rb.velocity = new Vector2(dashSpeed * transform.localScale.x, 0);
+
+        yield return new WaitForSeconds(dashTime);
+
+        canMove = true;
+        canDash = true;
+        rb.gravityScale = starterGravity;
+    }
+    public void TakeDamage(int value)
+    {
+        life -= value;
+        //_gameManager.LoseHP(value);
+
+        if (life <= 0)
+        {
+            life = 0;
+            Dead();
+        }
+    }
+
+    private void Dead()
+    {
+        Time.timeScale = 0;
+        //gamePlayCanvas.onLose();
+
+        Destroy(GetComponent<Player>(), 1);
     }
 
     // Opcional: Para visualizar el OverlapBox en el editor y depurar problemas de detección
