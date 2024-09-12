@@ -44370,6 +44370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9755161fbfed33b4ebef72fa0bff57d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  life: 0
   controller: {fileID: 1372089151}
   speed: 8
   smoothedMove: 10
@@ -44379,6 +44380,10 @@ MonoBehaviour:
   floorController: {fileID: 837629376}
   boxDimensions: {x: 1, y: 0.25, z: 0}
   jumpForce: 10
+  dashSpeed: 0
+  dashTime: 0
+  saltosExtraRestantes: 0
+  saltosExtra: 1
 --- !u!212 &830042454
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -44552,6 +44557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpButton: {fileID: 0}
+  dashButton: {fileID: 0}
   rightButton: {fileID: 0}
   leftButton: {fileID: 0}
 --- !u!1 &1635297818
