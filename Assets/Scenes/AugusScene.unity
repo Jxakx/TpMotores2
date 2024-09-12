@@ -44489,7 +44489,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 830042450}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 65e176a4c4121e146acdae377cba4b28, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -44555,6 +44555,9 @@ MonoBehaviour:
   controladorPared: {fileID: 1247838901}
   dimensionCajaPared: {x: 0.33, y: 1.36, z: 0}
   velocidadDeslizar: 0.2
+  fuerzaSaltoParedX: 6
+  fuerzaSaltoParedY: 12
+  tiempoSaltoPared: 0.2
 --- !u!212 &830042454
 SpriteRenderer:
   m_ObjectHideFlags: 0

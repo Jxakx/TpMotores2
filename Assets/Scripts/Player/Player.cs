@@ -43,6 +43,10 @@ public class Player : MonoBehaviour
     private bool enPared;
     private bool deslizando;
     [SerializeField] private float velocidadDeslizar;
+    [SerializeField] private float fuerzaSaltoParedX;
+    [SerializeField] private float fuerzaSaltoParedY;
+    [SerializeField] private float tiempoSaltoPared;
+    private bool saltandoDePared;
 
     [Header("Animaciones")]
 
@@ -57,88 +61,86 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-
         isGrounded = Physics2D.OverlapBox(floorController.position, boxDimensions, 0f, floor);
-
         enPared = Physics2D.OverlapBox(controladorPared.position, dimensionCajaPared, 0f, floor);
 
         if (isGrounded)
         {
-            // Reseteamos el parámetro de doble salto al estar en el suelo
             saltosExtraRestantes = saltosExtra;
-
             animator.SetBool("isDoubleJumping", false);
-
         }
 
-        // Actualizamos el parámetro "enSuelo" en el Animator
         animator.SetBool("enSuelo", isGrounded);
 
-        if(deslizando)
+        // Determina si se debe deslizar en la pared
+        if (enPared && !isGrounded)
         {
-            rb.velocity = new Vector2 (rb.velocity.x, Mathf.Clamp(rb.velocity.y, -velocidadDeslizar, float.MaxValue));
-        }
-
-    }
-
-    private void FixedUpdate()
-    {
-        // Movemos al jugador en función de la entrada del controlador
-        
-
-        // Actualizar el parámetro "Horizontal" del Animator según la velocidad
-        animator.SetFloat("Horizontal", Mathf.Abs(rb.velocity.x));
-
-        animator.SetFloat("VelocidadY", rb.velocity.y);
-
-        animator.SetBool("isDoubleJumping", false);
-
-        animator.SetBool("Deslizando", deslizando);        
-
-        // Si se presiona el botón de salto y el jugador está en el suelo, saltamos
-        if (controller.IsJumping())
-        {
-            if (isGrounded)
+            if (controller.GetMoveDir().x != 0) // Solo deslizar si se está moviendo
             {
-                Jump();
+                deslizando = true;
             }
             else
             {
-                if(saltosExtraRestantes > 0)
-                {
-                    Jump();
-                    saltosExtraRestantes -= 1; // Restar un salto extra
-
-                    //Activamos el parámetro para la animación de doble salto
-                    animator.SetBool("isDoubleJumping", true);
-
-                }              
+                deslizando = false;
             }
-        }
-
-        if (!isGrounded && enPared)
-        {
-            deslizando = true;
         }
         else
         {
             deslizando = false;
         }
 
-        if (canMove)
+        if (deslizando)
         {
-            rb.velocity = new Vector2(controller.GetMoveDir().x * speed, rb.velocity.y);
-            Move();
+            rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -velocidadDeslizar, float.MaxValue));
         }
+    }
 
-        if(controller.IsDashing() && canDash)
+    private void FixedUpdate()
+    {
+        if (!saltandoDePared)
+        {
+            if (canMove)
+            {
+                rb.velocity = new Vector2(controller.GetMoveDir().x * speed, rb.velocity.y);
+                Move();
+            }
+        }
+        
+
+        if (controller.IsDashing() && canDash)
         {
             StartCoroutine(Dash());
         }
 
-        // Gestionamos la dirección en la que mira el personaje
-        
+        // Actualizar parámetros de animación
+        animator.SetFloat("Horizontal", Mathf.Abs(rb.velocity.x));
+        animator.SetFloat("VelocidadY", rb.velocity.y);
+        animator.SetBool("isDoubleJumping", false);
+        animator.SetBool("Deslizando", deslizando);
+
+        if (controller.IsJumping())
+        {
+            if (isGrounded && !deslizando)
+            {
+                Jump();
+            }
+            else if(enPared && deslizando )
+            {
+                SaltoPared();
+                
+            }
+            else
+            {
+                if (saltosExtraRestantes > 0)
+                {
+                    Jump();
+                    saltosExtraRestantes -= 1;
+                    animator.SetBool("isDoubleJumping", true);
+                }
+            }
+        }
     }
+
     private void Move()
     {
         float move = rb.velocity.x;
@@ -147,7 +149,7 @@ public class Player : MonoBehaviour
         {
             Turn();
         }
-        else if(move < 0 && lookRight)
+        else if (move < 0 && lookRight)
         {
             Turn();
         }
@@ -166,6 +168,19 @@ public class Player : MonoBehaviour
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
     }
 
+    private void SaltoPared()
+    {
+        enPared = false;
+        rb.velocity = new Vector2(fuerzaSaltoParedX * -controller.GetMoveDir().x, fuerzaSaltoParedY);
+        StartCoroutine(CambioSaltoPared());
+    }
+
+    IEnumerator CambioSaltoPared()
+    {
+        saltandoDePared = true;
+        yield return new WaitForSeconds(tiempoSaltoPared);
+        saltandoDePared = false;
+    }
     private IEnumerator Dash()
     {
         canMove = false;
@@ -184,10 +199,10 @@ public class Player : MonoBehaviour
     {
         rb.velocity = new Vector2(rb.velocity.x, speedRebound);
     }
+
     public void TakeDamage(int value)
     {
         life -= value;
-        //_gameManager.LoseHP(value);
 
         if (life <= 0)
         {
@@ -199,12 +214,9 @@ public class Player : MonoBehaviour
     private void Dead()
     {
         Time.timeScale = 0;
-        //gamePlayCanvas.onLose();
-
         Destroy(GetComponent<Player>(), 1);
     }
 
-    // Opcional: Para visualizar el OverlapBox en el editor y depurar problemas de detección
     private void OnDrawGizmos()
     {
         if (floorController != null)
@@ -212,7 +224,7 @@ public class Player : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawWireCube(floorController.position, boxDimensions);
             Gizmos.DrawWireCube(controladorPared.position, dimensionCajaPared);
-
         }
     }
 }
+
