@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,6 +28,11 @@ public class Player : MonoBehaviour
     private bool canDash = true;
     private bool canMove = true;
 
+    [Header("DoubleJump")]
+
+    [SerializeField] private int saltosExtraRestantes;
+    [SerializeField] private int saltosExtra;
+
     [Header("Animaciones")]
 
     private Animator animator;
@@ -42,8 +48,18 @@ public class Player : MonoBehaviour
     {
         isGrounded = Physics2D.OverlapBox(floorController.position, boxDimensions, 0f, floor);
 
+        if(isGrounded)
+        {
+            // Reseteamos el parámetro de doble salto al estar en el suelo
+            saltosExtraRestantes = saltosExtra;
+
+            animator.SetBool("isDoubleJumping", false);
+
+        }
+
         // Actualizamos el parámetro "enSuelo" en el Animator
         animator.SetBool("enSuelo", isGrounded);
+
     }
 
     private void FixedUpdate()
@@ -56,11 +72,29 @@ public class Player : MonoBehaviour
 
         animator.SetFloat("VelocidadY", rb.velocity.y);
 
+        animator.SetBool("isDoubleJumping", false);
+
         // Si se presiona el botón de salto y el jugador está en el suelo, saltamos
-        if (controller.IsJumping() && isGrounded)
+        if (controller.IsJumping())
         {
-            Jump();
+            if (isGrounded)
+            {
+                Jump();
+            }
+            else
+            {
+                if(saltosExtraRestantes > 0)
+                {
+                    Jump();
+                    saltosExtraRestantes -= 1; // Restar un salto extra
+
+                    //Activamos el parámetro para la animación de doble salto
+                    animator.SetBool("isDoubleJumping", true);
+
+                }              
+            }
         }
+       
 
         if (canMove)
         {
