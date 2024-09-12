@@ -221,6 +221,12 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
+  - m_Name: Deslizando
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -279,7 +285,7 @@ AnimatorStateMachine:
     m_Position: {x: 220, y: 240, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1544294698764114439}
-    m_Position: {x: 320, y: 520, z: 0}
+    m_Position: {x: 830, y: 230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6854974910957880855}
     m_Position: {x: 270, y: 340, z: 0}

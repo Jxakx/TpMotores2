@@ -37,6 +37,13 @@ public class Player : MonoBehaviour
 
     [SerializeField] float speedRebound;
 
+    [Header("SaltoPared")]
+    [SerializeField] private Transform controladorPared;
+    [SerializeField] private Vector3 dimensionCajaPared;
+    private bool enPared;
+    private bool deslizando;
+    [SerializeField] private float velocidadDeslizar;
+
     [Header("Animaciones")]
 
     private Animator animator;
@@ -50,9 +57,12 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+
         isGrounded = Physics2D.OverlapBox(floorController.position, boxDimensions, 0f, floor);
 
-        if(isGrounded)
+        enPared = Physics2D.OverlapBox(controladorPared.position, dimensionCajaPared, 0f, floor);
+
+        if (isGrounded)
         {
             // Reseteamos el parámetro de doble salto al estar en el suelo
             saltosExtraRestantes = saltosExtra;
@@ -63,6 +73,11 @@ public class Player : MonoBehaviour
 
         // Actualizamos el parámetro "enSuelo" en el Animator
         animator.SetBool("enSuelo", isGrounded);
+
+        if(deslizando)
+        {
+            rb.velocity = new Vector2 (rb.velocity.x, Mathf.Clamp(rb.velocity.y, -velocidadDeslizar, float.MaxValue));
+        }
 
     }
 
@@ -77,6 +92,8 @@ public class Player : MonoBehaviour
         animator.SetFloat("VelocidadY", rb.velocity.y);
 
         animator.SetBool("isDoubleJumping", false);
+
+        animator.SetBool("Deslizando", deslizando);        
 
         // Si se presiona el botón de salto y el jugador está en el suelo, saltamos
         if (controller.IsJumping())
@@ -98,7 +115,15 @@ public class Player : MonoBehaviour
                 }              
             }
         }
-       
+
+        if (!isGrounded && enPared)
+        {
+            deslizando = true;
+        }
+        else
+        {
+            deslizando = false;
+        }
 
         if (canMove)
         {
@@ -121,7 +146,8 @@ public class Player : MonoBehaviour
         if (move > 0 && !lookRight)
         {
             Turn();
-        }else if(move < 0 && lookRight)
+        }
+        else if(move < 0 && lookRight)
         {
             Turn();
         }
@@ -185,6 +211,8 @@ public class Player : MonoBehaviour
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireCube(floorController.position, boxDimensions);
+            Gizmos.DrawWireCube(controladorPared.position, dimensionCajaPared);
+
         }
     }
 }
