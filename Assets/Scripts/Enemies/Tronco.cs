@@ -13,28 +13,31 @@ public class Tronco : Entity
     public float lastShoot;
     public float waitShootTime;
     public GameObject bulletEnemy;
+
     private void Update()
     {
-        playerInRange = Physics2D.Raycast(shootController.position, transform.right, distance, player);
+        
+        playerInRange = Physics2D.Raycast(shootController.position, -transform.right, distance, player);
 
         if (playerInRange)
         {
-            if(Time.time > timer + lastShoot)
+            if (Time.time > lastShoot + waitShootTime)
             {
                 lastShoot = Time.time;
-                Invoke(nameof(Shoot), waitShootTime);
+                Shoot();
             }
         }
     }
 
     private void Shoot()
     {
-        Instantiate(bulletEnemy, shootController.position, shootController.rotation);
+        Instantiate(bulletEnemy, shootController.position, Quaternion.Euler(0f, 180f, 0f));
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(shootController.position, shootController.position + transform.right * distance);
+        
+        Gizmos.DrawLine(shootController.position, shootController.position + -transform.right * distance);
     }
 }

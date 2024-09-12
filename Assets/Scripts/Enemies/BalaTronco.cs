@@ -19,7 +19,7 @@ public class BalaTronco : MonoBehaviour
 
     void Update()
     {
-        transform.position += transform.up * speed * Time.deltaTime;
+        transform.position += transform.right * speed * Time.deltaTime;
     }
 
     public void setDamage(float dmg)
