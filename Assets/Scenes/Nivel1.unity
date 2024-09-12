@@ -1624,6 +1624,7 @@ GameObject:
   - component: {fileID: 831684450}
   - component: {fileID: 831684449}
   - component: {fileID: 831684448}
+  - component: {fileID: 831684452}
   m_Layer: 0
   m_Name: Tronco
   m_TagString: Untagged
@@ -1768,6 +1769,18 @@ Transform:
   - {fileID: 116933559}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &831684452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 831684447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eca4ba1120f26e84093ef201145c0cad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &944202719
 GameObject:
   m_ObjectHideFlags: 0
@@ -1781,6 +1794,7 @@ GameObject:
   - component: {fileID: 944202722}
   - component: {fileID: 944202721}
   - component: {fileID: 944202720}
+  - component: {fileID: 944202725}
   m_Layer: 0
   m_Name: Hongo
   m_TagString: Untagged
@@ -1946,6 +1960,18 @@ Transform:
   - {fileID: 1386877783}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &944202725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944202719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eca4ba1120f26e84093ef201145c0cad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1256701567
 GameObject:
   m_ObjectHideFlags: 0
@@ -2514,8 +2540,9 @@ MonoBehaviour:
   jumpForce: 10
   dashSpeed: 10
   dashTime: 0.3
-  saltosExtraRestantes: 0
-  saltosExtra: 0
+  saltosExtraRestantes: 1
+  saltosExtra: 1
+  speedRebound: 10
 --- !u!212 &2084473392
 SpriteRenderer:
   m_ObjectHideFlags: 0

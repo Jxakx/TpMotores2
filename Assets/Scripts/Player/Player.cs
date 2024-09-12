@@ -33,6 +33,10 @@ public class Player : MonoBehaviour
     [SerializeField] private int saltosExtraRestantes;
     [SerializeField] private int saltosExtra;
 
+    [Header("Dash")]
+
+    [SerializeField] float speedRebound;
+
     [Header("Animaciones")]
 
     private Animator animator;
@@ -148,6 +152,11 @@ public class Player : MonoBehaviour
         canMove = true;
         canDash = true;
         rb.gravityScale = starterGravity;
+    }
+
+    public void Rebound()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, speedRebound);
     }
     public void TakeDamage(int value)
     {
