@@ -78,15 +78,19 @@ public class Player : MonoBehaviour
             if (controller.GetMoveDir().x != 0) // Solo deslizar si se está moviendo
             {
                 deslizando = true;
+                animator.SetBool("Deslizando", deslizando);                                                              
             }
             else
             {
                 deslizando = false;
+                animator.SetBool("Deslizando", false);
             }
         }
         else
         {
             deslizando = false;
+            animator.SetBool("Deslizando", false);
+
         }
 
         if (deslizando)
@@ -114,20 +118,21 @@ public class Player : MonoBehaviour
 
         // Actualizar parámetros de animación
         animator.SetFloat("Horizontal", Mathf.Abs(rb.velocity.x));
-        animator.SetFloat("VelocidadY", rb.velocity.y);
         animator.SetBool("isDoubleJumping", false);
-        animator.SetBool("Deslizando", deslizando);
+        animator.SetFloat("VelocidadY", rb.velocity.y);
+
+
 
         if (controller.IsJumping())
         {
             if (isGrounded && !deslizando)
             {
                 Jump();
+
             }
-            else if(enPared && deslizando )
+            else if(enPared && deslizando)
             {
-                SaltoPared();
-                
+                SaltoPared();                
             }
             else
             {
