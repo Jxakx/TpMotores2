@@ -52,6 +52,17 @@ public class Player : MonoBehaviour
 
     private Animator animator;
 
+    //Para las partículas cuando corre/camina/dash
+    [SerializeField] private ParticleSystem particulasDash;
+    [SerializeField] private ParticleSystem particulasCorrer;
+    [SerializeField] private ParticleSystem particulasAterrizaje;
+    [SerializeField] private ParticleSystem particulasDj;
+
+    private bool wasGrounded = true; //Para que cuando toque el suelo, aparezcan las particulas de aterrizaje
+
+    [SerializeField] private AudioClip jumpSound; 
+    [SerializeField] private AudioClip doubleJumpSound;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -64,11 +75,14 @@ public class Player : MonoBehaviour
         isGrounded = Physics2D.OverlapBox(floorController.position, boxDimensions, 0f, floor);
         enPared = Physics2D.OverlapBox(controladorPared.position, dimensionCajaPared, 0f, floor);
 
-        if (isGrounded)
+        if (!wasGrounded && isGrounded)
         {
             saltosExtraRestantes = saltosExtra;
             animator.SetBool("isDoubleJumping", false);
+            particulasAterrizaje.Play();
         }
+
+        wasGrounded = isGrounded;
 
         animator.SetBool("enSuelo", isGrounded);
 
@@ -78,7 +92,7 @@ public class Player : MonoBehaviour
             if (controller.GetMoveDir().x != 0) // Solo deslizar si se está moviendo
             {
                 deslizando = true;
-                animator.SetBool("Deslizando", deslizando);                                                              
+                animator.SetBool("Deslizando", deslizando);    
             }
             else
             {
@@ -109,11 +123,26 @@ public class Player : MonoBehaviour
                 Move();
             }
         }
-        
+
+        if (controller.GetMoveDir().x != 0 && isGrounded)
+        {
+            if (!particulasCorrer.isPlaying)
+            {
+                particulasCorrer.Play();  // Iniciar partículas cuando corra
+            }
+        }
+        else
+        {
+            if (particulasCorrer.isPlaying)
+            {
+                particulasCorrer.Stop();  // Detener partículas cuando no corra
+            }
+        }
 
         if (controller.IsDashing() && canDash)
         {
             StartCoroutine(Dash());
+            particulasDash.Play();
         }
 
         // Actualizar parámetros de animación
@@ -125,10 +154,11 @@ public class Player : MonoBehaviour
 
         if (controller.IsJumping())
         {
+
             if (isGrounded && !deslizando)
             {
                 Jump();
-
+                ControllerSFX.instance.executeSound(jumpSound);
             }
             else if(enPared && deslizando)
             {
@@ -141,6 +171,8 @@ public class Player : MonoBehaviour
                     Jump();
                     saltosExtraRestantes -= 1;
                     animator.SetBool("isDoubleJumping", true);
+                    particulasDj.Play();
+                    ControllerSFX.instance.executeSound(doubleJumpSound);
                 }
             }
         }
@@ -166,6 +198,7 @@ public class Player : MonoBehaviour
         Vector3 escala = transform.localScale;
         escala.x *= -1;
         transform.localScale = escala;
+
     }
 
     private void Jump()
