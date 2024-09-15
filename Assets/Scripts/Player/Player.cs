@@ -62,6 +62,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] private AudioClip jumpSound; 
     [SerializeField] private AudioClip doubleJumpSound;
+    [SerializeField] private AudioClip dashSound;
 
     private void Start()
     {
@@ -143,6 +144,7 @@ public class Player : MonoBehaviour
         {
             StartCoroutine(Dash());
             particulasDash.Play();
+            ControllerSFX.instance.executeSound(dashSound);
         }
 
         // Actualizar parámetros de animación
