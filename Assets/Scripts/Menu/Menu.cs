@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
     public GameObject menuPanel, credits;
+    [SerializeField] EventTrigger prototypeButton;
+    [SerializeField] EventTrigger creditsButton;
     void Start()
     {
         ShowMain();
@@ -13,7 +16,7 @@ public class Menu : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0);
     }
     public void ShowMain()
     {
