@@ -16,7 +16,7 @@ public class Menu : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
     public void ShowMain()
     {
@@ -28,5 +28,18 @@ public class Menu : MonoBehaviour
     {
         menuPanel.SetActive(false);
         credits.SetActive(true);
+    }
+
+    public void GoToMain()
+    {
+        menuPanel.SetActive(true);
+        credits.SetActive(false);
+    }
+
+    public void Salir()
+    {
+        Debug.Log("Se cerrará el juego");
+        Application.Quit();
+
     }
 }

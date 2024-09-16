@@ -16,7 +16,9 @@ public class ButtonController : Controller
 
     public override Vector3 GetMoveDir()
     {
-        return dir;
+        // Si hay una dirección activa (izquierda o derecha), mantenla.
+        // Esto asegura que el jugador siga moviéndose mientras salta.
+        return dir != Vector3.zero ? dir : Vector3.zero;
     }
 
     public override bool IsJumping()
@@ -54,7 +56,7 @@ public class ButtonController : Controller
     public void stopMovement()
     {
         dir = Vector3.zero;
-        jump = false;
-        dash = false;
+        //jump = false;
+        //dash = false;
     }
 }
