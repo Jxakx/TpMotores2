@@ -6,7 +6,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private Rigidbody2D rb;
-    [SerializeField] int life;
+    public int life = 8;
     [SerializeField] Controller controller;
     [SerializeField] float speed = 5;
     [SerializeField] float smoothedMove;

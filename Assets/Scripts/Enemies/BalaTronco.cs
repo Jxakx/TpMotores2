@@ -9,7 +9,7 @@ public class BalaTronco : MonoBehaviour
 
     public float timeLife = 4f;
 
-    float damage;
+    public float damage = 1;
 
     private void Start()
     {
@@ -29,10 +29,17 @@ public class BalaTronco : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
+        
         if (collision.gameObject.layer == 6)
         {
-            //collision.GetComponent<Player>().takeDamage(damage);
+            Player player = collision.GetComponent<Player>();
+
+            if (player != null)
+            {
+                player.TakeDamage((int)damage); 
+            }
         }
+
         Destroy(gameObject);
     }
 }
