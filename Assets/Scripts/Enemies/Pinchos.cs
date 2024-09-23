@@ -6,13 +6,16 @@ public class Pinchos : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
-        Player jugador = collision.GetComponent<Player>();
-
-        if (jugador != null)
+        if (collision.gameObject.layer == 6)
         {
-           
-            jugador.TakeDamage(jugador.life); 
+            Player jugador = collision.GetComponent<Player>();
+
+            if (jugador != null)
+            {
+
+                jugador.TakeDamage(jugador.life);
+            }
         }
+             
     }
 }
