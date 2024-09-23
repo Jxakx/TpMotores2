@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     [SerializeField] float speed = 5;
     [SerializeField] float smoothedMove;
     private bool lookRight = true;
+    public GameplayManager gamePlayCanvas;
 
     [Header("Salto")]
 
@@ -248,6 +249,7 @@ public class Player : MonoBehaviour
         {
             life = 0;
             Dead();
+            gamePlayCanvas.Onlose();
         }
     }
 

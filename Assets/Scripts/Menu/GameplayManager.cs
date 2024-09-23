@@ -30,6 +30,11 @@ public class GameplayManager : MonoBehaviour
         winPanel.SetActive(true);
     }
 
+    public void PlayAgain()
+    {
+        SceneManager.LoadScene(1);
+        Time.timeScale = 1;
+    }
     public void BackTomenu()
     {
         SceneManager.LoadScene(0);

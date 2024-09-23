@@ -4,11 +4,7 @@ using UnityEngine;
 
 public class SaltarEnemigos : MonoBehaviour
 {
-    
-    void Start()
-    {
-        
-    }
+    public int damage = 1;
 
     private void OnCollisionEnter2D(Collision2D other)
     {
@@ -19,6 +15,10 @@ public class SaltarEnemigos : MonoBehaviour
                 if(punto.normal.y <= -0.9)
                 {
                     other.gameObject.GetComponent<Player>().Rebound();
+                }
+                else if (Mathf.Abs(punto.normal.x) > 0.5f)
+                {
+                    other.gameObject.GetComponent<Player>().TakeDamage(damage);
                 }
             }
         }
