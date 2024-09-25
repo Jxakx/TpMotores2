@@ -14,6 +14,13 @@ public class Tronco : Entity
     public float waitShootTime;
     public GameObject bulletEnemy;
 
+    private Transform playerTransform;
+
+    private void Start()
+    {
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+    }
+
     private void Update()
     {
         
@@ -21,11 +28,27 @@ public class Tronco : Entity
 
         if (playerInRange)
         {
+            RotateTowardsPlayer();
             if (Time.time > lastShoot + waitShootTime)
             {
                 lastShoot = Time.time;
                 Shoot();
             }
+        }
+    }
+
+    private void RotateTowardsPlayer()
+    {
+        // Calcular la dirección hacia el jugador en 2D
+        Vector2 directionToPlayer = playerTransform.position - transform.position;
+
+        // Si el jugador está detrás (en el lado opuesto) del enemigo, rotar hacia él
+        if ((directionToPlayer.x > 0 && transform.localScale.x < 0) || (directionToPlayer.x < 0 && transform.localScale.x > 0))
+        {
+            // Invertir la escala en el eje X para voltear al enemigo
+            Vector3 newScale = transform.localScale;
+            newScale.x *= -1;
+            transform.localScale = newScale;
         }
     }
 
