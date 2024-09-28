@@ -790,11 +790,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: ba4e4a91-9889-4403-927b-55b740950187
+  cloudProjectId: 035c9f50-c2ff-41e4-853c-ccfd31c7e1fc
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: TpMotores2 2024-09-09_18-04-06
-  organizationId: auguzto
+  projectName: AplicacionMotores2_FrogyRace
+  organizationId: jxakx98
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
