@@ -5,6 +5,15 @@ using UnityEngine;
 public class SaltarEnemigos : MonoBehaviour
 {
     public int damage = 1;
+    private Animator Animator;
+
+    [SerializeField] private GameObject efecto;
+
+    private void Start()
+    {
+        Animator = GetComponent<Animator>();
+
+    }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
@@ -14,6 +23,8 @@ public class SaltarEnemigos : MonoBehaviour
             {
                 if(punto.normal.y <= -0.9)
                 {
+                    Animator.SetTrigger("Golpe");
+
                     other.gameObject.GetComponent<Player>().Rebound();
                 }
                 else if (Mathf.Abs(punto.normal.x) > 0.5f)
@@ -22,5 +33,11 @@ public class SaltarEnemigos : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void Golpe()
+    {
+        Instantiate(efecto, transform.position, transform.rotation);
+        Destroy(gameObject);
     }
 }

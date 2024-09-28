@@ -13,7 +13,7 @@ TagManager:
   - UI
   - Player
   - Floor
-  - 
+  - Background
   - 
   - 
   - 
@@ -41,6 +41,12 @@ TagManager:
   - name: Fondo
     uniqueID: 2374577063
     locked: 0
+  - name: Arboles
+    uniqueID: 2549330189
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Player
+    uniqueID: 1461381887
     locked: 0
