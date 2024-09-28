@@ -21,6 +21,8 @@ public class Tronco : Entity
     private float tripleShotDelay = 0.2f; // Intervalo entre balas en disparo triple
     private float lastTripleShotTime;
 
+    public Animator animator;
+
     private void Start()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
@@ -41,6 +43,8 @@ public class Tronco : Entity
             if (Time.time > lastShoot + waitShootTime)
             {
                 lastShoot = Time.time;
+                animator.SetTrigger("Disparar");
+
 
                 if (shootMode == 0)
                 {

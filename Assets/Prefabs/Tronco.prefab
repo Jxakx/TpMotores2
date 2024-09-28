@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3520887234298753306}
   - component: {fileID: 3791283390233180623}
   - component: {fileID: 4166078528450328793}
+  - component: {fileID: 79452322527300875}
   m_Layer: 0
   m_Name: Tronco
   m_TagString: Untagged
@@ -30,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.8, y: -0.33123326, z: 0}
-  m_LocalScale: {x: 0.76135, y: 0.76135, z: 0.76135}
+  m_LocalScale: {x: 1.5586993, y: 1.5586993, z: 1.5586993}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1536003348770775201}
@@ -77,9 +78,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
+  m_Sprite: {fileID: -1335379639, guid: 91ec586cef25d694db77bdb28ff4146e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 2}
@@ -120,18 +121,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.015208304, y: -0.10950032}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 2}
+    oldSize: {x: 2, y: 1}
     newSize: {x: 1, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 0.65324676, y: 0.7894123}
   m_EdgeRadius: 0
 --- !u!114 &3791283390233180623
 MonoBehaviour:
@@ -148,15 +149,16 @@ MonoBehaviour:
   life: 0
   damageAttack: 0
   shootController: {fileID: 1536003348770775201}
-  distance: 6
+  distance: 6.15
   player:
     serializedVersion: 2
     m_Bits: 64
   playerInRange: 0
   timer: 3
   lastShoot: -3
-  waitShootTime: 1
+  waitShootTime: 0.25
   bulletEnemy: {fileID: 154978972066390051, guid: 4be4f5e6975f7f24b9bdc911354867bf, type: 3}
+  animator: {fileID: 79452322527300875}
 --- !u!114 &4166078528450328793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,6 +171,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eca4ba1120f26e84093ef201145c0cad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 1
+  efecto: {fileID: 0}
+--- !u!95 &79452322527300875
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1247701537027698740}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 511199ab621a4eb478af250e48ffcf0b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &9152564995079645058
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,7 +219,7 @@ Transform:
   m_GameObject: {fileID: 9152564995079645058}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.332, y: -0.108, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

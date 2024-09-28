@@ -36,10 +36,11 @@ public class BalaTronco : MonoBehaviour
 
             if (player != null)
             {
-                player.TakeDamage((int)damage); 
+                player.TakeDamage((int)damage);
+                Destroy(gameObject);
+
             }
         }
 
-        Destroy(gameObject);
     }
 }
