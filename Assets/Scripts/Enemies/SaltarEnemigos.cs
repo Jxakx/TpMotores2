@@ -24,7 +24,6 @@ public class SaltarEnemigos : MonoBehaviour
                 if(punto.normal.y <= -0.9)
                 {
                     Animator.SetTrigger("Golpe");
-
                     other.gameObject.GetComponent<Player>().Rebound();
                 }
                 else if (Mathf.Abs(punto.normal.x) > 0.5f)
