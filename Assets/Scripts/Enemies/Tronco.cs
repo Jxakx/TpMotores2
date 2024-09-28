@@ -16,6 +16,11 @@ public class Tronco : Entity
 
     private Transform playerTransform;
 
+    private int shootMode = 0; // 0 para disparo normal, 1 para disparo triple
+    private int tripleShotCount = 0; // Contador para el disparo triple
+    private float tripleShotDelay = 0.2f; // Intervalo entre balas en disparo triple
+    private float lastTripleShotTime;
+
     private void Start()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
@@ -36,14 +41,43 @@ public class Tronco : Entity
             if (Time.time > lastShoot + waitShootTime)
             {
                 lastShoot = Time.time;
-                Shoot();
+
+                if (shootMode == 0)
+                {
+                    Shoot();
+                    shootMode = 1; // Cambiar al modo de disparo triple en el siguiente ciclo
+                }
+                else if (shootMode == 1 && tripleShotCount == 0)
+                {
+                    // Comenzar disparo triple
+                    tripleShotCount = 3; // Disparar 3 balas
+                    lastTripleShotTime = Time.time;
+                    Shoot(); // Primer disparo
+                }
+            }
+
+            // Si está en modo de disparo triple, manejar los disparos consecutivos
+            if (shootMode == 1 && tripleShotCount > 0)
+            {
+                if (Time.time > lastTripleShotTime + tripleShotDelay)
+                {
+                    lastTripleShotTime = Time.time;
+                    Shoot();
+                    tripleShotCount--;
+
+                    // Si ya disparó las 3 balas, volver al disparo normal
+                    if (tripleShotCount == 0)
+                    {
+                        shootMode = 0;
+                    }
+                }
             }
         }
     }
 
     private void RotateTowardsPlayer()
     {
-        // Calcular la dirección hacia el jugador en 2D
+        // Calcular la dirección hacia el jugador
         Vector2 directionToPlayer = playerTransform.position - transform.position;
 
         // Si el jugador está en el lado opuesto, rotar hacia él
@@ -58,7 +92,6 @@ public class Tronco : Entity
 
     private void Shoot()
     {
-        // Asegurarse de que la bala se instancie en la dirección correcta según la rotación del enemigo
         float bulletRotation = transform.localScale.x > 0 ? 0f : 180f;
         Instantiate(bulletEnemy, shootController.position, Quaternion.Euler(0f, bulletRotation, 0f));
     }
@@ -66,7 +99,6 @@ public class Tronco : Entity
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        // Dibujar el raycast hacia ambos lados del enemigo
         Gizmos.DrawLine(shootController.position, shootController.position + -transform.right * distance);
         Gizmos.DrawLine(shootController.position, shootController.position + transform.right * distance);
     }
