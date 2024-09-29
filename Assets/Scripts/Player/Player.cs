@@ -41,8 +41,8 @@ public class Player : MonoBehaviour
     [Header("SaltoPared")]
     [SerializeField] private Transform controladorPared;
     [SerializeField] private Vector3 dimensionCajaPared;
-    private bool enPared;
-    private bool deslizando;
+    [SerializeField] private bool enPared;
+    [SerializeField] private bool deslizando;
     [SerializeField] private float velocidadDeslizar;
     [SerializeField] private float fuerzaSaltoParedX;
     [SerializeField] private float fuerzaSaltoParedY;
