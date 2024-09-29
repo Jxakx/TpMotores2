@@ -157,7 +157,7 @@ MonoBehaviour:
   playerInRange: 0
   timer: 3
   lastShoot: -3
-  waitShootTime: 5
+  waitShootTime: 2.5
   bulletEnemy: {fileID: 154978972066390051, guid: 4be4f5e6975f7f24b9bdc911354867bf, type: 3}
   animator: {fileID: 79452322527300875}
   tiempoEsperaDisparo: 0.25

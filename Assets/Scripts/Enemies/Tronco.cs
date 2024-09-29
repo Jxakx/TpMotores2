@@ -31,7 +31,7 @@ public class Tronco : Entity
 
     private void Update()
     {
-        // Comprobar si el jugador está en rango, ya sea delante o detrás
+        
         playerInRange = Physics2D.Raycast(shootController.position, -transform.right, distance, player) ||
                         Physics2D.Raycast(shootController.position, transform.right, distance, player);
 
@@ -40,59 +40,60 @@ public class Tronco : Entity
 
         if (playerInRange)
         {
-            // Solo dispara si el jugador está en rango
+            // Solo dispara si el jugador está en rango y ha pasado suficiente tiempo
             if (Time.time > lastShoot + waitShootTime)
             {
                 lastShoot = Time.time;
                 animator.SetTrigger("Disparar");
-                Invoke(nameof(Shoot), tiempoEsperaDisparo);
 
-
-                if (shootMode == 0)
-                {
-                    Shoot();
-                    shootMode = 1; // Cambiar al modo de disparo triple en el siguiente ciclo
-                    print("Disparo 1");
-                }
-                else if (shootMode == 1 && tripleShotCount == 0)
-                {
-                    // Comenzar disparo triple
-                    tripleShotCount = 3; // Disparar 3 balas
-                    lastTripleShotTime = Time.time;
-                    Shoot(); // Primer disparo
-                    print("Disparo 3");
-
-                }
+                // Solo llamamos a ShootLogic() después del tiempo de espera de la animación
+                Invoke(nameof(ShootLogic), tiempoEsperaDisparo);
             }
+        }
 
-            // Si está en modo de disparo triple, manejar los disparos consecutivos
-            if (shootMode == 1 && tripleShotCount > 0)
+        // Si está en modo de disparo triple, manejar los disparos consecutivos
+        if (shootMode == 1 && tripleShotCount > 0)
+        {
+            if (Time.time > lastTripleShotTime + tripleShotDelay)
             {
-                if (Time.time > lastTripleShotTime + tripleShotDelay)
-                {
-                    lastTripleShotTime = Time.time;
-                    Shoot();
-                    tripleShotCount--;
+                lastTripleShotTime = Time.time;
+                Shoot();
+                tripleShotCount--;
 
-                    // Si ya disparó las 3 balas, volver al disparo normal
-                    if (tripleShotCount == 0)
-                    {
-                        shootMode = 0;
-                    }
+                // Si ya disparó las 3 balas, volver al disparo normal
+                if (tripleShotCount == 0)
+                {
+                    shootMode = 0;
                 }
             }
         }
     }
 
+    private void ShootLogic()
+    {
+        if (shootMode == 0)
+        {
+            Shoot();
+            shootMode = 1; // Cambiar al modo de disparo triple en el siguiente ciclo
+            print("Disparo 1");
+        }
+        else if (shootMode == 1 && tripleShotCount == 0)
+        {
+            // Solo iniciar el disparo triple, pero no disparar inmediatamente
+            tripleShotCount = 3; // Disparar 3 balas en total, pero la primera ya no se dispara
+            lastTripleShotTime = Time.time;
+            print("Disparo triple iniciado");
+        }
+    }
+
     private void RotateTowardsPlayer()
     {
-        // Calcular la dirección hacia el jugador
+        // Calcular dirección del jugador
         Vector2 directionToPlayer = playerTransform.position - transform.position;
 
-        // Si el jugador está en el lado opuesto, rotar hacia él
+        // Si el jugador está en el lado opuesto, rotar
         if ((directionToPlayer.x > 0 && transform.localScale.x < 0) || (directionToPlayer.x < 0 && transform.localScale.x > 0))
         {
-            // Invertir la escala en el eje X para voltear al enemigo
             Vector3 newScale = transform.localScale;
             newScale.x *= -1;
             transform.localScale = newScale;
