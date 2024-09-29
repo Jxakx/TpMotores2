@@ -14,7 +14,11 @@ TagManager:
   - Player
   - Floor
   - Background
+<<<<<<< HEAD
   - Background2
+=======
+  - 
+>>>>>>> Danito
   - 
   - 
   - 
@@ -38,8 +42,16 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+<<<<<<< HEAD
   - name: Background
     uniqueID: 3994796075
+=======
+  - name: Fondo
+    uniqueID: 2374577063
+    locked: 0
+  - name: Arboles
+    uniqueID: 2549330189
+>>>>>>> Danito
     locked: 0
   - name: Default
     uniqueID: 0
@@ -51,5 +63,5 @@ TagManager:
     uniqueID: 574188439
     locked: 0
   - name: Player
-    uniqueID: 2374577063
+    uniqueID: 1461381887
     locked: 0

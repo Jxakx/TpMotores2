@@ -21,6 +21,9 @@ public class Tronco : Entity
     private float tripleShotDelay = 0.2f; // Intervalo entre balas en disparo triple
     private float lastTripleShotTime;
 
+    public Animator animator;
+    public float tiempoEsperaDisparo;
+
     private void Start()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
@@ -41,11 +44,15 @@ public class Tronco : Entity
             if (Time.time > lastShoot + waitShootTime)
             {
                 lastShoot = Time.time;
+                animator.SetTrigger("Disparar");
+                Invoke(nameof(Shoot), tiempoEsperaDisparo);
+
 
                 if (shootMode == 0)
                 {
                     Shoot();
                     shootMode = 1; // Cambiar al modo de disparo triple en el siguiente ciclo
+                    print("Disparo 1");
                 }
                 else if (shootMode == 1 && tripleShotCount == 0)
                 {
@@ -53,6 +60,8 @@ public class Tronco : Entity
                     tripleShotCount = 3; // Disparar 3 balas
                     lastTripleShotTime = Time.time;
                     Shoot(); // Primer disparo
+                    print("Disparo 3");
+
                 }
             }
 
