@@ -24,7 +24,6 @@ public class SaltarEnemigos : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            puntaje.SumarPuntos(cantidadPuntos);
 
             foreach (ContactPoint2D punto in other.contacts)
             {
@@ -45,5 +44,7 @@ public class SaltarEnemigos : MonoBehaviour
     {
         Instantiate(efecto, transform.position, transform.rotation);
         Destroy(gameObject);
+        puntaje.SumarPuntos(cantidadPuntos);
+
     }
 }
