@@ -12,30 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 469c24fdb3bd6431b92cc1465bd9166b, type: 3}
   m_Name: RemoteConfigDataStoreAsset
   m_EditorClassIdentifier: 
-  _rsKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"38d407cb-d491-43ca-8867-8fe523f22508\"\r\n   
+  _rsKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"61382447-ac63-4c70-9bb4-75d959d135ba\"\r\n   
     },\r\n    \"rs\": {\r\n      \"key\": \"PlayerLife\",\r\n      \"type\": \"int\",\r\n     
     \"value\": 8\r\n    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\":
-    \"3a145930-c722-4d54-9ac0-59a9c3fa29d3\"\r\n    },\r\n    \"rs\": {\r\n     
+    \"b03f5aa0-9834-4918-953f-bb41608ee9e4\"\r\n    },\r\n    \"rs\": {\r\n     
     \"key\": \"EnemyName1\",\r\n      \"type\": \"string\",\r\n      \"value\": \"Trunk\"\r\n   
-    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"3474aec7-0bbf-4dab-8d24-f84dabf468a1\"\r\n   
+    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"647033c4-e767-40e4-95b1-53312be2afb0\"\r\n   
     },\r\n    \"rs\": {\r\n      \"key\": \"EnemyName2\",\r\n      \"type\": \"string\",\r\n     
     \"value\": \"Fungus\"\r\n    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n     
-    \"entityId\": \"584a9205-6b8a-4d15-8fdf-152883e67b72\"\r\n    },\r\n    \"rs\":
+    \"entityId\": \"717ea842-25af-4a4d-a046-1352129b20a6\"\r\n    },\r\n    \"rs\":
     {\r\n      \"key\": \"AppVersion\",\r\n      \"type\": \"int\",\r\n      \"value\":
-    1\r\n    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"4d0aecb1-8100-4e79-95c1-be2583dcad56\"\r\n   
+    1\r\n    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"703f1e38-1ee7-418d-80ec-5106738db1d8\"\r\n   
     },\r\n    \"rs\": {\r\n      \"key\": \"ServerOut\",\r\n      \"type\": \"bool\",\r\n     
     \"value\": false\r\n    }\r\n  }\r\n]"
-  _rsLastCachedKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"38d407cb-d491-43ca-8867-8fe523f22508\"\r\n   
+  _rsLastCachedKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"61382447-ac63-4c70-9bb4-75d959d135ba\"\r\n   
     },\r\n    \"rs\": {\r\n      \"key\": \"PlayerLife\",\r\n      \"type\": \"int\",\r\n     
     \"value\": 8\r\n    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\":
-    \"3a145930-c722-4d54-9ac0-59a9c3fa29d3\"\r\n    },\r\n    \"rs\": {\r\n     
+    \"b03f5aa0-9834-4918-953f-bb41608ee9e4\"\r\n    },\r\n    \"rs\": {\r\n     
     \"key\": \"EnemyName1\",\r\n      \"type\": \"string\",\r\n      \"value\": \"Trunk\"\r\n   
-    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"3474aec7-0bbf-4dab-8d24-f84dabf468a1\"\r\n   
+    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"647033c4-e767-40e4-95b1-53312be2afb0\"\r\n   
     },\r\n    \"rs\": {\r\n      \"key\": \"EnemyName2\",\r\n      \"type\": \"string\",\r\n     
     \"value\": \"Fungus\"\r\n    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n     
-    \"entityId\": \"584a9205-6b8a-4d15-8fdf-152883e67b72\"\r\n    },\r\n    \"rs\":
+    \"entityId\": \"717ea842-25af-4a4d-a046-1352129b20a6\"\r\n    },\r\n    \"rs\":
     {\r\n      \"key\": \"AppVersion\",\r\n      \"type\": \"int\",\r\n      \"value\":
-    1\r\n    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"4d0aecb1-8100-4e79-95c1-be2583dcad56\"\r\n   
+    1\r\n    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"703f1e38-1ee7-418d-80ec-5106738db1d8\"\r\n   
     },\r\n    \"rs\": {\r\n      \"key\": \"ServerOut\",\r\n      \"type\": \"bool\",\r\n     
     \"value\": false\r\n    }\r\n  }\r\n]"
   _environments: "[\r\n  {\r\n    \"projectId\": \"035c9f50-c2ff-41e4-853c-ccfd31c7e1fc\",\r\n   
