@@ -7,6 +7,7 @@ public class Entity : MonoBehaviour
     public int life;
     public int damageAttack;
 
+
     void Start()
     {
         
@@ -33,5 +34,7 @@ public class Entity : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+   
 
 }

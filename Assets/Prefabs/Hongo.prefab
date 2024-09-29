@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 6631225783811104311}
   - component: {fileID: 2805484627888900743}
   - component: {fileID: 2426563329301607216}
+  - component: {fileID: 617499325872187405}
   m_Layer: 0
   m_Name: Hongo
   m_TagString: Untagged
@@ -62,7 +63,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.99, y: -0.49, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.7601, y: 1.7601, z: 1.7601}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3607571592851684481}
@@ -109,9 +110,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: -1241196046, guid: b64fa2c7e1b448a408d211fd9cba72b2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -179,7 +180,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.15718317}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -190,7 +191,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.8162956, y: 0.68563366}
   m_EdgeRadius: 0
 --- !u!114 &2805484627888900743
 MonoBehaviour:
@@ -204,11 +205,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25ce0619c373dc543a4ec2f6c90067b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  life: 0
+  life: 10
   damageAttack: 0
+  cantidadPuntos: 50
+  puntaje: {fileID: 0}
   speed: 3
   floorController: {fileID: 3607571592851684481}
-  distance: 0.81
+  distance: 0.94
   lookRight: 1
 --- !u!114 &2426563329301607216
 MonoBehaviour:
@@ -222,3 +225,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eca4ba1120f26e84093ef201145c0cad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 1
+  efecto: {fileID: 3567936551083611455, guid: 6edbbdd1115e2d5439c73e98858f922e, type: 3}
+--- !u!95 &617499325872187405
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8181909039606192182}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fa0452ece70a58d479458b803958f812, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
