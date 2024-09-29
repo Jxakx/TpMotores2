@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Terrain
   layers:
   - Default
   - TransparentFX
@@ -11,14 +12,10 @@ TagManager:
   - 
   - Water
   - UI
-  - Player
   - Floor
-  - Background
-<<<<<<< HEAD
-  - Background2
-=======
-  - 
->>>>>>> Danito
+  - Player
+  - Traps
+  - Enemies
   - 
   - 
   - 
@@ -42,26 +39,21 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-<<<<<<< HEAD
-  - name: Background
-    uniqueID: 3994796075
-=======
   - name: Fondo
-    uniqueID: 2374577063
-    locked: 0
-  - name: Arboles
-    uniqueID: 2549330189
->>>>>>> Danito
+    uniqueID: 1141238769
     locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Background2
-    uniqueID: 1422300553
+  - name: Player
+    uniqueID: 2705894573
     locked: 0
   - name: Terrain
-    uniqueID: 574188439
+    uniqueID: 1796762239
     locked: 0
-  - name: Player
-    uniqueID: 1461381887
+  - name: Traps
+    uniqueID: 2669661291
+    locked: 0
+  - name: Enemies
+    uniqueID: 2513083025
     locked: 0
