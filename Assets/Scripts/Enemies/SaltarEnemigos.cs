@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class SaltarEnemigos : MonoBehaviour
 {
     public int damage = 1;
     private Animator Animator;
+
+
+    [SerializeField] private float cantidadPuntos;
+    [SerializeField] private Puntaje puntaje;
 
     [SerializeField] private GameObject efecto;
 
@@ -19,7 +24,9 @@ public class SaltarEnemigos : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            foreach(ContactPoint2D punto in other.contacts)
+            puntaje.SumarPuntos(cantidadPuntos);
+
+            foreach (ContactPoint2D punto in other.contacts)
             {
                 if(punto.normal.y <= -0.9)
                 {

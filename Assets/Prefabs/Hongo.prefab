@@ -207,6 +207,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 10
   damageAttack: 0
+  cantidadPuntos: 50
+  puntaje: {fileID: 0}
   speed: 3
   floorController: {fileID: 3607571592851684481}
   distance: 0.94
