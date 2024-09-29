@@ -14,7 +14,6 @@ public class Player : MonoBehaviour
     public GameplayManager gamePlayCanvas;
 
     [Header("Salto")]
-
     [SerializeField] LayerMask floor;
     [SerializeField] Transform floorController;
     [SerializeField] Vector3 boxDimensions;
@@ -22,20 +21,20 @@ public class Player : MonoBehaviour
     private bool isGrounded = false;
 
     [Header("Dash")]
-
     [SerializeField] float dashSpeed;
     [SerializeField] float dashTime;
+    [SerializeField] float dashCooldown = 3f;  
+    private float dashCooldownTimer = 0f;
+    private bool isDashing = false;
     private float starterGravity;
     private bool canDash = true;
     private bool canMove = true;
 
     [Header("DoubleJump")]
-
     [SerializeField] private int saltosExtraRestantes;
     [SerializeField] private int saltosExtra;
 
-    [Header("Dash")]
-
+    [Header("Rebote")]
     [SerializeField] float speedRebound;
 
     [Header("SaltoPared")]
@@ -50,18 +49,17 @@ public class Player : MonoBehaviour
     private bool saltandoDePared;
 
     [Header("Animaciones")]
-
     private Animator animator;
 
-    //Para las partículas cuando corre/camina/dash
+    // Para las partículas cuando corre/camina/dash
     [SerializeField] private ParticleSystem particulasDash;
     [SerializeField] private ParticleSystem particulasCorrer;
     [SerializeField] private ParticleSystem particulasAterrizaje;
     [SerializeField] private ParticleSystem particulasDj;
 
-    private bool wasGrounded = true; //Para que cuando toque el suelo, aparezcan las particulas de aterrizaje
+    private bool wasGrounded = true; // Para que cuando toque el suelo, aparezcan las partículas de aterrizaje
 
-    [SerializeField] private AudioClip jumpSound; 
+    [SerializeField] private AudioClip jumpSound;
     [SerializeField] private AudioClip doubleJumpSound;
     [SerializeField] private AudioClip dashSound;
 
@@ -72,10 +70,19 @@ public class Player : MonoBehaviour
         starterGravity = rb.gravityScale;
     }
 
-    void Update()
+    private void Update()
     {
         isGrounded = Physics2D.OverlapBox(floorController.position, boxDimensions, 0f, floor);
         enPared = Physics2D.OverlapBox(controladorPared.position, dimensionCajaPared, 0f, floor);
+
+        if (!canDash)
+        {
+            dashCooldownTimer -= Time.deltaTime;
+            if (dashCooldownTimer <= 0)
+            {
+                canDash = true; 
+            }
+        }
 
         if (!wasGrounded && isGrounded)
         {
@@ -94,7 +101,7 @@ public class Player : MonoBehaviour
             if (controller.GetMoveDir().x != 0) // Solo deslizar si se está moviendo
             {
                 deslizando = true;
-                animator.SetBool("Deslizando", deslizando);    
+                animator.SetBool("Deslizando", deslizando);
             }
             else
             {
@@ -106,7 +113,6 @@ public class Player : MonoBehaviour
         {
             deslizando = false;
             animator.SetBool("Deslizando", false);
-
         }
 
         if (deslizando)
@@ -141,7 +147,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (controller.IsDashing() && canDash)
+        if (controller.IsDashing() && canDash && !isDashing)
         {
             StartCoroutine(Dash());
             particulasDash.Play();
@@ -153,19 +159,16 @@ public class Player : MonoBehaviour
         animator.SetBool("isDoubleJumping", false);
         animator.SetFloat("VelocidadY", rb.velocity.y);
 
-
-
         if (controller.IsJumping())
         {
-
             if (isGrounded && !deslizando)
             {
                 Jump();
                 ControllerSFX.instance.executeSound(jumpSound);
             }
-            else if(enPared && deslizando)
+            else if (enPared && deslizando)
             {
-                SaltoPared();                
+                SaltoPared();
             }
             else
             {
@@ -201,7 +204,6 @@ public class Player : MonoBehaviour
         Vector3 escala = transform.localScale;
         escala.x *= -1;
         transform.localScale = escala;
-
     }
 
     private void Jump()
@@ -222,8 +224,10 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(tiempoSaltoPared);
         saltandoDePared = false;
     }
+
     private IEnumerator Dash()
     {
+        isDashing = true;
         canMove = false;
         canDash = false;
         rb.gravityScale = 0;
@@ -232,8 +236,12 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(dashTime);
 
         canMove = true;
-        canDash = true;
         rb.gravityScale = starterGravity;
+
+        yield return new WaitForSeconds(dashCooldown);
+        dashCooldownTimer = dashCooldown;
+
+        isDashing = false;
     }
 
     public void Rebound()

@@ -12,12 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 469c24fdb3bd6431b92cc1465bd9166b, type: 3}
   m_Name: RemoteConfigDataStoreAsset
   m_EditorClassIdentifier: 
-  _rsKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"b150c7d1-1f5d-4c70-ba75-8e20a84f920e\"\r\n   
+  _rsKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"38d407cb-d491-43ca-8867-8fe523f22508\"\r\n   
     },\r\n    \"rs\": {\r\n      \"key\": \"PlayerLife\",\r\n      \"type\": \"int\",\r\n     
-    \"value\": 8\r\n    }\r\n  }\r\n]"
-  _rsLastCachedKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"b150c7d1-1f5d-4c70-ba75-8e20a84f920e\"\r\n   
+    \"value\": 8\r\n    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\":
+    \"3a145930-c722-4d54-9ac0-59a9c3fa29d3\"\r\n    },\r\n    \"rs\": {\r\n     
+    \"key\": \"EnemyName1\",\r\n      \"type\": \"string\",\r\n      \"value\": \"Trunk\"\r\n   
+    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"3474aec7-0bbf-4dab-8d24-f84dabf468a1\"\r\n   
+    },\r\n    \"rs\": {\r\n      \"key\": \"EnemyName2\",\r\n      \"type\": \"string\",\r\n     
+    \"value\": \"Fungus\"\r\n    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n     
+    \"entityId\": \"584a9205-6b8a-4d15-8fdf-152883e67b72\"\r\n    },\r\n    \"rs\":
+    {\r\n      \"key\": \"AppVersion\",\r\n      \"type\": \"int\",\r\n      \"value\":
+    1\r\n    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"4d0aecb1-8100-4e79-95c1-be2583dcad56\"\r\n   
+    },\r\n    \"rs\": {\r\n      \"key\": \"ServerOut\",\r\n      \"type\": \"bool\",\r\n     
+    \"value\": false\r\n    }\r\n  }\r\n]"
+  _rsLastCachedKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"38d407cb-d491-43ca-8867-8fe523f22508\"\r\n   
     },\r\n    \"rs\": {\r\n      \"key\": \"PlayerLife\",\r\n      \"type\": \"int\",\r\n     
-    \"value\": 8\r\n    }\r\n  }\r\n]"
+    \"value\": 8\r\n    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\":
+    \"3a145930-c722-4d54-9ac0-59a9c3fa29d3\"\r\n    },\r\n    \"rs\": {\r\n     
+    \"key\": \"EnemyName1\",\r\n      \"type\": \"string\",\r\n      \"value\": \"Trunk\"\r\n   
+    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"3474aec7-0bbf-4dab-8d24-f84dabf468a1\"\r\n   
+    },\r\n    \"rs\": {\r\n      \"key\": \"EnemyName2\",\r\n      \"type\": \"string\",\r\n     
+    \"value\": \"Fungus\"\r\n    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n     
+    \"entityId\": \"584a9205-6b8a-4d15-8fdf-152883e67b72\"\r\n    },\r\n    \"rs\":
+    {\r\n      \"key\": \"AppVersion\",\r\n      \"type\": \"int\",\r\n      \"value\":
+    1\r\n    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"4d0aecb1-8100-4e79-95c1-be2583dcad56\"\r\n   
+    },\r\n    \"rs\": {\r\n      \"key\": \"ServerOut\",\r\n      \"type\": \"bool\",\r\n     
+    \"value\": false\r\n    }\r\n  }\r\n]"
   _environments: "[\r\n  {\r\n    \"projectId\": \"035c9f50-c2ff-41e4-853c-ccfd31c7e1fc\",\r\n   
     \"name\": \"production\",\r\n    \"id\": \"9bd9f2f2-88d4-4762-adb6-5beef2b2a610\",\r\n   
     \"isDefault\": true,\r\n    \"createdAt\": \"2024-09-28T17:41:10Z\",\r\n    \"updatedAt\":

@@ -57,6 +57,6 @@ public class ButtonController : Controller
     {
         dir = Vector3.zero;
         //jump = false;
-        //dash = false;
+        dash = false;
     }
 }
