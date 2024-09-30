@@ -267,6 +267,20 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void Curar(int cantidadCuracion)
+    {
+        life += cantidadCuracion;
+
+        // Limitar la vida para que no sobrepase el máximo
+        if (life > maxLife)
+        {
+            life = maxLife;
+        }
+
+        // Actualizar la barra de vida
+        barraDeVida.CambiarVidaActual(life);
+    }
+
     private void Dead()
     {
         Time.timeScale = 0;
