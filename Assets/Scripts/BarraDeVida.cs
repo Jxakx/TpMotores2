@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class BarraDeVida : MonoBehaviour
 {
-  private Slider slider;
+    [SerializeField] private Slider slider;
 
     private void Start()
     {
@@ -14,6 +14,12 @@ public class BarraDeVida : MonoBehaviour
 
     public void CambiarVidaMaxima(float vidaMaxima)
     {
+        if (slider == null)
+        {
+            Debug.LogError("El slider no está asignado.");
+            return;
+        }
+
         slider.maxValue = vidaMaxima;
     }
 

@@ -15,6 +15,14 @@ public class Frutas : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             puntaje.SumarPuntos(cantidadPuntos);
+
+            // Curar al Player
+            Player player = other.GetComponent<Player>();
+            if (player != null)
+            {
+                player.Curar(curacion);
+            }
+
             Instantiate(efecto, transform.position, transform.rotation);
             Destroy(gameObject);
         }
