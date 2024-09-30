@@ -64,12 +64,12 @@ public class Player : MonoBehaviour
     [SerializeField] private AudioClip doubleJumpSound;
     [SerializeField] private AudioClip dashSound;
 
-    [SerializeField] private BarraDeVida barraDeVida;
+    //[SerializeField] private BarraDeVida barraDeVida;
 
     private void Start()
     {
         life = maxLife;
-        barraDeVida.InicializarBarraDeVida(life);
+        //barraDeVida.InicializarBarraDeVida(life);
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         starterGravity = rb.gravityScale;
@@ -257,7 +257,7 @@ public class Player : MonoBehaviour
     public void TakeDamage(int value)
     {
         life -= value;
-        barraDeVida.CambiarVidaActual(life);
+        //barraDeVida.CambiarVidaActual(life);
 
         if (life <= 0)
         {
@@ -265,6 +265,20 @@ public class Player : MonoBehaviour
             Dead();
             gamePlayCanvas.Onlose();
         }
+    }
+
+    public void Curar(int cantidadCuracion)
+    {
+        life += cantidadCuracion;
+
+        // Limitar la vida para que no sobrepase el máximo
+        if (life > maxLife)
+        {
+            life = maxLife;
+        }
+
+        // Actualizar la barra de vida
+       // barraDeVida.CambiarVidaActual(life);
     }
 
     private void Dead()
