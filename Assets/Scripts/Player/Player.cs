@@ -6,7 +6,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private Rigidbody2D rb;
-    public int life = 8;
+    public int life;
+    public int maxLife;
     [SerializeField] Controller controller;
     [SerializeField] float speed = 5;
     [SerializeField] float smoothedMove;
@@ -63,8 +64,12 @@ public class Player : MonoBehaviour
     [SerializeField] private AudioClip doubleJumpSound;
     [SerializeField] private AudioClip dashSound;
 
+    [SerializeField] private BarraDeVida barraDeVida;
+
     private void Start()
     {
+        life = maxLife;
+        barraDeVida.InicializarBarraDeVida(life);
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         starterGravity = rb.gravityScale;
@@ -252,6 +257,7 @@ public class Player : MonoBehaviour
     public void TakeDamage(int value)
     {
         life -= value;
+        barraDeVida.CambiarVidaActual(life);
 
         if (life <= 0)
         {
