@@ -50590,10 +50590,6 @@ PrefabInstance:
       propertyPath: puntaje
       value: 
       objectReference: {fileID: 109385760}
-    - target: {fileID: 2805484627888900743, guid: 31d989c9dc9e1e544bbbc1ad219b406a, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4792086647305025814, guid: 31d989c9dc9e1e544bbbc1ad219b406a, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -55609,7 +55605,7 @@ MonoBehaviour:
   dashSpeed: 10
   dashTime: 0.4
   dashCooldown: 2
-  knockBackSpeed: {x: 5, y: 10}
+  knockBackSpeed: {x: 3, y: 10}
   timeLostControl: 1
   saltosExtraRestantes: 0
   saltosExtra: 1

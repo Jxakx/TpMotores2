@@ -261,22 +261,15 @@ public class Player : MonoBehaviour
     public void Rebound()
     {
         rb.velocity = new Vector2(rb.velocity.x, speedRebound);
-    }
-
-    private IEnumerator LostControl() //Knowback
-    {
-        canMove = false;
-        yield return new WaitForSeconds(timeLostControl);
-        canMove = true;
-    }
-
+    } 
+    
     public void TakeDamage(int value, Vector2 posicion)
     {
         life -= value;
         barraDeVida.CambiarVidaActual(life);
         animator.SetTrigger("Golpe");
-        //Perder el control
-        StartCoroutine(LostControl());
+        StartCoroutine(LostControl()); //Perder el control
+        StartCoroutine(CollisionDesactive()); //Desactivar Colisiones
         Knockback(posicion);
 
         if (life <= 0)
@@ -286,7 +279,19 @@ public class Player : MonoBehaviour
             gamePlayCanvas.Onlose();
         }
     }
-
+    private IEnumerator CollisionDesactive() //Knowback (Invensibilidad por un tiempito)
+    {
+        Physics2D.IgnoreLayerCollision(6, 8, true); //Desactiva las colisiones del player y los enemigos cuando ocurra el knockback
+        yield return new WaitForSeconds(timeLostControl);
+        Physics2D.IgnoreLayerCollision(6, 8, false);
+    }
+    private IEnumerator LostControl() //Knowback
+    {
+        canMove = false;
+        yield return new WaitForSeconds(timeLostControl);
+        canMove = true;
+    }
+   
     public void Curar(int cantidadCuracion)
     {
         life += cantidadCuracion;
