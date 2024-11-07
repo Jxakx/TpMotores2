@@ -70,6 +70,10 @@ public class Player : MonoBehaviour
 
     [SerializeField] private BarraDeVida barraDeVida;
 
+    [Header("Checkpoint")]
+    private Vector3 startCheckpointPosition;
+    private CheckpointManager checkpointManager;
+
     private void Start()
     {
         life = maxLife;
@@ -77,6 +81,8 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         starterGravity = rb.gravityScale;
+        checkpointManager = FindObjectOfType<CheckpointManager>();
+        startCheckpointPosition = transform.position;
     }
 
     private void Update()
@@ -310,6 +316,24 @@ public class Player : MonoBehaviour
     {
         Time.timeScale = 0;
         Destroy(GetComponent<Player>(), 1);
+    }
+
+   /*public void UpdateCheckpoint(Vector3 newCheckpointPosition)
+    {
+        checkpointPosition = newCheckpointPosition;
+        Debug.Log("Checkpoint actualizado a: " + checkpointPosition);
+    }*/
+
+    public void RespawnAtCheckpoint()
+    {
+        Vector3 checkpointPosition = checkpointManager.GetLastCheckpointPosition();
+        transform.position = checkpointPosition;
+
+        // Restablecemos la velocidad y otros valores que puedan influir en el movimiento.
+        rb.velocity = Vector2.zero;
+        rb.angularVelocity = 0f;
+
+        Debug.Log("Respawn en checkpoint: " + checkpointPosition);
     }
 
     private void OnDrawGizmos()
