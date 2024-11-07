@@ -40,6 +40,7 @@ public class GameplayManager : MonoBehaviour
     {
         SceneManager.LoadScene(1);
         Time.timeScale = 1;
+        player.ResetPlayerCollisions();
     }
     public void BackTomenu()
     {

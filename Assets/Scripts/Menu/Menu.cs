@@ -9,6 +9,7 @@ public class Menu : MonoBehaviour
     public GameObject menuPanel, credits;
     [SerializeField] EventTrigger prototypeButton;
     [SerializeField] EventTrigger creditsButton;
+    private Player player;
     void Start()
     {
         ShowMain();
@@ -18,6 +19,7 @@ public class Menu : MonoBehaviour
     {
         SceneManager.LoadScene(1);
         Time.timeScale = 1;
+        player.ResetPlayerCollisions();
     }
     public void ShowMain()
     {

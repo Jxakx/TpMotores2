@@ -71,8 +71,7 @@ public class Player : MonoBehaviour
     [SerializeField] private BarraDeVida barraDeVida;
 
     [Header("Checkpoint")]
-    private Vector3 startCheckpointPosition;
-    private CheckpointManager checkpointManager;
+    [SerializeField] private CheckpointManager checkpointManager;
 
     private void Start()
     {
@@ -82,7 +81,11 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
         starterGravity = rb.gravityScale;
         checkpointManager = FindObjectOfType<CheckpointManager>();
-        startCheckpointPosition = transform.position;
+        life = maxLife;
+        if (checkpointManager != null)
+        {
+            checkpointManager.UpdateCheckpointPosition(transform.position);
+        }
     }
 
     private void Update()
@@ -297,7 +300,12 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(timeLostControl);
         canMove = true;
     }
-   
+
+    public void ResetPlayerCollisions()
+    {
+        Physics2D.IgnoreLayerCollision(6, 8, false);  // Asegúrate de que las colisiones se restauran
+    }
+
     public void Curar(int cantidadCuracion)
     {
         life += cantidadCuracion;
@@ -315,25 +323,21 @@ public class Player : MonoBehaviour
     private void Dead()
     {
         Time.timeScale = 0;
-        Destroy(GetComponent<Player>(), 1);
+        //Destroy(GetComponent<Player>(), 1);
     }
 
-   /*public void UpdateCheckpoint(Vector3 newCheckpointPosition)
-    {
-        checkpointPosition = newCheckpointPosition;
-        Debug.Log("Checkpoint actualizado a: " + checkpointPosition);
-    }*/
 
     public void RespawnAtCheckpoint()
     {
-        Vector3 checkpointPosition = checkpointManager.GetLastCheckpointPosition();
-        transform.position = checkpointPosition;
-
-        // Restablecemos la velocidad y otros valores que puedan influir en el movimiento.
-        rb.velocity = Vector2.zero;
-        rb.angularVelocity = 0f;
-
-        Debug.Log("Respawn en checkpoint: " + checkpointPosition);
+        if (checkpointManager != null)
+        {
+            // Desactiva momentáneamente el Rigidbody para evitar efectos residuales
+            rb.velocity = Vector2.zero;
+            transform.position = checkpointManager.GetCheckpointPosition();
+            life = maxLife;
+            barraDeVida.InicializarBarraDeVida(life);
+            Debug.Log("Jugador respawneado en checkpoint: " + transform.position);
+        }
     }
 
     private void OnDrawGizmos()
