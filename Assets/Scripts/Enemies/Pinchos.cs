@@ -13,7 +13,7 @@ public class Pinchos : MonoBehaviour
             if (jugador != null)
             {
 
-                jugador.TakeDamage(jugador.life);
+                jugador.TakeDamage(jugador.life, transform.position);
             }
         }
              

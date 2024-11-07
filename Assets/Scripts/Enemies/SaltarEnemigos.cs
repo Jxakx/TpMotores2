@@ -34,7 +34,7 @@ public class SaltarEnemigos : MonoBehaviour
                 }
                 else if (Mathf.Abs(punto.normal.x) > 0.5f)
                 {
-                    other.gameObject.GetComponent<Player>().TakeDamage(damage);
+                    other.gameObject.GetComponent<Player>().TakeDamage(damage, transform.position);
                 }
             }
         }
