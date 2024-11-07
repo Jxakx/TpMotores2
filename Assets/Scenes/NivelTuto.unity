@@ -55610,7 +55610,7 @@ MonoBehaviour:
   dashTime: 0.4
   dashCooldown: 2
   knockBackSpeed: {x: 5, y: 10}
-  timeLostControl: 0.5
+  timeLostControl: 1
   saltosExtraRestantes: 0
   saltosExtra: 1
   speedRebound: 10
