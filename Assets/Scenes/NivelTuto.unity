@@ -50590,6 +50590,10 @@ PrefabInstance:
       propertyPath: puntaje
       value: 
       objectReference: {fileID: 109385760}
+    - target: {fileID: 2805484627888900743, guid: 31d989c9dc9e1e544bbbc1ad219b406a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4792086647305025814, guid: 31d989c9dc9e1e544bbbc1ad219b406a, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -52234,7 +52238,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 27.1, y: 21.800001, z: -10}
+  m_LocalPosition: {x: 27.1, y: 38.800003, z: -10}
   m_LocalScale: {x: 2, y: 1.25, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -55605,8 +55609,8 @@ MonoBehaviour:
   dashSpeed: 10
   dashTime: 0.4
   dashCooldown: 2
-  knowbackSpeed: {x: 0.3, y: 10}
-  timeLostControl: 1
+  knockBackSpeed: {x: 5, y: 10}
+  timeLostControl: 0.5
   saltosExtraRestantes: 0
   saltosExtra: 1
   speedRebound: 10
@@ -55687,7 +55691,7 @@ Transform:
   m_GameObject: {fileID: 830042450}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 27.1, y: 20.2, z: 0}
+  m_LocalPosition: {x: 27.1, y: 37.2, z: 0}
   m_LocalScale: {x: 1.6778703, y: 1.6778703, z: 1.6778703}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -58492,7 +58496,7 @@ Transform:
   m_GameObject: {fileID: 1298796066}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 27.1, y: 21.800001, z: -10}
+  m_LocalPosition: {x: 27.1, y: 38.800003, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

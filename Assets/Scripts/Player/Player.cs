@@ -30,8 +30,10 @@ public class Player : MonoBehaviour
     private float starterGravity;
     private bool canDash = true;
     private bool canMove = true; //También ayuda al knowback cuando choca con algún enemy
-    [SerializeField] private Vector2 knowbackSpeed; //Knowback
-    [SerializeField] private float timeLostControl; //Knowback
+
+    [Header("Knockback")]
+    [SerializeField] public Vector2 knockBackSpeed; //Knockback
+    [SerializeField] private float timeLostControl; //Knockback
 
     [Header("DoubleJump")]
     [SerializeField] private int saltosExtraRestantes;
@@ -128,9 +130,9 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void Knowback(Vector2 punchPoint)
+    public void Knockback(Vector2 punchPoint)
     {
-        rb.velocity = new Vector2(-knowbackSpeed.x *  punchPoint.x, knowbackSpeed.y);
+        rb.velocity = new Vector2(-knockBackSpeed.x * punchPoint.x, knockBackSpeed.y);
     }
 
     private void FixedUpdate()
@@ -275,7 +277,7 @@ public class Player : MonoBehaviour
         animator.SetTrigger("Golpe");
         //Perder el control
         StartCoroutine(LostControl());
-        Knowback(posicion);
+        Knockback(posicion);
 
         if (life <= 0)
         {
