@@ -29,7 +29,11 @@ public class Player : MonoBehaviour
     private bool isDashing = false;
     private float starterGravity;
     private bool canDash = true;
-    private bool canMove = true;
+    private bool canMove = true; //También ayuda al knowback cuando choca con algún enemy
+
+    [Header("Knockback")]
+    [SerializeField] public Vector2 knockBackSpeed; //Knockback
+    [SerializeField] private float timeLostControl; //Knockback
 
     [Header("DoubleJump")]
     [SerializeField] private int saltosExtraRestantes;
@@ -124,6 +128,11 @@ public class Player : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -velocidadDeslizar, float.MaxValue));
         }
+    }
+
+    public void Knockback(Vector2 punchPoint)
+    {
+        rb.velocity = new Vector2(-knockBackSpeed.x * punchPoint.x, knockBackSpeed.y);
     }
 
     private void FixedUpdate()
@@ -252,12 +261,16 @@ public class Player : MonoBehaviour
     public void Rebound()
     {
         rb.velocity = new Vector2(rb.velocity.x, speedRebound);
-    }
-
-    public void TakeDamage(int value)
+    } 
+    
+    public void TakeDamage(int value, Vector2 posicion)
     {
         life -= value;
         barraDeVida.CambiarVidaActual(life);
+        animator.SetTrigger("Golpe");
+        StartCoroutine(LostControl()); //Perder el control
+        StartCoroutine(CollisionDesactive()); //Desactivar Colisiones
+        Knockback(posicion);
 
         if (life <= 0)
         {
@@ -266,7 +279,19 @@ public class Player : MonoBehaviour
             gamePlayCanvas.Onlose();
         }
     }
-
+    private IEnumerator CollisionDesactive() //Knowback (Invensibilidad por un tiempito)
+    {
+        Physics2D.IgnoreLayerCollision(6, 8, true); //Desactiva las colisiones del player y los enemigos cuando ocurra el knockback
+        yield return new WaitForSeconds(timeLostControl);
+        Physics2D.IgnoreLayerCollision(6, 8, false);
+    }
+    private IEnumerator LostControl() //Knowback
+    {
+        canMove = false;
+        yield return new WaitForSeconds(timeLostControl);
+        canMove = true;
+    }
+   
     public void Curar(int cantidadCuracion)
     {
         life += cantidadCuracion;

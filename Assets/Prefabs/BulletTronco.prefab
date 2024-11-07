@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1199198220200965742}
   - component: {fileID: 8047840465878317978}
   - component: {fileID: 8390735215907447734}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BulletTronco
   m_TagString: Untagged
   m_Icon: {fileID: 0}

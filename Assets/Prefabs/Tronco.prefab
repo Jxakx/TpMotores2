@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4166078528450328793}
   - component: {fileID: 79452322527300875}
   - component: {fileID: 8610852251515136157}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tronco
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,7 +251,7 @@ MonoBehaviour:
   - {x: -0.11806266, y: -0.5006142, z: 0}
   m_ShapePathHash: 2054389550
   m_Mesh: {fileID: 0}
-  m_InstanceId: -443206
+  m_InstanceId: -2428
   m_LocalBounds:
     m_Center: {x: -0.140724, y: -0.07723302, z: 0}
     m_Extent: {x: 0.58557844, y: 0.43053728, z: 0}
@@ -264,7 +264,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1536003348770775201}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ControladorDisparo
   m_TagString: Untagged
   m_Icon: {fileID: 0}

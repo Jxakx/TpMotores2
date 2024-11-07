@@ -36,7 +36,8 @@ public class BalaTronco : MonoBehaviour
 
             if (player != null)
             {
-                player.TakeDamage((int)damage);
+                player.TakeDamage((int)damage, transform.position);
+                player.Knockback(player.knockBackSpeed * 0.5f); //La bala mandaba a china al player con el knockback, esto es para normalizar el knockback como cualquier enemy
                 Destroy(gameObject);
 
             }
