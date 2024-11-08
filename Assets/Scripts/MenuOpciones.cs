@@ -8,6 +8,6 @@ public class MenuOpciones : MonoBehaviour
     [SerializeField] AudioMixer audioMixer;
     public void ChangeVolumen(float volumen)
     {
-        audioMixer.SetFloat("Volumen", volumen);
+        audioMixer.SetFloat("Volumen", volumen); 
     }
 }
