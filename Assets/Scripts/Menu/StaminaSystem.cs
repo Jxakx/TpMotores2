@@ -13,8 +13,16 @@ public class StaminaSystem : MonoBehaviour
     [SerializeField] private float timeToChargeStamina = 10f;
 
     DateTime nextStaminaTime; 
+    DateTime lastStaminaTime;
 
     public bool recharging;
+
+
+    private void Start()
+    {
+        LoadStamina();
+        StartCoroutine(AutoRechargeStamina());
+    }
 
     IEnumerator AutoRechargeStamina()
     {
@@ -26,14 +34,31 @@ public class StaminaSystem : MonoBehaviour
             DateTime currentTime = DateTime.Now;
             DateTime nextTime = nextStaminaTime;
 
+            bool staminaAdded = false;
+
             while(currentTime > nextTime)
             {
                 if (currentStamina >= maxStamina) break;    
 
                 currentStamina += 1;
 
+                staminaAdded |= true;
+
+                if(lastStaminaTime > nextTime)
+                {
+                    nextTime = lastStaminaTime;
+                }
+
                 nextTime = nextTime.AddSeconds(timeToChargeStamina);
             }
+
+            if(staminaAdded)
+            {
+                nextStaminaTime = nextTime;
+                lastStaminaTime = DateTime.Now;
+            }
+
+            SaveStamina();
 
             //timer += Time.deltaTime;
 
@@ -79,6 +104,27 @@ public class StaminaSystem : MonoBehaviour
 
     public void SaveStamina()
     {
+        PlayerPrefs.SetInt("CurrentStamina", currentStamina);
+        PlayerPrefs.SetString("NextStaminaTime", nextStaminaTime.ToString());
+        PlayerPrefs.SetString("LastStaminaTime", lastStaminaTime.ToString());
+        PlayerPrefs.Save();
+    }
+    public void LoadStamina()
+    {
+        currentStamina = PlayerPrefs.GetInt("CurrentStamina", maxStamina);
+        nextStaminaTime = StringToDateTime(PlayerPrefs.GetString("NextStaminaTime"));
+        lastStaminaTime = StringToDateTime(PlayerPrefs.GetString("LastStaminaTime"));
+    }
 
+    DateTime StringToDateTime(string date)
+    {
+        if (string.IsNullOrEmpty(date))
+        {
+            return DateTime.Now;
+        }
+        else
+        {
+            return DateTime.Parse(date);
+        }
     }
 }
