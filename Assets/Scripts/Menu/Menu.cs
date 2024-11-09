@@ -15,12 +15,6 @@ public class Menu : MonoBehaviour
         ShowMain();
     }
 
-    public void StartGame()
-    {
-        SceneManager.LoadScene(1);
-        Time.timeScale = 1;
-        player.ResetPlayerCollisions();
-    }
     public void ShowMain()
     {
         menuPanel.SetActive(true);
