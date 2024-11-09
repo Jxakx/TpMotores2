@@ -8,12 +8,11 @@ public class StaminaSystem : MonoBehaviour
 {
     public int currentStamina; //El encargado de la que stamina baje
 
-    public float timer;
-
     [SerializeField] private int maxStamina = 10;
     [SerializeField] private float timeToChargeStamina = 10f;
 
     [SerializeField] TextMeshProUGUI staminaText = null;
+    [SerializeField] TextMeshProUGUI timerText = null;
 
     DateTime nextStaminaTime; 
     DateTime lastStaminaTime;
@@ -24,13 +23,14 @@ public class StaminaSystem : MonoBehaviour
     private void Start()
     {
         LoadStamina();
+        UpdateStaminaUI();
+        UpdateTimerUI();
         StartCoroutine(AutoRechargeStamina());
     }
 
     IEnumerator AutoRechargeStamina()
     {
         recharging = true;
-        timer = 0;
 
         while (currentStamina < maxStamina)
         {
@@ -59,8 +59,10 @@ public class StaminaSystem : MonoBehaviour
             {
                 nextStaminaTime = nextTime;
                 lastStaminaTime = DateTime.Now;
+                UpdateStaminaUI();
             }
 
+            UpdateTimerUI();
             SaveStamina();
 
             //timer += Time.deltaTime;
@@ -91,7 +93,7 @@ public class StaminaSystem : MonoBehaviour
             nextStaminaTime = DateTime.Now.AddSeconds(timeToChargeStamina);
             StartCoroutine(AutoRechargeStamina());
         }
-
+        UpdateStaminaUI();
         SaveStamina();
         return true;
     }
@@ -105,17 +107,26 @@ public class StaminaSystem : MonoBehaviour
             StopAllCoroutines();
             recharging = false;
         }
-
+        UpdateStaminaUI();
         SaveStamina();
     }
 
     public void UpdateStaminaUI()
     {
-        
+        staminaText.text = currentStamina.ToString() + "/" + maxStamina.ToString();
     }
     public void UpdateTimerUI()
     {
+        if(currentStamina >= maxStamina)
+        {
+            timerText.text = "Full Stamina";
 
+            return;
+        }
+
+        TimeSpan timer = nextStaminaTime - DateTime.Now;
+
+        timerText.text = timer.Minutes.ToString("00") + ":" + timer.Seconds.ToString("00");
     }
     public void SaveStamina()
     {
