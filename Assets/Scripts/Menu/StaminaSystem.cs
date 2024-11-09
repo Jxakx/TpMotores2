@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class StaminaSystem : MonoBehaviour
@@ -11,6 +12,8 @@ public class StaminaSystem : MonoBehaviour
 
     [SerializeField] private int maxStamina = 10;
     [SerializeField] private float timeToChargeStamina = 10f;
+
+    [SerializeField] TextMeshProUGUI staminaText = null;
 
     DateTime nextStaminaTime; 
     DateTime lastStaminaTime;
@@ -88,6 +91,8 @@ public class StaminaSystem : MonoBehaviour
             nextStaminaTime = DateTime.Now.AddSeconds(timeToChargeStamina);
             StartCoroutine(AutoRechargeStamina());
         }
+
+        SaveStamina();
         return true;
     }
 
@@ -100,8 +105,18 @@ public class StaminaSystem : MonoBehaviour
             StopAllCoroutines();
             recharging = false;
         }
+
+        SaveStamina();
     }
 
+    public void UpdateStaminaUI()
+    {
+        
+    }
+    public void UpdateTimerUI()
+    {
+
+    }
     public void SaveStamina()
     {
         PlayerPrefs.SetInt("CurrentStamina", currentStamina);
