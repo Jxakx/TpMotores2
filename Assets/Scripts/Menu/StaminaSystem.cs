@@ -105,6 +105,7 @@ public class StaminaSystem : MonoBehaviour
         {
             StopAllCoroutines();
             recharging = false;
+            UpdateTimerUI();
         }
         UpdateStaminaUI();
         SaveStamina();
