@@ -81,10 +81,10 @@ public class StaminaSystem : MonoBehaviour
 
     }
 
-    public bool UseStamina(int stamina)
+    public void UseStamina(int stamina)
     {
         if(currentStamina < stamina)
-        return false;
+        return;
 
         currentStamina -= stamina;
 
@@ -95,7 +95,6 @@ public class StaminaSystem : MonoBehaviour
         }
         UpdateStaminaUI();
         SaveStamina();
-        return true;
     }
 
     public void RechargeStamina(int stamina)
