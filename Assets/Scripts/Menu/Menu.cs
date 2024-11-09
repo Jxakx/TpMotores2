@@ -33,6 +33,11 @@ public class Menu : MonoBehaviour
         credits.SetActive(false);
     }
 
+    public void Shop()
+    {
+        SceneManager.LoadScene(3);
+    }
+
     public void Salir()
     {
         Debug.Log("Se cerrará el juego");
