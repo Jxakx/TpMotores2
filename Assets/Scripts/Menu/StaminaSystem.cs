@@ -4,15 +4,28 @@ using UnityEngine;
 
 public class StaminaSystem : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public int currentStamina; //El encargado de la que stamina baje
+    [SerializeField] private int maxStamina = 10;
+    [SerializeField] private float timeToChargeStamina = 10f;
+
+    public bool recharging;
+
+    public bool UseStamina(int stamina)
     {
-        
+        if(currentStamina < stamina)
+        return false;
+
+        currentStamina -= stamina;
+
+        if(!!recharging && currentStamina < maxStamina)
+        {
+            recharging = true;
+        }
+        return true;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void RechargeStamina(int stamina)
     {
-        
+        currentStamina += stamina;
     }
 }
