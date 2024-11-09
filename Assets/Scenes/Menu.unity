@@ -2117,6 +2117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameID: 5728142
   adID: Interstitial_Android
+  staminaCantityReward: 1
 --- !u!1 &685647258
 GameObject:
   m_ObjectHideFlags: 0
