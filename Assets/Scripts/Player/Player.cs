@@ -64,14 +64,15 @@ public class Player : MonoBehaviour
 
     private bool wasGrounded = true; // Para que cuando toque el suelo, aparezcan las partículas de aterrizaje
 
-    [SerializeField] private AudioClip jumpSound;
-    [SerializeField] private AudioClip doubleJumpSound;
-    [SerializeField] private AudioClip dashSound;
-
     [SerializeField] private BarraDeVida barraDeVida;
 
     [Header("Checkpoint")]
     [SerializeField] private CheckpointManager checkpointManager;
+
+    [Header("Sonidos Player")]
+    [SerializeField] private AudioSource jumpAudioSource;
+    [SerializeField] private AudioSource doubleJumpAudioSource;
+    [SerializeField] private AudioSource dashAudioSource;
 
     private void Start()
     {
@@ -174,7 +175,7 @@ public class Player : MonoBehaviour
         {
             StartCoroutine(Dash());
             particulasDash.Play();
-            ControllerSFX.instance.executeSound(dashSound);
+            dashAudioSource.Play();
         }
 
         // Actualizar parámetros de animación
@@ -187,7 +188,7 @@ public class Player : MonoBehaviour
             if (isGrounded && !deslizando)
             {
                 Jump();
-                ControllerSFX.instance.executeSound(jumpSound);
+                jumpAudioSource.Play();
             }
             else if (enPared && deslizando)
             {
@@ -201,7 +202,7 @@ public class Player : MonoBehaviour
                     saltosExtraRestantes -= 1;
                     animator.SetBool("isDoubleJumping", true);
                     particulasDj.Play();
-                    ControllerSFX.instance.executeSound(doubleJumpSound);
+                    doubleJumpAudioSource.Play();
                 }
             }
         }

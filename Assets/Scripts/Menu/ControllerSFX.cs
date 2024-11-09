@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ControllerSFX : MonoBehaviour
 {
-   public static ControllerSFX instance;
+   /*public static ControllerSFX instance;
     private AudioSource audioSource;
 
     private void Start()
@@ -25,5 +25,5 @@ public class ControllerSFX : MonoBehaviour
     public void executeSound(AudioClip sound)
     {
         audioSource.PlayOneShot(sound);
-    }
+    }*/
 }
