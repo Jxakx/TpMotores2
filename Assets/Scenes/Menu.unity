@@ -1886,7 +1886,6 @@ RectTransform:
   - {fileID: 1146366323}
   - {fileID: 541720235}
   - {fileID: 1252790446}
-  - {fileID: 1257445647}
   - {fileID: 1842704794}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2072,6 +2071,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 641735780}
   m_CullTransparentMesh: 1
+--- !u!1 &679819123
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 679819124}
+  - component: {fileID: 679819125}
+  m_Layer: 0
+  m_Name: AdsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &679819124
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 679819123}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 745.6206, y: 508.50763, z: 12.8430395}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &679819125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 679819123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e829b6099b0452140842ee0a949cf23a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameID: 5728142
+  adID: Interstitial_Android
 --- !u!1 &685647258
 GameObject:
   m_ObjectHideFlags: 0
@@ -3902,7 +3947,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.8009747, y: 1.8009747, z: 1.8009747}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1257445647}
   m_Father: {fileID: 549932564}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
@@ -4034,14 +4080,14 @@ RectTransform:
   m_GameObject: {fileID: 1257445646}
   m_LocalRotation: {x: -0, y: -0, z: 0.10434424, w: 0.9945412}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8815823, y: 1.0374511, z: 0.8408926}
+  m_LocalScale: {x: 0.4895029, y: 0.57604975, z: 0.46690974}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 549932564}
+  m_Father: {fileID: 1252790446}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 11.979}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -128.5, y: 170.7}
+  m_AnchoredPosition: {x: -30.650063, y: 18.892197}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1257445648
@@ -4916,7 +4962,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1842704796}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 679819125}
+        m_TargetAssemblyTypeName: AdsManager, Assembly-CSharp
+        m_MethodName: ShowAD
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1842704796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5791,3 +5849,4 @@ SceneRoots:
   - {fileID: 1173094777}
   - {fileID: 1443024031}
   - {fileID: 548951248}
+  - {fileID: 679819124}

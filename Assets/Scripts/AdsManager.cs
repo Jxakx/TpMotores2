@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Advertisements;
 
-public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityAdsShowListener
+public class AdsManager : MonoBehaviour, IUnityAdsLoadListener , IUnityAdsInitializationListener, IUnityAdsShowListener
 {
     [SerializeField] string gameID = "5728142";
 
-    [SerializeField] string adID = "Interstitial_Android";
+    [SerializeField] string adID = "Rewarded_Android";
+
+    StaminaSystem staminaSystem;
+
+    public int staminaCantityReward = 1;
 
     public void OnInitializationComplete()
     {
@@ -22,6 +26,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
     private void Start()
     {
         Advertisement.Initialize(gameID, true, this);
+        staminaSystem = FindObjectOfType<StaminaSystem>();
     }
 
     public void ShowAD()
@@ -49,11 +54,26 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
         if(showCompletionState == UnityAdsShowCompletionState.COMPLETED)
         {
             Debug.Log("¡Obtuviste una carga de Stamina!");
+            if(staminaSystem != null)
+            {
+                staminaSystem.RechargeStamina(staminaCantityReward);
+            }
         }
         else
         {
             Debug.Log("No obtuviste tu carga de Stamina :(");
         }
 
+
+
+    }
+
+    public void OnUnityAdsAdLoaded(string placementId)
+    {
+    }
+
+    //Estos 2 son para solucionar ese error falso del listener, es para que no moleste boe
+    public void OnUnityAdsFailedToLoad(string placementId, UnityAdsLoadError error, string message)
+    {
     }
 }
