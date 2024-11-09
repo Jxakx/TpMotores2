@@ -15,7 +15,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsLoadListener , IUnityAdsInitia
 
     public void OnInitializationComplete()
     {
-        Advertisement.Load(adID);
+        Advertisement.Load(adID, this);
     }
 
     public void OnInitializationFailed(UnityAdsInitializationError error, string message)
