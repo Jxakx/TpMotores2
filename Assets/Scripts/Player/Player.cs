@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -77,6 +78,7 @@ public class Player : MonoBehaviour
     [Header("Save system")]
     private int coins;
     private JSONSaveHandler saveSystem;
+    [SerializeField] private TextMeshProUGUI coinCounterText;
 
     private void Start()
     {
@@ -92,7 +94,8 @@ public class Player : MonoBehaviour
             checkpointManager.UpdateCheckpointPosition(transform.position);
         }
         saveSystem = FindObjectOfType<JSONSaveHandler>();
-        //coins = saveSystem.LoadData(); // Cargar las monedas al inicio
+        coins = saveSystem.LoadData(); // Cargar las monedas al inicio
+        UpdateCoinUI();
 
     }
 
@@ -351,7 +354,13 @@ public class Player : MonoBehaviour
     public void CollectCoin()
     {
         coins++;
-        //saveSystem.SaveData(coins); // Guardar cada vez que recolecta una moneda
+        saveSystem.SaveData(coins); // Guardar cada vez que recolecta una moneda
+        UpdateCoinUI();
+    }
+
+    private void UpdateCoinUI()
+    {
+        coinCounterText.text = ": " + coins.ToString();
     }
 
     public int GetCoins()
