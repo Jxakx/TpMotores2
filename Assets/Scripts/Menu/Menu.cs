@@ -15,12 +15,6 @@ public class Menu : MonoBehaviour
         ShowMain();
     }
 
-    public void StartGame()
-    {
-        SceneManager.LoadScene(1);
-        Time.timeScale = 1;
-        player.ResetPlayerCollisions();
-    }
     public void ShowMain()
     {
         menuPanel.SetActive(true);
@@ -37,6 +31,11 @@ public class Menu : MonoBehaviour
     {
         menuPanel.SetActive(true);
         credits.SetActive(false);
+    }
+
+    public void Shop()
+    {
+        SceneManager.LoadScene(3);
     }
 
     public void Salir()

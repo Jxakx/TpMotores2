@@ -770,7 +770,8 @@ PlayerSettings:
   XboxOneOverrideIdentityName: 
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
-  cloudServicesEnabled: {}
+  cloudServicesEnabled:
+    Unity Ads: 0
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -790,11 +791,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 035c9f50-c2ff-41e4-853c-ccfd31c7e1fc
+  cloudProjectId: 888b0c72-5f20-4141-b9b1-9eb07f2011bb
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: AplicacionMotores2_FrogyRace
-  organizationId: jxakx98
+  projectName: Ads Motores2
+  organizationId: auguzto
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
