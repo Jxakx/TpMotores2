@@ -12,33 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 469c24fdb3bd6431b92cc1465bd9166b, type: 3}
   m_Name: RemoteConfigDataStoreAsset
   m_EditorClassIdentifier: 
-  _rsKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"288d5a65-6736-4c67-b559-93ceb27b304a\"\r\n   
-    },\r\n    \"rs\": {\r\n      \"key\": \"PlayerLife\",\r\n      \"type\": \"int\",\r\n     
-    \"value\": 8\r\n    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\":
-    \"812b4927-464c-4eae-a1f0-ec6a2ae3af04\"\r\n    },\r\n    \"rs\": {\r\n     
-    \"key\": \"EnemyName1\",\r\n      \"type\": \"string\",\r\n      \"value\": \"Trunk\"\r\n   
-    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"4f449334-d1ac-4304-8b8b-64558c28b5de\"\r\n   
-    },\r\n    \"rs\": {\r\n      \"key\": \"EnemyName2\",\r\n      \"type\": \"string\",\r\n     
-    \"value\": \"Fungus\"\r\n    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n     
-    \"entityId\": \"190d2c9e-24ac-45f2-a3e3-7b462fcaf5a8\"\r\n    },\r\n    \"rs\":
-    {\r\n      \"key\": \"AppVersion\",\r\n      \"type\": \"int\",\r\n      \"value\":
-    1\r\n    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"bb569de7-b00a-4bff-8fd2-0d82f7ad3dee\"\r\n   
-    },\r\n    \"rs\": {\r\n      \"key\": \"ServerOut\",\r\n      \"type\": \"bool\",\r\n     
-    \"value\": false\r\n    }\r\n  }\r\n]"
-  _rsLastCachedKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"288d5a65-6736-4c67-b559-93ceb27b304a\"\r\n   
-    },\r\n    \"rs\": {\r\n      \"key\": \"PlayerLife\",\r\n      \"type\": \"int\",\r\n     
-    \"value\": 8\r\n    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\":
-    \"812b4927-464c-4eae-a1f0-ec6a2ae3af04\"\r\n    },\r\n    \"rs\": {\r\n     
-    \"key\": \"EnemyName1\",\r\n      \"type\": \"string\",\r\n      \"value\": \"Trunk\"\r\n   
-    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"4f449334-d1ac-4304-8b8b-64558c28b5de\"\r\n   
-    },\r\n    \"rs\": {\r\n      \"key\": \"EnemyName2\",\r\n      \"type\": \"string\",\r\n     
-    \"value\": \"Fungus\"\r\n    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n     
-    \"entityId\": \"190d2c9e-24ac-45f2-a3e3-7b462fcaf5a8\"\r\n    },\r\n    \"rs\":
-    {\r\n      \"key\": \"AppVersion\",\r\n      \"type\": \"int\",\r\n      \"value\":
-    1\r\n    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"bb569de7-b00a-4bff-8fd2-0d82f7ad3dee\"\r\n   
-    },\r\n    \"rs\": {\r\n      \"key\": \"ServerOut\",\r\n      \"type\": \"bool\",\r\n     
-    \"value\": false\r\n    }\r\n  }\r\n]"
-  _environments: "[\r\n  {\r\n    \"projectId\": \"035c9f50-c2ff-41e4-853c-ccfd31c7e1fc\",\r\n   
-    \"name\": \"production\",\r\n    \"id\": \"9bd9f2f2-88d4-4762-adb6-5beef2b2a610\",\r\n   
-    \"isDefault\": true,\r\n    \"createdAt\": \"2024-09-28T17:41:10Z\",\r\n    \"updatedAt\":
-    \"2024-09-28T17:41:10Z\"\r\n  }\r\n]"
+  _rsKeyList: '[]'
+  _rsLastCachedKeyList: '[]'
+  _environments: "[\r\n  {\r\n    \"projectId\": \"888b0c72-5f20-4141-b9b1-9eb07f2011bb\",\r\n   
+    \"name\": \"production\",\r\n    \"id\": \"c9b59498-beb4-48a5-8e7e-550f10fb4702\",\r\n   
+    \"isDefault\": true,\r\n    \"createdAt\": \"2024-11-09T22:31:14Z\",\r\n    \"updatedAt\":
+    \"2024-11-09T22:31:14Z\"\r\n  }\r\n]"
