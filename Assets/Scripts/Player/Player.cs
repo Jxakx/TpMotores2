@@ -74,6 +74,10 @@ public class Player : MonoBehaviour
     [SerializeField] private AudioSource doubleJumpAudioSource;
     [SerializeField] private AudioSource dashAudioSource;
 
+    [Header("Save system")]
+    private int coins;
+    private JSONSaveHandler saveSystem;
+
     private void Start()
     {
         life = maxLife;
@@ -87,6 +91,9 @@ public class Player : MonoBehaviour
         {
             checkpointManager.UpdateCheckpointPosition(transform.position);
         }
+        saveSystem = FindObjectOfType<JSONSaveHandler>();
+        //coins = saveSystem.LoadData(); // Cargar las monedas al inicio
+
     }
 
     private void Update()
@@ -341,6 +348,16 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void CollectCoin()
+    {
+        coins++;
+        //saveSystem.SaveData(coins); // Guardar cada vez que recolecta una moneda
+    }
+
+    public int GetCoins()
+    {
+        return coins;
+    }
     private void OnDrawGizmos()
     {
         if (floorController != null)

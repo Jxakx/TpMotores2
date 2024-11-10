@@ -15,13 +15,13 @@ public class MenuLevels : MonoBehaviour
     {
         SceneManager.LoadScene(1);
         Time.timeScale = 1;
-        player.ResetPlayerCollisions();
+        //player.ResetPlayerCollisions();
     }
 
     public void LevelTwo()
     {
         SceneManager.LoadScene(2);
-       Time.timeScale = 1;
-        player.ResetPlayerCollisions();
+        Time.timeScale = 1;
+        //player.ResetPlayerCollisions();
     }
 }
