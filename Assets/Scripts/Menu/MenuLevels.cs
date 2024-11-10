@@ -7,6 +7,10 @@ public class MenuLevels : MonoBehaviour
 {
     private Player player;
 
+    public void Start()
+    {
+        FindObjectOfType<Player>();
+    }
     public void LevelOne()
     {
         SceneManager.LoadScene(1);
@@ -17,7 +21,7 @@ public class MenuLevels : MonoBehaviour
     public void LevelTwo()
     {
         SceneManager.LoadScene(2);
-        Time.timeScale = 1;
+       Time.timeScale = 1;
         player.ResetPlayerCollisions();
     }
 }
