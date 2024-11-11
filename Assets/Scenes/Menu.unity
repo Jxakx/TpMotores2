@@ -1848,6 +1848,7 @@ GameObject:
   - component: {fileID: 549932566}
   - component: {fileID: 549932567}
   - component: {fileID: 549932568}
+  - component: {fileID: 549932569}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1998,6 +1999,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aed1fa311407ddc45a5a7b1f1b9dd133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &549932569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 549932560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f145b6d7bcb4de54283ce1a7b39e2549, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coinCounterText: {fileID: 584508055}
 --- !u!1 &584508052
 GameObject:
   m_ObjectHideFlags: 0

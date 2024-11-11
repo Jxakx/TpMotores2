@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    [SerializeField] private int coinValue = 1; // Valor de cada moneda, por si deseas cambiarlo
+    //[SerializeField] private int coinValue = 1; // Valor de cada moneda, por si deseas cambiarlo
 
     private void OnTriggerEnter2D(Collider2D other)
     {
