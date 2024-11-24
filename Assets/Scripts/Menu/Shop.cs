@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 public class Shop : MonoBehaviour
 {
     [SerializeField] EventTrigger backMenuButton;
+
+    [SerializeField] ItemUI itemPrefab;
+    [SerializeField] Transform shopParent;
     void Start()
     {
         
