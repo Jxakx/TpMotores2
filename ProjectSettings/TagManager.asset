@@ -15,7 +15,7 @@ TagManager:
   - Player
   - Floor
   - Enemy
-  - 
+  - Trampas
   - 
   - 
   - 
@@ -50,4 +50,7 @@ TagManager:
     locked: 0
   - name: Terrain
     uniqueID: 3235583175
+    locked: 0
+  - name: Traps
+    uniqueID: 2228507291
     locked: 0
