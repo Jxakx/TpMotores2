@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2280d53c4139ac9449fd2d10c7b20ca8
+guid: ccbfc70a285bcb744b56a29fa318363d
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -49,7 +49,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 16
-  spriteBorder: {x: 0, y: 0, z: 9, w: 9}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Idle_0
+      name: Idle derecha_0
       rect:
         serializedVersion: 2
         x: 0
@@ -137,8 +137,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8713dbc518d7d5648ba8f10d734f3ee4
-      internalID: -2100716178
+      spriteID: 632afba314e5a1d4dbd603c7f193c333
+      internalID: -1107256471
       vertices: []
       indices: 
       edges: []
@@ -147,14 +147,14 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Idle_0: -2100716178
+      Idle derecha_0: -1107256471
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
