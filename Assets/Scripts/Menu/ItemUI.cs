@@ -10,8 +10,10 @@ public class ItemUI : MonoBehaviour
     [SerializeField] Image imagenIcono;
     [SerializeField] TextMeshProUGUI textoCosto;
 
-    public void InitializeButton (string nombre, Sprite icono, string costo)
+    public void InitializeButton (ItemDTO item)
     {
-        textoNombre.text = nombre;
+        textoNombre.text = item.itemName;
+        imagenIcono.sprite = item.itemIcon;
+        textoCosto.text = "$" + item.itemCost.ToString();
     }
 }
