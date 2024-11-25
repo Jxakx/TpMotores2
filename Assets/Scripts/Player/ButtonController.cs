@@ -14,10 +14,17 @@ public class ButtonController : Controller
     private bool jump = false;
     private bool dash = false;
 
+    private void Start()
+    {
+        int currentLevel = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex; // Obtener el nivel actual
+
+        if (currentLevel == 2)
+        {
+            SetDashButtonState(FindObjectOfType<JSONSaveHandler>().LoadDashState());
+        }
+    }
     public override Vector3 GetMoveDir()
     {
-        // Si hay una dirección activa (izquierda o derecha), mantenla.
-        // Esto asegura que el jugador siga moviéndose mientras salta.
         return dir != Vector3.zero ? dir : Vector3.zero;
     }
 
@@ -58,5 +65,10 @@ public class ButtonController : Controller
         dir = Vector3.zero;
         //jump = false;
         dash = false;
+    }
+
+    public void SetDashButtonState(bool isEnabled)
+    {
+        dashButton.enabled = isEnabled;
     }
 }

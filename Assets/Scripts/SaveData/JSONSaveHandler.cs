@@ -7,7 +7,7 @@ public class JSONSaveHandler : MonoBehaviour
 {
 
     private string filePath;
-
+    private const string DashKey = "DashUnlocked";
     private void Awake()
     {
         filePath = Application.persistentDataPath + "/playerData.json";
@@ -45,5 +45,16 @@ public class JSONSaveHandler : MonoBehaviour
         {
             Debug.Log("No hay datos para eliminar.");
         }
+    }
+
+    public void SaveDashState(bool isUnlocked)
+    {
+        PlayerPrefs.SetInt(DashKey, isUnlocked ? 1 : 0);
+        PlayerPrefs.Save();
+    }
+
+    public bool LoadDashState()
+    {
+        return PlayerPrefs.GetInt(DashKey, 0) == 1;
     }
 }

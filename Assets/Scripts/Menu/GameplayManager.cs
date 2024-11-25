@@ -10,6 +10,7 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] EventTrigger playAgainButton;
     [SerializeField] EventTrigger backMenuButton;
     [SerializeField] EventTrigger CheckPointButton;
+    [SerializeField] EventTrigger nextLevelButton;
     private Player player;
     void Start()
     {
@@ -47,6 +48,12 @@ public class GameplayManager : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
+    public void NextLevel()
+    {
+        SceneManager.LoadScene(2);
+        Time.timeScale = 1;
+        player.ResetPlayerCollisions();
+    }
     public void RespawnAtCheckpoint()
     {
         Time.timeScale = 1f;

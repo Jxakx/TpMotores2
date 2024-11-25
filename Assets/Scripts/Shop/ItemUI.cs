@@ -25,4 +25,21 @@ public class ItemUI : MonoBehaviour
     {
         onItemClicked?.Invoke(itemToRepresent);
     }
+
+    public void OnItemPurchase(ItemDTO item)
+    {
+        if (item.itemName == "Dash") // Verifica si el ítem es el dash
+        {
+            Player player = FindObjectOfType<Player>();
+            if (player != null)
+            {
+                player.UnlockDash();
+                ButtonController controller = FindObjectOfType<ButtonController>();
+                if (controller != null)
+                {
+                    controller.SetDashButtonState(true); // Habilita el botón de dash
+                }
+            }
+        }
+    }
 }

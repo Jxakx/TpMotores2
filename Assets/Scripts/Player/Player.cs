@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class Player : MonoBehaviour
     private float starterGravity;
     private bool canDash = true;
     private bool canMove = true; //También ayuda al knowback cuando choca con algún enemy
+    private bool dashUnlocked = true; // Inicialmente desbloqueado para el nivel 1
 
     [Header("Knockback")]
     [SerializeField] public Vector2 knockBackSpeed; //Knockback
@@ -80,6 +82,8 @@ public class Player : MonoBehaviour
     private JSONSaveHandler saveSystem;
     [SerializeField] private TextMeshProUGUI coinCounterText;
 
+    
+
     private void Start()
     {
         life = maxLife;
@@ -96,7 +100,13 @@ public class Player : MonoBehaviour
         saveSystem = FindObjectOfType<JSONSaveHandler>();
         coins = saveSystem.LoadData(); // Cargar las monedas al inicio
         UpdateCoinUI();
+        dashUnlocked = saveSystem.LoadDashState();
 
+        int currentLevel = SceneManager.GetActiveScene().buildIndex; // Obtener el nivel actual
+        if (currentLevel == 2 && !saveSystem.LoadDashState())
+        {
+            dashUnlocked = false; // Deshabilita el dash en el nivel 2 si no está desbloqueado
+        }
     }
 
     private void Update()
@@ -149,6 +159,7 @@ public class Player : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -velocidadDeslizar, float.MaxValue));
         }
     }
+
 
     public void Knockback(Vector2 punchPoint)
     {
@@ -215,6 +226,15 @@ public class Player : MonoBehaviour
                     doubleJumpAudioSource.Play();
                 }
             }
+        }
+
+        if (!dashUnlocked) return; // Evita que el dash se use si no está desbloqueado
+
+        if (controller.IsDashing() && canDash && !isDashing)
+        {
+            StartCoroutine(Dash());
+            particulasDash.Play();
+            dashAudioSource.Play();
         }
     }
 
@@ -366,6 +386,17 @@ public class Player : MonoBehaviour
     public int GetCoins()
     {
         return coins;
+    }
+
+    public void SetDashUnlocked(bool unlocked)
+    {
+        dashUnlocked = unlocked;
+    }
+
+    public void UnlockDash()
+    {
+        dashUnlocked = true;
+        saveSystem.SaveDashState(dashUnlocked); // Guardar el estado del dash desbloqueado
     }
     private void OnDrawGizmos()
     {

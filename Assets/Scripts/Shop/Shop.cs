@@ -55,6 +55,7 @@ public class Shop : MonoBehaviour
             Debug.Log("No tienes suficientes monedas para comprar " + itemToSell.itemName);
         }
     }
+
     public void BackMenu()
     {
         SceneManager.LoadScene(0);
