@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Item_Dash
   m_EditorClassIdentifier: 
   itemName: Dash
-  itemIcon: {fileID: 1597076123, guid: 5ea45054c5e46ed49a2617c8fdda1b77, type: 3}
+  itemIcon: {fileID: -2114037023, guid: 6d853a1509a848945af6b6f22b052bc1, type: 3}
   itemCost: 3

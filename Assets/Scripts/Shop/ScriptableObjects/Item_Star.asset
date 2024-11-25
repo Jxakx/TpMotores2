@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Item_Star
   m_EditorClassIdentifier: 
   itemName: Star
-  itemIcon: {fileID: 21300000, guid: 233ee6bbd71e92f4e95b3c1db821402c, type: 3}
-  itemCost: 1
+  itemIcon: {fileID: -928818961, guid: 6d853a1509a848945af6b6f22b052bc1, type: 3}
+  itemCost: 2
