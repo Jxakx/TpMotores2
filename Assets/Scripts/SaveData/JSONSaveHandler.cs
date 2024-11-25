@@ -45,6 +45,14 @@ public class JSONSaveHandler : MonoBehaviour
         {
             Debug.Log("No hay datos para eliminar.");
         }
+
+        if (PlayerPrefs.HasKey(DashKey))
+        {
+            PlayerPrefs.DeleteKey(DashKey);
+            Debug.Log("Estado del dash eliminado.");
+        }
+
+        PlayerPrefs.Save();
     }
 
     public void SaveDashState(bool isUnlocked)
