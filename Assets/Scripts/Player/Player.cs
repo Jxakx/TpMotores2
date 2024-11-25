@@ -107,6 +107,16 @@ public class Player : MonoBehaviour
         {
             dashUnlocked = false; // Deshabilita el dash en el nivel 2 si no está desbloqueado
         }
+
+        // Cargar el estado del dash
+        dashUnlocked = saveSystem.LoadDashState();
+
+        // Configurar el estado del botón de dash
+        ButtonController controller = FindObjectOfType<ButtonController>();
+        if (controller != null)
+        {
+            controller.SetDashButtonState(dashUnlocked);
+        }
     }
 
     private void Update()
@@ -397,6 +407,12 @@ public class Player : MonoBehaviour
     {
         dashUnlocked = true;
         saveSystem.SaveDashState(dashUnlocked); // Guardar el estado del dash desbloqueado
+
+        ButtonController controller = FindObjectOfType<ButtonController>();
+        if (controller != null)
+        {
+            controller.SetDashButtonState(dashUnlocked); // Actualizar el botón de dash
+        }
     }
     private void OnDrawGizmos()
     {

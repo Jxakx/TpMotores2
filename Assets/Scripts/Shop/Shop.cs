@@ -44,11 +44,20 @@ public class Shop : MonoBehaviour
     {
         if (currentCoins >= itemToSell.itemCost)
         {
-            // Realiza la compra
             currentCoins -= itemToSell.itemCost;
             saveHandler.SaveData(currentCoins);
             Debug.Log("Compraste " + itemToSell.itemName);
             Debug.Log("Monedas restantes: " + currentCoins);
+
+            if (itemToSell.itemName == "Dash")
+            {
+                saveHandler.SaveDashState(true); // Guardar estado de desbloqueo del dash
+                Player player = FindObjectOfType<Player>();
+                if (player != null)
+                {
+                    player.UnlockDash(); // Actualizar el estado del jugador en la escena actual
+                }
+            }
         }
         else
         {
