@@ -62,7 +62,7 @@ public class ButtonController : Controller
 
     public void stopMovement()
     {
-        dir = Vector3.zero;
+        //dir = Vector3.zero;
         //jump = false;
         dash = false;
     }

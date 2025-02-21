@@ -100,16 +100,20 @@ public class Player : MonoBehaviour
         saveSystem = FindObjectOfType<JSONSaveHandler>();
         coins = saveSystem.LoadData(); // Cargar las monedas al inicio
         UpdateCoinUI();
-        dashUnlocked = saveSystem.LoadDashState();
+        //dashUnlocked = saveSystem.LoadDashState();
 
         int currentLevel = SceneManager.GetActiveScene().buildIndex; // Obtener el nivel actual
-        if (currentLevel == 2 && !saveSystem.LoadDashState())
+        if (currentLevel == 1)
         {
-            dashUnlocked = false; // Deshabilita el dash en el nivel 2 si no está desbloqueado
+            dashUnlocked = true; // En el nivel 1, el dash siempre está desbloqueado
+        }
+        else if (currentLevel == 2)
+        {
+            dashUnlocked = saveSystem.LoadDashState(); // En el nivel 2, cargar desde el sistema de guardado
         }
 
         // Cargar el estado del dash
-        dashUnlocked = saveSystem.LoadDashState();
+        //dashUnlocked = saveSystem.LoadDashState();
 
         // Configurar el estado del botón de dash
         ButtonController controller = FindObjectOfType<ButtonController>();
