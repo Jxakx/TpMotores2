@@ -39,7 +39,8 @@ public class GameplayManager : MonoBehaviour
 
     public void PlayAgain()
     {
-        SceneManager.LoadScene(1);
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex);
         Time.timeScale = 1;
         player.ResetPlayerCollisions();
     }
