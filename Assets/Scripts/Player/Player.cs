@@ -82,7 +82,7 @@ public class Player : MonoBehaviour
     private JSONSaveHandler saveSystem;
     [SerializeField] private TextMeshProUGUI coinCounterText;
 
-    
+    public ButtonController buttonController;
 
     private void Start()
     {
