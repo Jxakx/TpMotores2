@@ -25,7 +25,7 @@ public class ButtonController : Controller
     }
     private void Update()
     {
-        // Inputs para PC
+        //Inputs para PC
         if (Input.GetKey(KeyCode.A)) // Moverse a la izquierda
         {
             PressLeftButton();
@@ -33,10 +33,6 @@ public class ButtonController : Controller
         else if (Input.GetKey(KeyCode.D)) // Moverse a la derecha
         {
             PressRightButton();
-        }
-        else
-        {
-            stopMovement(); // Detener el movimiento si no se presiona A o D
         }
 
         if (Input.GetKeyDown(KeyCode.W)) // Saltar
