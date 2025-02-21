@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Murcielago : MonoBehaviour
+public class Murcielago : Entity
 {
     [SerializeField] public Transform player;
 

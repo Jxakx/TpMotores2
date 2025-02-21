@@ -34,6 +34,10 @@ public class ButtonController : Controller
         {
             PressRightButton();
         }
+        else
+        {
+            stopMovement();
+        }
 
         if (Input.GetKeyDown(KeyCode.W)) // Saltar
         {
