@@ -19,6 +19,7 @@ public class Murcielago_VolverBehaviour : StateMachineBehaviour
     {
         animator.transform.position = Vector2.MoveTowards(animator.transform.position, puntoInicial, velocidadMovimiento * Time.deltaTime);
         murcielago.Girar(puntoInicial);
+
         if(animator.transform.position == puntoInicial)
         {
             animator.SetTrigger("Llego");

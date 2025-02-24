@@ -23,6 +23,33 @@ public class ButtonController : Controller
             SetDashButtonState(FindObjectOfType<JSONSaveHandler>().LoadDashState());
         }
     }
+    private void Update()
+    {
+        //Inputs para PC
+        if (Input.GetKey(KeyCode.A)) // Moverse a la izquierda
+        {
+            PressLeftButton();
+        }
+        else if (Input.GetKey(KeyCode.D)) // Moverse a la derecha
+        {
+            PressRightButton();
+        }
+        else
+        {
+            stopMovement();
+        }
+
+        if (Input.GetKeyDown(KeyCode.W)) // Saltar
+        {
+            PressJumpButton();
+        }
+
+        if (Input.GetKeyDown(KeyCode.S)) // Dash
+        {
+            PressDashButton();
+        }
+    }
+
     public override Vector3 GetMoveDir()
     {
         return dir != Vector3.zero ? dir : Vector3.zero;
@@ -62,7 +89,7 @@ public class ButtonController : Controller
 
     public void stopMovement()
     {
-        //dir = Vector3.zero;
+        dir = Vector3.zero;
         //jump = false;
         dash = false;
     }
