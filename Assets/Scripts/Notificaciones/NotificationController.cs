@@ -9,6 +9,13 @@ using Unity.Notifications.Android;
 #endif 
 public class NotificationController : MonoBehaviour
 {
+    public void ActivarNotificacion()
+    {
+        DateTime fechaActivar = DateTime.Now;
+    }
+
+
+#if UNITY_ANDROID
     private const string idCanal = "Canal Notificacion";
 
     public void makeNotification(DateTime fecha)
@@ -34,4 +41,5 @@ public class NotificationController : MonoBehaviour
 
         AndroidNotificationCenter.SendNotification(androidNotification, idCanal);
     }
+#endif
 }
