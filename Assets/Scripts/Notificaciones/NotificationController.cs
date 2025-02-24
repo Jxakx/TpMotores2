@@ -9,16 +9,31 @@ using Unity.Notifications.Android;
 #endif 
 public class NotificationController : MonoBehaviour
 {
-    public void ActivarNotificacion()
+    private void Start()
     {
-        DateTime fechaActivar = DateTime.Now;
+#if UNITY_ANDROID
+        StartCoroutine(PermisoNotificacion());
+#endif
+    }
+    private void OnApplicationQuit()
+    {
+        ActivarNotificacion();
     }
 
+    public void ActivarNotificacion()
+    {
+        DateTime fechaActivar = DateTime.Now.AddSeconds(5f); //5 segundos para notificar 
+#if UNITY_ANDROID
+        MakeNotification(fechaActivar);
+#endif
+    }
 
 #if UNITY_ANDROID
     private const string idCanal = "Canal Notificacion";
 
-    public void makeNotification(DateTime fecha)
+    
+
+    public void MakeNotification(DateTime fecha)
     {
         AndroidNotificationChannel androidNotificationChannel = new AndroidNotificationChannel
         {
@@ -41,5 +56,15 @@ public class NotificationController : MonoBehaviour
 
         AndroidNotificationCenter.SendNotification(androidNotification, idCanal);
     }
+
+    IEnumerator PermisoNotificacion()
+    {
+        var request = new PermissionRequest();
+        while(request.Status == PermissionStatus.RequestPending)
+        {
+            yield return null;
+        }
+    }
+
 #endif
 }
