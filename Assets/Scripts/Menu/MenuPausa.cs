@@ -7,6 +7,11 @@ public class MenuPausa : MonoBehaviour
 {
     [SerializeField] private GameObject botonPausa;
     [SerializeField] private GameObject menuPausa;
+    private Player player;
+    void Start()
+    {
+        player = FindObjectOfType<Player>();
+    }
     public void Pause()
     {
         Time.timeScale = 0f;
@@ -28,6 +33,7 @@ public class MenuPausa : MonoBehaviour
     {
         SceneManager.LoadScene(0);
         Time.timeScale = 1;
+        player.ResetPlayerCollisions();
     }
     public void Quit()
     {
