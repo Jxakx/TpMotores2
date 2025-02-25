@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-    public Animator animatorCheckpoint;
+    public Animator animatorCheckpoint; 
+    [SerializeField] private AudioSource checkpointAudioSource; 
+    private bool hasPlayedSound = false; 
+
     private void OnTriggerEnter2D(Collider2D other)
-    {
+    {        
         if (other.CompareTag("Player"))
         {
             CheckpointManager checkpointManager = FindObjectOfType<CheckpointManager>();
@@ -14,12 +17,16 @@ public class Checkpoint : MonoBehaviour
             {
                 checkpointManager.UpdateCheckpointPosition(transform.position);
                 Debug.Log("Jugador ha activado el checkpoint en: " + transform.position);
-
             }
-
+            
             animatorCheckpoint.SetBool("Checking", true);
 
-            //Destroy(gameObject); // Destruye el checkpoint después de activarlo
+            // Reproducir el efecto de sonido solo una vez
+            if (!hasPlayedSound)
+            {
+                checkpointAudioSource.Play();
+                hasPlayedSound = true; // Marcar que el sonido ya se reprodujo
+            }            
         }
     }
 }
