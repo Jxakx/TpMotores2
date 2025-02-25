@@ -23,7 +23,7 @@ public class ButtonController : Controller
             SetDashButtonState(FindObjectOfType<JSONSaveHandler>().LoadDashState());
         }
     }
-    /*private void Update()
+    private void Update()
     {
         //Inputs para PC
         if (Input.GetKey(KeyCode.A)) // Moverse a la izquierda
@@ -48,7 +48,7 @@ public class ButtonController : Controller
         {
             PressDashButton();
         }
-    }*/
+    }
 
     public override Vector3 GetMoveDir()
     {
