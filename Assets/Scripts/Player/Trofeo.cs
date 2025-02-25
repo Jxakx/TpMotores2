@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Trofeo : MonoBehaviour
 {
+    [SerializeField] private AudioSource checkpointAudioSource;
+
     public GameplayManager gamePlayCanvas;
     public Animator animatorTrophy;
     public float delayWin = 2f; // Tiempo de espera antes de mostrar el panel de victoria
