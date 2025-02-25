@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
+    public Animator animatorCheckpoint;
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -13,8 +14,12 @@ public class Checkpoint : MonoBehaviour
             {
                 checkpointManager.UpdateCheckpointPosition(transform.position);
                 Debug.Log("Jugador ha activado el checkpoint en: " + transform.position);
+
             }
-            Destroy(gameObject); // Destruye el checkpoint después de activarlo
+
+            animatorCheckpoint.SetBool("Checking", true);
+
+            //Destroy(gameObject); // Destruye el checkpoint después de activarlo
         }
     }
 }
