@@ -35,20 +35,4 @@ public class Coin : MonoBehaviour
             GetComponent<Collider2D>().enabled = false;            
         }
     }
-
-    private IEnumerator DeactivateAfterSound()
-    {
-        // Esperar a que termine el sonido 
-        if (coinAudioSource != null)
-        {
-            yield return new WaitForSeconds(coinAudioSource.clip.length);
-        }
-        else
-        {
-            yield return null;
-        }
-
-        // Desactivar la moneda (pero no destruirla)
-        gameObject.SetActive(false);
-    }
 }
