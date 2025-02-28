@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using TMPro;
 
 public class Frutas : MonoBehaviour
 {
@@ -53,6 +54,6 @@ public class Frutas : MonoBehaviour
     public void ShowFloatingText()
     {
         var go = Instantiate(floatingTextPrefab, transform.position, Quaternion.identity, transform);
-        go.GetComponent<TextMesh>().text = cantidadPuntos.ToString();
+        go.GetComponent<TextMeshPro>().text = cantidadPuntos.ToString();
     }
 }

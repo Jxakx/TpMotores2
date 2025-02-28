@@ -126,7 +126,7 @@ MonoBehaviour:
   puntaje: {fileID: 0}
   eatSound: {fileID: 5908777795619809611}
   curacion: 2
-  floatingTextPrefab: {fileID: 2137583780417922123, guid: d2c00210a417ee44aafcf1ed983499bd, type: 3}
+  floatingTextPrefab: {fileID: 205888279292352923, guid: b58aad2b5f7956c40b93e77c38ce2c00, type: 3}
 --- !u!70 &6852874104095124162
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
