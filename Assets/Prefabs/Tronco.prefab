@@ -149,6 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 0
   damageAttack: 0
+  floatingTextPrefab: {fileID: 2332004045737610565, guid: 052efe899a77f4c4b93b2d63d57a5894, type: 3}
   shootController: {fileID: 1536003348770775201}
   distance: 6.15
   player:

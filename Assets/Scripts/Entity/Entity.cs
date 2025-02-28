@@ -28,7 +28,11 @@ public class Entity : MonoBehaviour
         {
             Death();
         }
+
+        
     }
+
+    
 
     public virtual void Death()
     {
