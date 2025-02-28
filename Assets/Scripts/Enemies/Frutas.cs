@@ -52,6 +52,7 @@ public class Frutas : MonoBehaviour
 
     public void ShowFloatingText()
     {
-        Instantiate(floatingTextPrefab, transform.position, Quaternion.identity, transform);
+        var go = Instantiate(floatingTextPrefab, transform.position, Quaternion.identity, transform);
+        go.GetComponent<TextMesh>().text = cantidadPuntos.ToString();
     }
 }
