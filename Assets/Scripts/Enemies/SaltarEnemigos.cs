@@ -7,6 +7,8 @@ public class SaltarEnemigos : MonoBehaviour
 {
     public int damage = 1;
     private Animator Animator;
+    public GameObject floatingTextPrefab;
+
 
 
     [SerializeField] private float cantidadPuntos;
@@ -24,6 +26,11 @@ public class SaltarEnemigos : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            if (floatingTextPrefab)
+            {
+                ShowFloatingText();
+            }
+
             foreach (ContactPoint2D punto in other.contacts)
             {
                 if(punto.normal.y <= -0.9)
@@ -38,7 +45,11 @@ public class SaltarEnemigos : MonoBehaviour
             }
         }
     }
-
+    public void ShowFloatingText()
+    {
+        var go = Instantiate(floatingTextPrefab, transform.position, Quaternion.identity, transform);
+        go.GetComponent<TextMeshPro>().text = cantidadPuntos.ToString();
+    }
     public void Golpe()
     {
         Instantiate(efecto, transform.position, transform.rotation);

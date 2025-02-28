@@ -149,7 +149,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 0
   damageAttack: 0
-  floatingTextPrefab: {fileID: 2332004045737610565, guid: 052efe899a77f4c4b93b2d63d57a5894, type: 3}
   shootController: {fileID: 1536003348770775201}
   distance: 6.15
   player:
@@ -175,6 +174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
+  floatingTextPrefab: {fileID: 205888279292352923, guid: b58aad2b5f7956c40b93e77c38ce2c00, type: 3}
   cantidadPuntos: 100
   puntaje: {fileID: 0}
   efecto: {fileID: 3567936551083611455, guid: 6edbbdd1115e2d5439c73e98858f922e, type: 3}
