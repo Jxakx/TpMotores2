@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -9,8 +8,6 @@ public class SaltarEnemigos : MonoBehaviour
     private Animator Animator;
     public GameObject floatingTextPrefab;
 
-
-
     [SerializeField] private float cantidadPuntos;
     [SerializeField] private Puntaje puntaje;
 
@@ -19,41 +16,42 @@ public class SaltarEnemigos : MonoBehaviour
     private void Start()
     {
         Animator = GetComponent<Animator>();
-
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (floatingTextPrefab)
-            {
-                ShowFloatingText();
-            }
-
             foreach (ContactPoint2D punto in other.contacts)
             {
-                if(punto.normal.y <= -0.9)
+                if (punto.normal.y <= -0.9)
                 {
                     Animator.SetTrigger("Golpe");
                     other.gameObject.GetComponent<Player>().Rebound();
                 }
                 else if (Mathf.Abs(punto.normal.x) > 0.5f)
                 {
-                    other.gameObject.GetComponent<Player>().TakeDamage(1, other.GetContact(0).normal); //Daño del knockback, cuando el player viene del costado a un enemigo, le hace daño
+                    other.gameObject.GetComponent<Player>().TakeDamage(1, other.GetContact(0).normal); // Daño del knockback
                 }
             }
         }
     }
+
     public void ShowFloatingText()
     {
-        var go = Instantiate(floatingTextPrefab, transform.position, Quaternion.identity, transform);
-        go.GetComponent<TextMeshPro>().text = cantidadPuntos.ToString();
+        if (floatingTextPrefab)
+        {
+            var go = Instantiate(floatingTextPrefab, transform.position, Quaternion.identity);
+            go.GetComponent<TextMeshPro>().text = cantidadPuntos.ToString();
+            go.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        }
     }
+
     public void Golpe()
     {
+        ShowFloatingText();
         Instantiate(efecto, transform.position, transform.rotation);
-        Destroy(gameObject);
         puntaje.SumarPuntos(cantidadPuntos);
+        Destroy(gameObject);
     }
 }
