@@ -20,6 +20,7 @@ public class Tronco : Entity
     private int tripleShotCount = 0; // Contador para el disparo triple
     private float tripleShotDelay = 0.2f; // Intervalo entre balas en disparo triple
     private float lastTripleShotTime;
+    public AudioSource shootSound;
 
     public Animator animator;
     public float tiempoEsperaDisparo;
@@ -104,6 +105,7 @@ public class Tronco : Entity
     {
         float bulletRotation = transform.localScale.x > 0 ? 0f : 180f;
         Instantiate(bulletEnemy, shootController.position, Quaternion.Euler(0f, bulletRotation, 0f));
+        shootSound.Play();
     }
 
     private void OnDrawGizmos()
