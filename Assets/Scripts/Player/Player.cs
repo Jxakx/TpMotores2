@@ -76,6 +76,7 @@ public class Player : MonoBehaviour
     [SerializeField] private AudioSource jumpAudioSource;
     [SerializeField] private AudioSource doubleJumpAudioSource;
     [SerializeField] private AudioSource dashAudioSource;
+    [SerializeField] private AudioSource WalkAudioSource;
 
     [Header("Save system")]
     private int coins;
@@ -197,12 +198,22 @@ public class Player : MonoBehaviour
             {
                 particulasCorrer.Play();  // Iniciar partículas cuando corra
             }
+
+            if (!WalkAudioSource.isPlaying)
+            {
+                WalkAudioSource.Play();
+            }
         }
         else
         {
             if (particulasCorrer.isPlaying)
             {
                 particulasCorrer.Stop();  // Detener partículas cuando no corra
+            }
+
+            if (WalkAudioSource.isPlaying)
+            {
+                WalkAudioSource.Stop();
             }
         }
 

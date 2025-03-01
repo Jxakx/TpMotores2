@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using TMPro;
 
 public class Frutas : MonoBehaviour
 {
@@ -10,11 +11,17 @@ public class Frutas : MonoBehaviour
     [SerializeField] private int curacion;
     private bool hasBeenCollected = false;
 
+    public GameObject floatingTextPrefab;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player") && !hasBeenCollected)
         {
+            if (floatingTextPrefab)
+            {
+                ShowFloatingText();
+            }
+
             if (eatSound != null)
             {
                 eatSound.Play();
@@ -42,5 +49,11 @@ public class Frutas : MonoBehaviour
             GetComponent<Collider2D>().enabled = false;
         }
         
+    }
+
+    public void ShowFloatingText()
+    {
+        var go = Instantiate(floatingTextPrefab, transform.position, Quaternion.identity, transform);
+        go.GetComponent<TextMeshPro>().text = cantidadPuntos.ToString();
     }
 }
