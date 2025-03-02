@@ -43,12 +43,22 @@ public class JSONSaveHandler : MonoBehaviour
     {
         if (File.Exists(filePath))
         {
-            File.Delete(filePath); // Eliminar el archivo de datos si existe
-            Debug.Log("Datos eliminados correctamente.");
+            File.Delete(filePath); // Eliminar el archivo de datos del jugador si existe
+            Debug.Log("Datos del jugador eliminados correctamente.");
         }
         else
         {
-            Debug.Log("No hay datos para eliminar.");
+            Debug.Log("No hay datos del jugador para eliminar.");
+        }
+
+        if (File.Exists(savePath))
+        {
+            File.Delete(savePath); // Eliminar el archivo de datos de estrellas si existe
+            Debug.Log("Datos de estrellas eliminados correctamente.");
+        }
+        else
+        {
+            Debug.Log("No hay datos de estrellas para eliminar.");
         }
 
         if (PlayerPrefs.HasKey(DashKey))
