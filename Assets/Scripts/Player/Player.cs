@@ -77,6 +77,7 @@ public class Player : MonoBehaviour
     [SerializeField] private AudioSource doubleJumpAudioSource;
     [SerializeField] private AudioSource dashAudioSource;
     [SerializeField] private AudioSource WalkAudioSource;
+    [SerializeField] private AudioSource HitAudioSource;
 
     [Header("Save system")]
     private int coins;
@@ -179,6 +180,7 @@ public class Player : MonoBehaviour
     public void Knockback(Vector2 punchPoint)
     {
         rb.velocity = new Vector2(-knockBackSpeed.x * punchPoint.x, knockBackSpeed.y);
+        HitAudioSource.Play();
     }
 
     private void FixedUpdate()

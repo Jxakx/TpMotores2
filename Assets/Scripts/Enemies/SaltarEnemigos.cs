@@ -13,6 +13,9 @@ public class SaltarEnemigos : MonoBehaviour
 
     [SerializeField] private GameObject efecto;
 
+    private bool hasBeenDeath = false;
+    public AudioSource deathEnemySound;
+
     private void Start()
     {
         Animator = GetComponent<Animator>();
@@ -23,12 +26,21 @@ public class SaltarEnemigos : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             foreach (ContactPoint2D punto in other.contacts)
-            {
+            {              
+
                 if (punto.normal.y <= -0.9)
                 {
                     Animator.SetTrigger("Golpe");
                     other.gameObject.GetComponent<Player>().Rebound();
+
+                    if (deathEnemySound != null)
+                    {
+                        deathEnemySound.Play();
+                    }
+
+                    hasBeenDeath = true;
                 }
+
                 else if (Mathf.Abs(punto.normal.x) > 0.5f)
                 {
                     other.gameObject.GetComponent<Player>().TakeDamage(1, other.GetContact(0).normal); // Daño del knockback
