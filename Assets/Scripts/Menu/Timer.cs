@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class Timer : MonoBehaviour
 {
-    public Text timerText;  // El texto en el Canvas donde mostrarás el tiempo
+    public TextMeshProUGUI timerText;
     private float timeElapsed = 0f; // Tiempo transcurrido en segundos
     private float timeLimit = 300f;  // Límite de 5 minutos (300 segundos)
 
