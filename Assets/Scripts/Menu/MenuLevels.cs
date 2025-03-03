@@ -9,10 +9,12 @@ public class MenuLevels : MonoBehaviour
     private int totalStars; // Para almacenar las estrellas guardadas
     private string saveFilePath;
     public Button levelTwoButton; // Botón del nivel 2
+    private SceneLoadManager sceneLoadManager; // Referencia al SceneLoadManager
 
     private void Start()
     {
         saveFilePath = Application.persistentDataPath + "/level_data.json";
+        sceneLoadManager = FindObjectOfType<SceneLoadManager>(); // Buscar el gestor de carga de escenas
         LoadStarData();
 
         // Desactivar el botón del Nivel 2 si no tiene suficientes estrellas
@@ -43,16 +45,28 @@ public class MenuLevels : MonoBehaviour
 
     public void LevelOne()
     {
-        SceneManager.LoadScene(1);
-        Time.timeScale = 1;
+        if (sceneLoadManager != null)
+        {
+            sceneLoadManager.SceneLoad(1);
+        }
+        else
+        {
+            SceneManager.LoadScene(1);
+        }
     }
 
     public void LevelTwo()
     {
         if (totalStars >= 2)
         {
-            SceneManager.LoadScene(2);
-            Time.timeScale = 1;
+            if (sceneLoadManager != null)
+            {
+                sceneLoadManager.SceneLoad(2);
+            }
+            else
+            {
+                SceneManager.LoadScene(2);
+            }
         }
         else
         {
