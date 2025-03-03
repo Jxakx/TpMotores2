@@ -54,7 +54,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &875617834509915540
 Transform:
   m_ObjectHideFlags: 0
@@ -304,7 +304,7 @@ MonoBehaviour:
   - {x: -0.088786475, y: -0.5033395, z: 0}
   m_ShapePathHash: 2016627418
   m_Mesh: {fileID: 0}
-  m_InstanceId: -9144
+  m_InstanceId: -3896
   m_LocalBounds:
     m_Center: {x: -0.000017434359, y: -0.19138438, z: 0}
     m_Extent: {x: 0.40767694, y: 0.31550956, z: 0}
