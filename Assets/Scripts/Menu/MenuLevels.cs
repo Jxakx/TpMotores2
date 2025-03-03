@@ -7,13 +7,13 @@ using UnityEngine.UI;
 public class MenuLevels : MonoBehaviour
 {
     private int starsLevelOne; // Almacena las estrellas del nivel 1
-    private string saveFilePath;
     public Button levelTwoButton; // Botón del nivel 2
     private SceneLoadManager sceneLoadManager; // Referencia al SceneLoadManager
+    private JSONSaveHandler saveHandler; // Referencia al JSONSaveHandler
 
     private void Start()
     {
-        saveFilePath = Application.persistentDataPath + "/level_data.json";
+        saveHandler = FindObjectOfType<JSONSaveHandler>(); // Buscar el JSONSaveHandler
         sceneLoadManager = FindObjectOfType<SceneLoadManager>(); // Buscar el gestor de carga de escenas
         LoadStarData();
 
@@ -26,24 +26,13 @@ public class MenuLevels : MonoBehaviour
 
     private void LoadStarData()
     {
-        if (System.IO.File.Exists(saveFilePath))
+        if (saveHandler != null)
         {
-            string json = System.IO.File.ReadAllText(saveFilePath);
-            LevelData levelData = JsonUtility.FromJson<LevelData>(json);
-
-            starsLevelOne = 0; // Inicializamos las estrellas del nivel 1
-            for (int i = 0; i < levelData.levelIndices.Count; i++)
-            {
-                if (levelData.levelIndices[i] == 1) // Solo contamos las estrellas del nivel 1
-                {
-                    starsLevelOne = levelData.starCounts[i]; // Cargamos las estrellas del nivel 1
-                    break; // Solo necesitamos las estrellas del primer nivel
-                }
-            }
+            starsLevelOne = saveHandler.LoadStars(1); // Cargar las estrellas del nivel 1
         }
         else
         {
-            starsLevelOne = 0; // Si no hay datos, iniciar con 0 estrellas
+            starsLevelOne = 0; // Si no hay saveHandler, iniciar con 0 estrellas
         }
     }
 
@@ -66,11 +55,11 @@ public class MenuLevels : MonoBehaviour
         {
             if (sceneLoadManager != null)
             {
-                sceneLoadManager.SceneLoad(2);
+                sceneLoadManager.SceneLoad(2); // Usa el SceneLoadManager para cargar la escena
             }
             else
             {
-                SceneManager.LoadScene(2);
+                SceneManager.LoadScene(2); // Carga la escena directamente si no hay SceneLoadManager
             }
         }
         else
