@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class MenuLevels : MonoBehaviour
 {
-    private int totalStars; // Para almacenar las estrellas guardadas
+    private int starsLevelOne; // Almacena las estrellas del nivel 1
     private string saveFilePath;
     public Button levelTwoButton; // Botón del nivel 2
     private SceneLoadManager sceneLoadManager; // Referencia al SceneLoadManager
@@ -17,10 +17,10 @@ public class MenuLevels : MonoBehaviour
         sceneLoadManager = FindObjectOfType<SceneLoadManager>(); // Buscar el gestor de carga de escenas
         LoadStarData();
 
-        // Desactivar el botón del Nivel 2 si no tiene suficientes estrellas
+        // Desactivar el botón del Nivel 2 si no tiene suficientes estrellas del nivel 1
         if (levelTwoButton != null)
         {
-            levelTwoButton.interactable = totalStars >= 2;
+            levelTwoButton.interactable = starsLevelOne >= 2; // Verifica si el jugador tiene al menos 2 estrellas
         }
     }
 
@@ -31,15 +31,19 @@ public class MenuLevels : MonoBehaviour
             string json = System.IO.File.ReadAllText(saveFilePath);
             LevelData levelData = JsonUtility.FromJson<LevelData>(json);
 
-            totalStars = 0;
-            foreach (int stars in levelData.starCounts)
+            starsLevelOne = 0; // Inicializamos las estrellas del nivel 1
+            for (int i = 0; i < levelData.levelIndices.Count; i++)
             {
-                totalStars += stars; // Sumar todas las estrellas obtenidas
+                if (levelData.levelIndices[i] == 1) // Solo contamos las estrellas del nivel 1
+                {
+                    starsLevelOne = levelData.starCounts[i]; // Cargamos las estrellas del nivel 1
+                    break; // Solo necesitamos las estrellas del primer nivel
+                }
             }
         }
         else
         {
-            totalStars = 0; // Si no hay datos, iniciar con 0 estrellas
+            starsLevelOne = 0; // Si no hay datos, iniciar con 0 estrellas
         }
     }
 
@@ -57,7 +61,8 @@ public class MenuLevels : MonoBehaviour
 
     public void LevelTwo()
     {
-        if (totalStars >= 2)
+        // Verifica si el jugador tiene al menos 2 estrellas en el primer nivel
+        if (starsLevelOne >= 2)
         {
             if (sceneLoadManager != null)
             {
