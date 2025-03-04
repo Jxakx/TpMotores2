@@ -25,6 +25,6 @@ public class MenuCoinDisplay : MonoBehaviour
 
     private void UpdateCoinUI(int coins)
     {
-        coinCounterText.text = ": " + coins.ToString();
+        coinCounterText.text = coins.ToString();
     }
 }
