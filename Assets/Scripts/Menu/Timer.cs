@@ -30,6 +30,6 @@ public class Timer : MonoBehaviour
         int seconds = Mathf.FloorToInt(timeElapsed % 60); // Calcula los segundos restantes
 
         // Actualiza el texto con el tiempo transcurrido
-        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        timerText.text = string.Format("{0}:{1:00}", minutes, seconds);
     }
 }
