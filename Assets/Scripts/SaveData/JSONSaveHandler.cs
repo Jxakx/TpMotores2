@@ -1,14 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
 public class JSONSaveHandler : MonoBehaviour
 {
-
     private string filePath;
     private string savePath;
     private const string DashKey = "DashUnlocked";
+
     private void Awake()
     {
         filePath = Application.persistentDataPath + "/playerData.json";
@@ -17,7 +16,11 @@ public class JSONSaveHandler : MonoBehaviour
     void Start()
     {
         savePath = Application.persistentDataPath + "/level_data.json";
+
+        Debug.Log($"Ruta de datos del jugador: {filePath}");
+        Debug.Log($"Ruta de datos de estrellas: {savePath}");
     }
+
     public void SaveData(int coins)
     {
         SaveData data = new SaveData { coins = coins };
@@ -41,10 +44,12 @@ public class JSONSaveHandler : MonoBehaviour
 
     public void DeleteData()
     {
+        Debug.Log("Intentando eliminar datos...");
+
         if (File.Exists(filePath))
         {
-            File.Delete(filePath); // Eliminar el archivo de datos del jugador si existe
-            Debug.Log("Datos del jugador eliminados correctamente.");
+            Debug.Log("Archivo de jugador encontrado. Eliminando...");
+            File.Delete(filePath);
         }
         else
         {
@@ -53,8 +58,8 @@ public class JSONSaveHandler : MonoBehaviour
 
         if (File.Exists(savePath))
         {
-            File.Delete(savePath); // Eliminar el archivo de datos de estrellas si existe
-            Debug.Log("Datos de estrellas eliminados correctamente.");
+            Debug.Log("Archivo de estrellas encontrado. Eliminando...");
+            File.Delete(savePath);
         }
         else
         {
@@ -63,11 +68,12 @@ public class JSONSaveHandler : MonoBehaviour
 
         if (PlayerPrefs.HasKey(DashKey))
         {
+            Debug.Log("Eliminando estado del dash...");
             PlayerPrefs.DeleteKey(DashKey);
-            Debug.Log("Estado del dash eliminado.");
         }
 
         PlayerPrefs.Save();
+        Debug.Log("Proceso de eliminación completado.");
     }
 
     public void SaveDashState(bool isUnlocked)
@@ -86,12 +92,23 @@ public class JSONSaveHandler : MonoBehaviour
         Dictionary<int, int> levelStars = LoadAllStars();
         levelStars[levelIndex] = stars;
         string json = JsonUtility.ToJson(new LevelDataWrapper(levelStars));
+
         File.WriteAllText(savePath, json);
+
+        // Debug para verificar que los datos se están guardando correctamente
+        Debug.Log($"Guardando estrellas: Nivel {levelIndex}, Estrellas {stars}");
+        Debug.Log("Datos de estrellas guardados en: " + savePath);
+        Debug.Log("Contenido del JSON guardado: " + json);
     }
 
     public int LoadStars(int levelIndex)
     {
         Dictionary<int, int> levelStars = LoadAllStars();
+
+        // Debug para ver qué datos se cargan
+        Debug.Log($"Cargando estrellas del nivel {levelIndex}");
+        Debug.Log("Datos de estrellas actuales: " + JsonUtility.ToJson(new LevelDataWrapper(levelStars)));
+
         return levelStars.ContainsKey(levelIndex) ? levelStars[levelIndex] : 0;
     }
 

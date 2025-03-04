@@ -5,5 +5,6 @@ using System.IO;
 
 public class LevelData : MonoBehaviour
 {
-    public int stars;
+    public List<int> levelIndices;
+    public List<int> starCounts;
 }

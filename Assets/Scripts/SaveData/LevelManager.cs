@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -12,12 +10,17 @@ public class LevelManager : MonoBehaviour
     {
         levelStartTime = Time.time;
         saveHandler = FindObjectOfType<JSONSaveHandler>();
+
+        Debug.Log($"Cargando datos del nivel {levelIndex}. Estrellas actuales: {LoadStars()}");
     }
 
     public void CompleteLevel()
     {
         float elapsedTime = Time.time - levelStartTime;
         int starsEarned = CalculateStars(elapsedTime);
+
+        Debug.Log($"Nivel {levelIndex} completado en {elapsedTime} segundos. Estrellas ganadas: {starsEarned}");
+
         saveHandler.SaveStars(levelIndex, starsEarned);
     }
 
