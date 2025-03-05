@@ -407,7 +407,7 @@ public class Player : MonoBehaviour
 
     private void UpdateCoinUI()
     {
-        coinCounterText.text = ": " + coins.ToString();
+        coinCounterText.text = coins.ToString();
     }
 
     public int GetCoins()

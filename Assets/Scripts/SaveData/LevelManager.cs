@@ -26,12 +26,14 @@ public class LevelManager : MonoBehaviour
 
     int CalculateStars(float time)
     {
-        if (time < 90f)
+        if (time <= 30f)
             return 3;
-        else if (time < 120f)
+        else if (time <= 60f)
             return 2;
-        else
+        else if (time <= 90f)
             return 1;
+        else
+            return 0;
     }
 
     public int LoadStars()
