@@ -1567,7 +1567,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1461878303}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NotificationController, Assembly-CSharp
         m_MethodName: ActivarNotificacion
         m_Mode: 1
@@ -3851,7 +3851,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1461878303}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NotificationController, Assembly-CSharp
         m_MethodName: ActivarNotificacion
         m_Mode: 1
@@ -5308,26 +5308,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1461878304}
-  - component: {fileID: 1461878303}
   m_Layer: 0
   m_Name: NotificationController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1461878303
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1461878302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16d99cd1da121fe45bf3f3656d413c56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_IsActive: 0
 --- !u!4 &1461878304
 Transform:
   m_ObjectHideFlags: 0
