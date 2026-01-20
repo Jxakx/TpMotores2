@@ -312,7 +312,8 @@ public class Player : MonoBehaviour
         canMove = false;
         canDash = false;
         rb.gravityScale = 0;
-        rb.velocity = new Vector2(dashSpeed * transform.localScale.x, 0);
+        // se mantiene rb.velocity.y en vez de poner 0
+        rb.velocity = new Vector2(dashSpeed * transform.localScale.x, rb.velocity.y);
 
         yield return new WaitForSeconds(dashTime);
 
