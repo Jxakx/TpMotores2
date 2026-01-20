@@ -16,6 +16,10 @@ public class RemoteConfig : MonoBehaviour
     public string enemyName2;
     public int appVersion;
     public bool serverOut;
+    public float playerSpeed;    // Variable Nueva
+    public string welcomeMessage; // Variable Nueva
+
+
     async Task InitializeRemoteConfigAsync()
     {
         
@@ -50,5 +54,7 @@ public class RemoteConfig : MonoBehaviour
         enemyName2 = RemoteConfigService.Instance.appConfig.GetString("EnemyName2");
         appVersion = RemoteConfigService.Instance.appConfig.GetInt("AppVersion");
         serverOut = RemoteConfigService.Instance.appConfig.GetBool("ServerOut");
+        playerSpeed = RemoteConfigService.Instance.appConfig.GetFloat("PlayerSpeed", 5.0f);
+        welcomeMessage = RemoteConfigService.Instance.appConfig.GetString("WelcomeMsg", "Hola");
     }
 }
