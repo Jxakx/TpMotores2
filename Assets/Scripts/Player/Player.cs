@@ -114,6 +114,9 @@ public class Player : MonoBehaviour
             dashUnlocked = saveSystem.LoadDashState(); // En el nivel 2, cargar desde el sistema de guardado
         }
 
+        // Reactiva el choque entre Player y Enemy siempre (solucion al error que decia el profe que una vez transpasó los enemigos)
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+
         // Cargar el estado del dash
         //dashUnlocked = saveSystem.LoadDashState();
 
