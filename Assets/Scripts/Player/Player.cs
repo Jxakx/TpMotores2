@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     public int life;
     public int maxLife;
     [SerializeField] Controller controller;
-    [SerializeField] float speed = 5;
+    public float speed = 5;
     [SerializeField] float smoothedMove;
     private bool lookRight = true;
     public GameplayManager gamePlayCanvas;
@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     [SerializeField] LayerMask floor;
     [SerializeField] Transform floorController;
     [SerializeField] Vector3 boxDimensions;
-    [SerializeField] float jumpForce = 5f;
+    public float jumpForce = 5f;
     private bool isGrounded = false;
 
     [Header("Dash")]

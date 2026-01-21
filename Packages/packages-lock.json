@@ -202,18 +202,18 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.remote-config": {
-      "version": "4.1.1",
+      "version": "4.2.4",
       "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.unity.nuget.newtonsoft-json": "3.0.2",
-        "com.unity.remote-config-runtime": "4.0.2",
+        "com.unity.remote-config-runtime": "4.0.4",
         "com.unity.modules.unitywebrequest": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },
     "com.unity.remote-config-runtime": {
-      "version": "4.0.2",
+      "version": "4.0.4",
       "depth": 1,
       "source": "registry",
       "dependencies": {
