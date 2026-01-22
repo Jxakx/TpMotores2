@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84307f049910ff74d97dc9f6237171ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyID: enemy_2
   life: 0
   damageAttack: 0
   shootController: {fileID: 1536003348770775201}
@@ -256,7 +257,7 @@ MonoBehaviour:
   - {x: -0.11806266, y: -0.5006142, z: 0}
   m_ShapePathHash: 2054389550
   m_Mesh: {fileID: 0}
-  m_InstanceId: -3682
+  m_InstanceId: 49732
   m_LocalBounds:
     m_Center: {x: -0.140724, y: -0.07723302, z: 0}
     m_Extent: {x: 0.58557844, y: 0.43053728, z: 0}

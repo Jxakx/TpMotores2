@@ -4,8 +4,21 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
+    [Header("Configuración Remota")]
+    public string enemyID; //"enemy_1" o "enemy_2" aquí.
+
+    [Header("Stats")]
     public int life;
     public int damageAttack;
+
+    // Función para recibir datos de la nube
+    public void ConfigureEntity(string newName, int extraLife)
+    {
+        if (!string.IsNullOrEmpty(newName))
+        {
+            gameObject.name = newName;
+        }
+    }
 
     public void TakeDamage(int damage)
     {
@@ -14,10 +27,11 @@ public class Entity : MonoBehaviour
         if (life <= 1.5f)
         {
             Death();
-        }        
+        }
     }
+
     public virtual void Death()
     {
         Destroy(gameObject);
-    }  
+    }
 }

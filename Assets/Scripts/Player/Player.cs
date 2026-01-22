@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     public int life;
     public int maxLife;
     [SerializeField] Controller controller;
-    [SerializeField] float speed = 5;
+    public float speed = 5;
     [SerializeField] float smoothedMove;
     private bool lookRight = true;
     public GameplayManager gamePlayCanvas;
@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     [SerializeField] LayerMask floor;
     [SerializeField] Transform floorController;
     [SerializeField] Vector3 boxDimensions;
-    [SerializeField] float jumpForce = 5f;
+    public float jumpForce = 5f;
     private bool isGrounded = false;
 
     [Header("Dash")]
@@ -113,6 +113,9 @@ public class Player : MonoBehaviour
         {
             dashUnlocked = saveSystem.LoadDashState(); // En el nivel 2, cargar desde el sistema de guardado
         }
+
+        // Reactiva el choque entre Player y Enemy siempre (solucion al error que decia el profe que una vez transpasó los enemigos)
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
 
         // Cargar el estado del dash
         //dashUnlocked = saveSystem.LoadDashState();
@@ -312,7 +315,8 @@ public class Player : MonoBehaviour
         canMove = false;
         canDash = false;
         rb.gravityScale = 0;
-        rb.velocity = new Vector2(dashSpeed * transform.localScale.x, 0);
+        // se mantiene rb.velocity.y en vez de poner 0
+        rb.velocity = new Vector2(dashSpeed * transform.localScale.x, rb.velocity.y);
 
         yield return new WaitForSeconds(dashTime);
 
