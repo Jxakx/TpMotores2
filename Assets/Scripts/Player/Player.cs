@@ -384,7 +384,13 @@ public class Player : MonoBehaviour
 
     private void Dead()
     {
-        Time.timeScale = 0;
+        // Llamada al Interstitial
+        if (AdsManager.Instance != null)
+        {
+            AdsManager.Instance.ShowInterstitial();
+        }
+
+        //Time.timeScale = 0;
         //Destroy(GetComponent<Player>(), 1);
     }
 

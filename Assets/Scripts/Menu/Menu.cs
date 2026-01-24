@@ -13,6 +13,12 @@ public class Menu : MonoBehaviour
     void Start()
     {
         ShowMain();
+
+        // Llamada al Banner
+        if (AdsManager.Instance != null)
+        {
+            AdsManager.Instance.ShowBanner();
+        }
     }
 
     public void ShowMain()

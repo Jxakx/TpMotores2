@@ -1,79 +1,113 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Advertisements;
 
-public class AdsManager : MonoBehaviour, IUnityAdsLoadListener , IUnityAdsInitializationListener, IUnityAdsShowListener
+public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityAdsLoadListener, IUnityAdsShowListener
 {
-    [SerializeField] string gameID = "5728142";
+    [Header("Configuración")]
+    [SerializeField] string _androidGameId = "TU_GAME_ID_AQUI"; // <--- OJO ACÁ: Pone tu ID del Dashboard si lo tenés, sino dejalo vacio para probar
+    [SerializeField] bool _testMode = true;
 
-    [SerializeField] string adID = "Rewarded_Android";
+    [Header("IDs de Anuncios (Android)")]
+    private string _bannerId = "Banner_Android";
+    private string _interstitialId = "Interstitial_Android";
+    private string _rewardedId = "Rewarded_Android";
 
-    StaminaSystem staminaSystem;
+    public static AdsManager Instance;
 
-    public int staminaCantityReward = 1;
+    void Awake()
+    {
+        // Singleton básico para poder llamarlo desde cualquier lado
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            InitializeAds();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
+    public void InitializeAds()
+    {
+        // Si no pusiste ID, intentamos iniciar igual (a veces Unity lo agarra solo si está linkeado)
+        if (string.IsNullOrEmpty(_androidGameId)) _androidGameId = "1234567"; // ID Dummy por si acaso
+
+        Advertisement.Initialize(_androidGameId, _testMode, this);
+    }
+
+    // --- 1. BANNER (Menú Principal) ---
+    public void ShowBanner()
+    {
+        Advertisement.Banner.SetPosition(BannerPosition.BOTTOM_CENTER);
+        Advertisement.Banner.Load(_bannerId);
+        // Nota: Load también hace el Show automáticamente en versiones nuevas, 
+        // pero por seguridad usamos las opciones de carga.
+        Advertisement.Banner.Show(_bannerId);
+    }
+
+    public void HideBanner()
+    {
+        Advertisement.Banner.Hide();
+    }
+
+    // --- 2. INTERSTITIAL (Al Morir) ---
+    public void ShowInterstitial()
+    {
+        Debug.Log("Cargando Interstitial...");
+        Advertisement.Load(_interstitialId, this);
+    }
+
+    // --- 3. REWARDED (Stamina/Vida - Este ya lo usabas) ---
+    public void ShowRewarded()
+    {
+        Debug.Log("Cargando Rewarded...");
+        Advertisement.Load(_rewardedId, this);
+    }
+
+    // --- CALLBACKS OBLIGATORIOS (Interfaces) ---
     public void OnInitializationComplete()
     {
-        Advertisement.Load(adID, this);
+        Debug.Log("Unity Ads Inicializado.");
     }
 
     public void OnInitializationFailed(UnityAdsInitializationError error, string message)
     {
-
+        Debug.Log($"Error Init Ads: {error} - {message}");
     }
 
-    private void Start()
+    public void OnUnityAdsAdLoaded(string adUnitId)
     {
-        Advertisement.Initialize(gameID, true, this);
-        staminaSystem = FindObjectOfType<StaminaSystem>();
-    }
+        Debug.Log($"Anuncio cargado: {adUnitId}");
 
-    public void ShowAD()
-    {
-        if (!Advertisement.isInitialized) return;
-
-        Advertisement.Show(adID, this);
-    }
-
-    public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message)
-    {
-    }
-
-    public void OnUnityAdsShowStart(string placementId)
-    {
-    }
-
-    public void OnUnityAdsShowClick(string placementId)
-    {
-    }
-
-    public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState showCompletionState)
-    {
-
-        if(showCompletionState == UnityAdsShowCompletionState.COMPLETED)
+        // Si no es Banner, hay que mostrarlo explícitamente cuando termina de cargar
+        if (adUnitId.Equals(_interstitialId))
         {
-            Debug.Log("¡Obtuviste una carga de Stamina!");
-            if(staminaSystem != null)
-            {
-                staminaSystem.RechargeStamina(staminaCantityReward);
-            }
+            Advertisement.Show(_interstitialId, this);
         }
-        else
+        if (adUnitId.Equals(_rewardedId))
         {
-            Debug.Log("No obtuviste tu carga de Stamina :(");
+            Advertisement.Show(_rewardedId, this);
         }
-
-
-
     }
 
-    public void OnUnityAdsAdLoaded(string placementId)
+    public void OnUnityAdsFailedToLoad(string adUnitId, UnityAdsLoadError error, string message)
     {
+        Debug.Log($"Error cargando Ad {adUnitId}: {error} - {message}");
     }
 
-    //Estos 2 son para solucionar ese error falso del listener, es para que no moleste boe
-    public void OnUnityAdsFailedToLoad(string placementId, UnityAdsLoadError error, string message)
+    public void OnUnityAdsShowFailure(string adUnitId, UnityAdsShowError error, string message) { }
+    public void OnUnityAdsShowStart(string adUnitId) { }
+    public void OnUnityAdsShowClick(string adUnitId) { }
+
+    public void OnUnityAdsShowComplete(string adUnitId, UnityAdsShowCompletionState showCompletionState)
     {
+        if (adUnitId.Equals(_rewardedId) && showCompletionState.Equals(UnityAdsShowCompletionState.COMPLETED))
+        {
+            Debug.Log("¡Premio Otorgado!");
+            // ACÁ VA TU LÓGICA DE DAR PREMIO (Stamina, Vida, etc)
+            // Podés usar eventos o llamar directo a un manager.
+        }
     }
 }

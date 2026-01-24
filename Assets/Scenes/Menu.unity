@@ -2970,9 +2970,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e829b6099b0452140842ee0a949cf23a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameID: 5728142
-  adID: Interstitial_Android
-  staminaCantityReward: 1
+  _androidGameId: 5728142
+  _testMode: 1
 --- !u!1 &685647258
 GameObject:
   m_ObjectHideFlags: 0
