@@ -8,6 +8,14 @@ public class JSONSaveHandler : MonoBehaviour
     private string savePath;
     private const string DashKey = "DashUnlocked";
 
+    // Clase para datos del jugador
+    [System.Serializable]
+    public class PlayerData
+    {
+        public int coins;
+        public int starsBought; // Nuevo campo para estrellas compradas
+    }
+
     private void Awake()
     {
         filePath = Application.persistentDataPath + "/playerData.json";
@@ -16,30 +24,62 @@ public class JSONSaveHandler : MonoBehaviour
     void Start()
     {
         savePath = Application.persistentDataPath + "/level_data.json";
-
         Debug.Log($"Ruta de datos del jugador: {filePath}");
         Debug.Log($"Ruta de datos de estrellas: {savePath}");
     }
 
-    public void SaveData(int coins)
+    // Guardar datos del jugador (monedas y estrellas compradas)
+    public void SavePlayerData(int coins, int starsBought)
     {
-        SaveData data = new SaveData { coins = coins };
+        PlayerData data = new PlayerData
+        {
+            coins = coins,
+            starsBought = starsBought
+        };
         string json = JsonUtility.ToJson(data);
         File.WriteAllText(filePath, json);
     }
 
-    public int LoadData()
+    // Cargar datos completos del jugador
+    public PlayerData LoadPlayerData()
     {
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);
-            SaveData data = JsonUtility.FromJson<SaveData>(json);
-            return data.coins;
+            return JsonUtility.FromJson<PlayerData>(json);
         }
         else
         {
-            return 0; // Devuelve 0 si no existe un archivo
+            // Valores por defecto
+            return new PlayerData { coins = 0, starsBought = 0 };
         }
+    }
+
+    // Métodos de compatibilidad (para no romper código existente)
+    public void SaveData(int coins)
+    {
+        // Cargar datos existentes primero
+        PlayerData currentData = LoadPlayerData();
+        currentData.coins = coins;
+        SavePlayerData(currentData.coins, currentData.starsBought);
+    }
+
+    public int LoadData()
+    {
+        return LoadPlayerData().coins;
+    }
+
+    public int LoadStarsBought()
+    {
+        return LoadPlayerData().starsBought;
+    }
+
+    public void SaveStarsBought(int starsBought)
+    {
+        // Cargar datos existentes primero
+        PlayerData currentData = LoadPlayerData();
+        currentData.starsBought = starsBought;
+        SavePlayerData(currentData.coins, starsBought);
     }
 
     public void DeleteData()
@@ -95,7 +135,6 @@ public class JSONSaveHandler : MonoBehaviour
 
         File.WriteAllText(savePath, json);
 
-        // Debug para verificar que los datos se están guardando correctamente
         Debug.Log($"Guardando estrellas: Nivel {levelIndex}, Estrellas {stars}");
         Debug.Log("Datos de estrellas guardados en: " + savePath);
         Debug.Log("Contenido del JSON guardado: " + json);
@@ -104,12 +143,24 @@ public class JSONSaveHandler : MonoBehaviour
     public int LoadStars(int levelIndex)
     {
         Dictionary<int, int> levelStars = LoadAllStars();
-
-        // Debug para ver qué datos se cargan
         Debug.Log($"Cargando estrellas del nivel {levelIndex}");
         Debug.Log("Datos de estrellas actuales: " + JsonUtility.ToJson(new LevelDataWrapper(levelStars)));
-
         return levelStars.ContainsKey(levelIndex) ? levelStars[levelIndex] : 0;
+    }
+
+    public int GetTotalStars()
+    {
+        Dictionary<int, int> levelStars = LoadAllStars();
+        int total = 0;
+        foreach (var stars in levelStars.Values)
+        {
+            total += stars;
+        }
+
+        // Sumar las estrellas compradas
+        total += LoadStarsBought();
+
+        return total;
     }
 
     private Dictionary<int, int> LoadAllStars()
