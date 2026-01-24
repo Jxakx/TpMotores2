@@ -88,7 +88,7 @@ public class Shop : MonoBehaviour
 
             Debug.Log(" Item 2 Comprado");
             // ACÁ AGREGÁ LA LÓGICA DE QUÉ TE DA ESTE ITEM
-            // Ej: FindObjectOfType<Player>().Curar(1);
+           
         }
         else
         {
