@@ -2,69 +2,80 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Unity.Notifications;
-
-#if UNITY_ANDROID
+// Usamos el namespace de notificaciones
 using Unity.Notifications.Android;
-#endif 
+
 public class NotificationController : MonoBehaviour
 {
+    // ID del canal (debe ser único)
+    private const string idCanal = "canal_froggy";
+
     private void Start()
     {
-#if UNITY_ANDROID
-        StartCoroutine(PermisoNotificacion());
-#endif
-    }
-    private void OnApplicationQuit()
-    {
-        ActivarNotificacion();
-    }
+        // 1. Pedir permisos (Obligatorio para Android 13+)
+        StartCoroutine(SolicitarPermisos());
 
-    public void ActivarNotificacion()
-    {
-        DateTime fechaActivar = DateTime.Now.AddSeconds(5f); //5 segundos para notificar 
-#if UNITY_ANDROID
-        MakeNotification(fechaActivar);
-#endif
+        // 2. Crear el canal apenas arranca el juego
+        CrearCanalNotificaciones();
+
+        // 3. Borrar notificaciones viejas si el jugador ya entró
+        AndroidNotificationCenter.CancelAllDisplayedNotifications();
+        AndroidNotificationCenter.CancelAllScheduledNotifications();
     }
 
-#if UNITY_ANDROID
-    private const string idCanal = "Canal Notificacion";
-
-    
-
-    public void MakeNotification(DateTime fecha)
+    // Esta función detecta si MINIMIZAS la app (Home, cambio de app, etc)
+    private void OnApplicationFocus(bool focus)
     {
-        AndroidNotificationChannel androidNotificationChannel = new AndroidNotificationChannel
+        if (focus == false)
+        {
+            // Si te fuiste (focus false) -> Programamos el aviso
+            ProgramarNotificacion();
+        }
+        else
+        {
+            // Si volviste (focus true) -> Cancelamos el aviso para que no joda
+            AndroidNotificationCenter.CancelAllScheduledNotifications();
+            AndroidNotificationCenter.CancelAllDisplayedNotifications();
+        }
+    }
+
+    private void CrearCanalNotificaciones()
+    {
+        var canal = new AndroidNotificationChannel()
         {
             Id = idCanal,
-            Name = "Canal Notificacion",
-            Description = "Canal para notificaciones",
+            Name = "Entrenamiento Froggy",
+            Description = "Recordatorios para volver a jugar",
             Importance = Importance.Default
         };
-
-        AndroidNotificationCenter.RegisterNotificationChannel(androidNotificationChannel);
-
-        AndroidNotification androidNotification = new AndroidNotification
-        {
-            Title = "FROGGY QUIERE ENTRENAR",
-            Text = "¡Vuelve! ¡Hay que ganar esa carrera!",
-            SmallIcon = "default",
-            LargeIcon = "default",
-            FireTime = fecha
-        };
-
-        AndroidNotificationCenter.SendNotification(androidNotification, idCanal);
+        AndroidNotificationCenter.RegisterNotificationChannel(canal);
     }
 
-    IEnumerator PermisoNotificacion()
+    public void ProgramarNotificacion()
+    {
+        // Configurar el mensaje
+        var notificacion = new AndroidNotification();
+        notificacion.Title = "FROGGY QUIERE ENTRENAR ";
+        notificacion.Text = "¡Vuelve! ¡Hay que ganar esa carrera!";
+
+        // TIEMPO: 10 segundos para probar (luego cambialo a horas)
+        notificacion.FireTime = System.DateTime.Now.AddSeconds(10);
+
+        // ICONOS: Usamos los nombres clave que configuraremos en Unity
+        notificacion.SmallIcon = "icon_0";
+        notificacion.LargeIcon = "icon_1";
+
+        // Enviar
+        AndroidNotificationCenter.SendNotification(notificacion, idCanal);
+        Debug.Log(" Notificación de Froggy programada para 10 seg.");
+    }
+
+    IEnumerator SolicitarPermisos()
     {
         var request = new PermissionRequest();
-        while(request.Status == PermissionStatus.RequestPending)
+        while (request.Status == PermissionStatus.RequestPending)
         {
             yield return null;
         }
     }
-
-#endif
 }
