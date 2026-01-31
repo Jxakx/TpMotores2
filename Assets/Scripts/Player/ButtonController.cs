@@ -25,7 +25,7 @@ public class ButtonController : Controller
     }
     private void Update()
     {
-        //Inputs para PC
+        /*//Inputs para PC
         if (Input.GetKey(KeyCode.A)) // Moverse a la izquierda
         {
             PressLeftButton();
@@ -48,6 +48,7 @@ public class ButtonController : Controller
         {
             PressDashButton();
         }
+        */
     }
 
     public override Vector3 GetMoveDir()
