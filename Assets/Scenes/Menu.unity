@@ -2460,6 +2460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelTwoButton: {fileID: 2031459949}
+  candadoNivel2: {fileID: 0}
 --- !u!114 &549932568
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,65 +6,72 @@ using UnityEngine.UI;
 
 public class MenuLevels : MonoBehaviour
 {
-    private int starsLevelOne; // Almacena las estrellas del nivel 1
-    public Button levelTwoButton; // Botón del nivel 2
-    private SceneLoadManager sceneLoadManager; // Referencia al SceneLoadManager
-    private JSONSaveHandler saveHandler; // Referencia al JSONSaveHandler
+    [Header("Referencias UI")]
+    public Button levelTwoButton; // El botón del Nivel 2
+    public GameObject candadoNivel2; // [ARRASTRAR ACÁ LA IMAGEN DEL CANDADO]
+
+    private JSONSaveHandler saveHandler;
+    private SceneLoadManager sceneLoadManager;
+    private int starsLevelOne;
+    private int starsBought;
 
     private void Start()
     {
-        saveHandler = FindObjectOfType<JSONSaveHandler>(); // Buscar el JSONSaveHandler
-        sceneLoadManager = FindObjectOfType<SceneLoadManager>(); // Buscar el gestor de carga de escenas
-        LoadStarData();
+        saveHandler = FindObjectOfType<JSONSaveHandler>();
+        sceneLoadManager = FindObjectOfType<SceneLoadManager>();
 
-        // Desactivar el botón del Nivel 2 si no tiene suficientes estrellas del nivel 1
-        if (levelTwoButton != null)
-        {
-            levelTwoButton.interactable = starsLevelOne >= 2; // Verifica si el jugador tiene al menos 2 estrellas
-        }
-    }
-
-    private void LoadStarData()
-    {
         if (saveHandler != null)
         {
-            starsLevelOne = saveHandler.LoadStars(1); // Cargar las estrellas del nivel 1
+            // 1. Cargamos estrellas ganadas jugando (Nivel 1)
+            starsLevelOne = saveHandler.LoadStars(1);
+
+            // 2. Cargamos estrellas compradas en tienda
+            starsBought = saveHandler.GetBoughtStars();
+        }
+
+        // 3. Calculamos el TOTAL REAL
+        int totalStars = starsLevelOne + starsBought;
+
+        Debug.Log($"Estrellas Nivel 1: {starsLevelOne} | Compradas: {starsBought} | Total: {totalStars}");
+
+        // 4. Lógica de desbloqueo (Necesita 3 o más en total)
+        if (totalStars >= 3)
+        {
+            // Desbloqueado
+            if (levelTwoButton != null) levelTwoButton.interactable = true;
+            if (candadoNivel2 != null) candadoNivel2.SetActive(false);
         }
         else
         {
-            starsLevelOne = 0; // Si no hay saveHandler, iniciar con 0 estrellas
+            // Bloqueado
+            if (levelTwoButton != null) levelTwoButton.interactable = false;
+            if (candadoNivel2 != null) candadoNivel2.SetActive(true);
         }
     }
 
     public void LevelOne()
     {
         if (sceneLoadManager != null)
-        {
             sceneLoadManager.SceneLoad(1);
-        }
         else
-        {
-            SceneManager.LoadScene(1);
-        }
+            SceneManager.LoadScene(1); // Asegurate que el nivel 1 esté en Build Settings
     }
 
     public void LevelTwo()
     {
-        // Verifica si el jugador tiene al menos 2 estrellas en el primer nivel
-        if (starsLevelOne >= 2)
+        // Doble chequeo de seguridad
+        int total = starsLevelOne + starsBought;
+
+        if (total >= 3)
         {
             if (sceneLoadManager != null)
-            {
-                sceneLoadManager.SceneLoad(2); // Usa el SceneLoadManager para cargar la escena
-            }
+                sceneLoadManager.SceneLoad(2); // Asegurate que el nivel 2 es el índice 2 o el nombre correcto
             else
-            {
-                SceneManager.LoadScene(2); // Carga la escena directamente si no hay SceneLoadManager
-            }
+                SceneManager.LoadScene(2);
         }
         else
         {
-            Debug.Log("No tienes suficientes estrellas para desbloquear el Nivel 2.");
+            Debug.Log("Aún no tienes 3 estrellas en total.");
         }
     }
 }

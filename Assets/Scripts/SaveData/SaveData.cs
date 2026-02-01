@@ -6,5 +6,6 @@ using UnityEngine;
 public class SaveData
 {
     public int coins;
+    public int starsBought;
     
 }

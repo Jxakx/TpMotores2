@@ -1,13 +1,13 @@
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Shop : MonoBehaviour
 {
     [Header("--- UI GENERAL ---")]
     [SerializeField] private TextMeshProUGUI coinsText;
-    [SerializeField] private TextMeshProUGUI starsText; // Nuevo: para mostrar estrellas totales
+    [SerializeField] private TextMeshProUGUI starsText;
 
     [Header("--- ITEM 1: DASH (Habilidad) ---")]
     [SerializeField] private Button btnDash;
@@ -29,18 +29,15 @@ public class Shop : MonoBehaviour
     {
         saveHandler = FindObjectOfType<JSONSaveHandler>();
 
-        // Cargar datos del jugador
-        currentCoins = saveHandler.LoadData();
-        currentStarsBought = saveHandler.LoadStarsBought();
+        // Usamos los métodos arreglados
+        currentCoins = saveHandler.GetCoins();
+        currentStarsBought = saveHandler.GetBoughtStars();
 
         UpdateUI();
 
-        // Verificación inicial del Dash
         if (saveHandler.LoadDashState())
         {
             BloquearBoton(btnDash);
-            BloquearBoton(btnItem2);
-            BloquearBoton(btnItem3);
         }
     }
 
@@ -52,7 +49,7 @@ public class Shop : MonoBehaviour
         {
             currentCoins -= precioDash;
 
-            // Guardar usando el nuevo método
+            // Guardar
             saveHandler.SavePlayerData(currentCoins, currentStarsBought);
             saveHandler.SaveDashState(true);
 
@@ -60,89 +57,70 @@ public class Shop : MonoBehaviour
 
             UpdateUI();
             BloquearBoton(btnDash);
-
-            Debug.Log(" ¡Dash Comprado y Guardado!");
+            Debug.Log("¡Dash Comprado!");
         }
         else
         {
-            Debug.Log(" No tenés suficiente plata para el Dash.");
+            Debug.Log("No hay plata.");
         }
     }
 
-    public void ComprarItem2() // Compra 1 estrella
+    public void ComprarItem2() // 1 Estrella
     {
         if (currentCoins >= precioItem2)
         {
             currentCoins -= precioItem2;
-            currentStarsBought += 1; // Incrementar estrellas compradas
+            currentStarsBought += 1;
 
-            // Guardar ambos valores
+            // Guardamos usando la nueva función segura
+            saveHandler.SaveBoughtStars(currentStarsBought);
+            // Aseguramos que las monedas también se actualicen en el JSON
             saveHandler.SavePlayerData(currentCoins, currentStarsBought);
 
             UpdateUI();
-            BloquearBoton(btnItem2);
-
-            Debug.Log(" ¡1 Estrella comprada! Total estrellas compradas: " + currentStarsBought);
-            Debug.Log(" Estrellas totales (niveles + compradas): " + saveHandler.GetTotalStars());
+            Debug.Log("¡Estrella comprada!");
         }
         else
         {
-            Debug.Log(" No tenés plata para comprar 1 estrella.");
+            Debug.Log("No hay plata.");
         }
     }
 
-    public void ComprarItem3() // Compra 2 estrellas
+    public void ComprarItem3() // 2 Estrellas
     {
         if (currentCoins >= precioItem3)
         {
             currentCoins -= precioItem3;
-            currentStarsBought += 2; // Incrementar 2 estrellas compradas
+            currentStarsBought += 2;
 
-            // Guardar ambos valores
+            saveHandler.SaveBoughtStars(currentStarsBought);
             saveHandler.SavePlayerData(currentCoins, currentStarsBought);
 
             UpdateUI();
-            BloquearBoton(btnItem3);
-
-            Debug.Log(" ¡2 Estrellas compradas! Total estrellas compradas: " + currentStarsBought);
-            Debug.Log(" Estrellas totales (niveles + compradas): " + saveHandler.GetTotalStars());
+            Debug.Log("¡2 Estrellas compradas!");
         }
         else
         {
-            Debug.Log(" No tenés plata para comprar 2 estrellas.");
+            Debug.Log("No hay plata.");
         }
     }
 
     private void UpdateUI()
     {
-        // Actualizar monedas
-        if (coinsText != null)
-        {
-            coinsText.text = "Dinero: " + currentCoins.ToString();
-        }
+        if (coinsText != null) coinsText.text = "Dinero: " + currentCoins;
 
-        // Actualizar estrellas (opcional)
         if (starsText != null)
         {
-            int totalStars = saveHandler.GetTotalStars();
-            starsText.text = "Estrellas totales: " + totalStars +
-                           " (Compradas: " + currentStarsBought + ")";
-        }
-
-        // Buscar y actualizar el MenuController si está en la escena
-        MenuController menuController = FindObjectOfType<MenuController>();
-        if (menuController != null)
-        {
-            menuController.UpdateStarsDisplay();
+            // OJO: Acá sumamos las del nivel 1 + las compradas para mostrar el total
+            int level1Stars = saveHandler.LoadStars(1);
+            int total = level1Stars + currentStarsBought;
+            starsText.text = "Estrellas Totales: " + total;
         }
     }
 
     private void BloquearBoton(Button boton)
     {
-        if (boton != null)
-        {
-            boton.interactable = false;
-        }
+        if (boton != null) boton.interactable = false;
     }
 
     public void VolverAlMenu()

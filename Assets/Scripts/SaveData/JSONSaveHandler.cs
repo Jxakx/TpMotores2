@@ -13,7 +13,7 @@ public class JSONSaveHandler : MonoBehaviour
     public class PlayerData
     {
         public int coins;
-        public int starsBought; // Nuevo campo para estrellas compradas
+        public int starsBought; // Estrellas compradas
     }
 
     private void Awake()
@@ -28,7 +28,7 @@ public class JSONSaveHandler : MonoBehaviour
         Debug.Log($"Ruta de datos de estrellas: {savePath}");
     }
 
-    // Guardar datos del jugador (monedas y estrellas compradas)
+    // --- GUARDADO PRINCIPAL ---
     public void SavePlayerData(int coins, int starsBought)
     {
         PlayerData data = new PlayerData
@@ -40,7 +40,7 @@ public class JSONSaveHandler : MonoBehaviour
         File.WriteAllText(filePath, json);
     }
 
-    // Cargar datos completos del jugador
+    // --- CARGA PRINCIPAL ---
     public PlayerData LoadPlayerData()
     {
         if (File.Exists(filePath))
@@ -50,15 +50,41 @@ public class JSONSaveHandler : MonoBehaviour
         }
         else
         {
-            // Valores por defecto
             return new PlayerData { coins = 0, starsBought = 0 };
         }
     }
 
-    // Métodos de compatibilidad (para no romper código existente)
+    // --- MÉTODOS DE AYUDA (GETTERS/SETTERS) ---
+
+    // Este lo usa el Shop para saber cuánta plata tenés
+    public int GetCoins()
+    {
+        return LoadPlayerData().coins;
+    }
+
+    // Este lo usa el Shop para saber cuántas estrellas compraste
+    public int GetBoughtStars()
+    {
+        return LoadPlayerData().starsBought;
+    }
+
+    // Este guarda SOLO las estrellas compradas (sin borrar las monedas)
+    public void SaveBoughtStars(int totalStars)
+    {
+        // 1. Cargamos lo que ya existe para no perder las monedas
+        PlayerData currentData = LoadPlayerData();
+
+        // 2. Modificamos solo las estrellas
+        currentData.starsBought = totalStars;
+
+        // 3. Guardamos todo junto de nuevo
+        SavePlayerData(currentData.coins, currentData.starsBought);
+    }
+
+    // --- COMPATIBILIDAD (Para que no se rompan otros scripts viejos) ---
+
     public void SaveData(int coins)
     {
-        // Cargar datos existentes primero
         PlayerData currentData = LoadPlayerData();
         currentData.coins = coins;
         SavePlayerData(currentData.coins, currentData.starsBought);
@@ -74,47 +100,7 @@ public class JSONSaveHandler : MonoBehaviour
         return LoadPlayerData().starsBought;
     }
 
-    public void SaveStarsBought(int starsBought)
-    {
-        // Cargar datos existentes primero
-        PlayerData currentData = LoadPlayerData();
-        currentData.starsBought = starsBought;
-        SavePlayerData(currentData.coins, starsBought);
-    }
-
-    public void DeleteData()
-    {
-        Debug.Log("Intentando eliminar datos...");
-
-        if (File.Exists(filePath))
-        {
-            Debug.Log("Archivo de jugador encontrado. Eliminando...");
-            File.Delete(filePath);
-        }
-        else
-        {
-            Debug.Log("No hay datos del jugador para eliminar.");
-        }
-
-        if (File.Exists(savePath))
-        {
-            Debug.Log("Archivo de estrellas encontrado. Eliminando...");
-            File.Delete(savePath);
-        }
-        else
-        {
-            Debug.Log("No hay datos de estrellas para eliminar.");
-        }
-
-        if (PlayerPrefs.HasKey(DashKey))
-        {
-            Debug.Log("Eliminando estado del dash...");
-            PlayerPrefs.DeleteKey(DashKey);
-        }
-
-        PlayerPrefs.Save();
-        Debug.Log("Proceso de eliminación completado.");
-    }
+    // --- GESTIÓN DEL DASH (PLAYERPREFS) ---
 
     public void SaveDashState(bool isUnlocked)
     {
@@ -127,24 +113,19 @@ public class JSONSaveHandler : MonoBehaviour
         return PlayerPrefs.GetInt(DashKey, 0) == 1;
     }
 
+    // --- GESTIÓN DE NIVELES (LEVEL DATA) ---
+
     public void SaveStars(int levelIndex, int stars)
     {
         Dictionary<int, int> levelStars = LoadAllStars();
         levelStars[levelIndex] = stars;
         string json = JsonUtility.ToJson(new LevelDataWrapper(levelStars));
-
         File.WriteAllText(savePath, json);
-
-        Debug.Log($"Guardando estrellas: Nivel {levelIndex}, Estrellas {stars}");
-        Debug.Log("Datos de estrellas guardados en: " + savePath);
-        Debug.Log("Contenido del JSON guardado: " + json);
     }
 
     public int LoadStars(int levelIndex)
     {
         Dictionary<int, int> levelStars = LoadAllStars();
-        Debug.Log($"Cargando estrellas del nivel {levelIndex}");
-        Debug.Log("Datos de estrellas actuales: " + JsonUtility.ToJson(new LevelDataWrapper(levelStars)));
         return levelStars.ContainsKey(levelIndex) ? levelStars[levelIndex] : 0;
     }
 
@@ -156,10 +137,8 @@ public class JSONSaveHandler : MonoBehaviour
         {
             total += stars;
         }
-
         // Sumar las estrellas compradas
-        total += LoadStarsBought();
-
+        total += GetBoughtStars();
         return total;
     }
 
@@ -173,6 +152,8 @@ public class JSONSaveHandler : MonoBehaviour
         }
         return new Dictionary<int, int>();
     }
+
+    // --- CLASES INTERNAS ---
 
     [System.Serializable]
     private class LevelDataWrapper
@@ -195,5 +176,14 @@ public class JSONSaveHandler : MonoBehaviour
             }
             return dictionary;
         }
+    }
+
+    public void DeleteData()
+    {
+        if (File.Exists(filePath)) File.Delete(filePath);
+        if (File.Exists(savePath)) File.Delete(savePath);
+        if (PlayerPrefs.HasKey(DashKey)) PlayerPrefs.DeleteKey(DashKey);
+        PlayerPrefs.Save();
+        Debug.Log("Datos eliminados.");
     }
 }
