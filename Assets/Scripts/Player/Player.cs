@@ -81,7 +81,7 @@ public class Player : MonoBehaviour
 
     [Header("Save system")]
     private int coins;
-    private JSONSaveHandler saveSystem;
+    private JSONSaveHandler saveHandler;
     [SerializeField] private TextMeshProUGUI coinCounterText;
 
     public ButtonController buttonController;
@@ -99,8 +99,8 @@ public class Player : MonoBehaviour
         {
             checkpointManager.UpdateCheckpointPosition(transform.position);
         }
-        saveSystem = FindObjectOfType<JSONSaveHandler>();
-        coins = saveSystem.LoadData(); // Cargar las monedas al inicio
+        saveHandler = FindObjectOfType<JSONSaveHandler>();
+        coins = saveHandler.LoadData(); // Cargar las monedas al inicio
         UpdateCoinUI();
         //dashUnlocked = saveSystem.LoadDashState();
 
@@ -111,7 +111,7 @@ public class Player : MonoBehaviour
         }
         else if (currentLevel == 2)
         {
-            dashUnlocked = saveSystem.LoadDashState(); // En el nivel 2, cargar desde el sistema de guardado
+            dashUnlocked = saveHandler.LoadDashState(); // En el nivel 2, cargar desde el sistema de guardado
         }
 
         // Reactiva el choque entre Player y Enemy siempre (solucion al error que decia el profe que una vez transpasó los enemigos)
@@ -411,7 +411,11 @@ public class Player : MonoBehaviour
     public void CollectCoin()
     {
         coins++;
-        saveSystem.SaveData(coins); // Guardar cada vez que recolecta una moneda
+        if (saveHandler != null)
+        {
+            // Usamos el método nuevo que creamos en el paso 1
+            saveHandler.AddCoins(1);
+        }
         UpdateCoinUI();
     }
 
@@ -433,7 +437,7 @@ public class Player : MonoBehaviour
     public void UnlockDash()
     {
         dashUnlocked = true;
-        saveSystem.SaveDashState(dashUnlocked); // Guardar el estado del dash desbloqueado
+        saveHandler.SaveDashState(dashUnlocked); // Guardar el estado del dash desbloqueado
 
         ButtonController controller = FindObjectOfType<ButtonController>();
         if (controller != null)

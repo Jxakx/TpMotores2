@@ -10,45 +10,20 @@ public class MenuController : MonoBehaviour
 
     void Start()
     {
-        // Si saveHandler no está asignado en el inspector, intentamos encontrarlo
-        if (saveHandler == null)
-        {
-            saveHandler = FindObjectOfType<JSONSaveHandler>();
-        }
+        if (saveHandler == null) saveHandler = FindObjectOfType<JSONSaveHandler>();
 
         if (saveHandler != null)
         {
-            // Carga las estrellas del nivel 1 para habilitar/deshabilitar el botón
-            int starsLevel1 = saveHandler.LoadStars(1);
-            buttonLevel2.interactable = (starsLevel1 == 3);
+            // Lógica de desbloqueo SUMADA
+            int s1 = saveHandler.LoadLevelStars(1);
+            int bought = saveHandler.GetBoughtStars();
+            int total = s1 + bought;
 
-            // Obtiene el total de estrellas (niveles + compradas)
-            int totalStars = saveHandler.GetTotalStars();
+            if (buttonLevel2 != null)
+                buttonLevel2.interactable = (total >= 3);
 
-            // Obtiene estrellas compradas para mostrarlas si lo deseas
-            int boughtStars = saveHandler.LoadStarsBought();
-
-            // Muestra el total de estrellas
-            // Si quieres mostrar más detalles:
-            // starsText.text = $"Estrellas: {totalStars} (Compradas: {boughtStars})";
-            starsText.text = totalStars.ToString();
-
-            Debug.Log($"MenuController: Estrellas totales = {totalStars}, Compradas = {boughtStars}");
-        }
-        else
-        {
-            Debug.LogError("JSONSaveHandler no encontrado!");
-            starsText.text = "0";
-        }
-    }
-
-    // Método para actualizar el UI cuando regresas de la tienda
-    public void UpdateStarsDisplay()
-    {
-        if (saveHandler != null)
-        {
-            int totalStars = saveHandler.GetTotalStars();
-            starsText.text = totalStars.ToString();
+            if (starsText != null)
+                starsText.text = total.ToString();
         }
     }
 }
