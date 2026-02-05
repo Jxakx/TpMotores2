@@ -13,11 +13,13 @@ public class Shop : MonoBehaviour
     [SerializeField] private Button btnDash;
     [SerializeField] private Button btnItem2; // Estrella x1
     [SerializeField] private Button btnItem3; // Estrella x2
+    [SerializeField] private Button btnItem4; // Stamina
 
     [Header("--- Precios ---")]
     [SerializeField] private int precioDash = 10;
     [SerializeField] private int precioItem2 = 5;
-    [SerializeField] private int precioItem3 = 50;
+    [SerializeField] private int precioItem3 = 5;
+    [SerializeField] private int precioEnergia = 5;
 
     private JSONSaveHandler saveHandler;
     private int currentCoins;
@@ -84,6 +86,38 @@ public class Shop : MonoBehaviour
             saveHandler.SavePlayerData(currentCoins, currentStarsBought);
 
             UpdateUI();
+        }
+    }
+
+    public void ComprarEnergia()
+    {
+        if (saveHandler == null) return;
+
+        if (currentCoins >= precioEnergia)
+        {
+            StaminaSystem staminaSystem = FindObjectOfType<StaminaSystem>();
+
+            if (staminaSystem != null)
+            {
+                // Restamos las monedas y guardamos
+                currentCoins -= precioEnergia;
+                saveHandler.SavePlayerData(currentCoins, currentStarsBought);
+
+                // LLAMADA CLAVE: Recargamos los 5 puntos al instante
+                staminaSystem.RechargeStamina(5);
+
+                // Actualizamos la visual de la tienda
+                UpdateUI();
+                Debug.Log("¡Compra exitosa! +5 de energía.");
+            }
+            else
+            {
+                Debug.LogWarning("Ojo: No se encontró el StaminaSystem en esta escena.");
+            }
+        }
+        else
+        {
+            Debug.Log("Monedas insuficientes para comprar energía.");
         }
     }
 
