@@ -89,7 +89,7 @@ public class Shop : MonoBehaviour
 
     private void UpdateUI()
     {
-        if (coinsText != null) coinsText.text = "Dinero: " + currentCoins;
+        if (coinsText != null) coinsText.text = "" + currentCoins;
 
         if (starsText != null && saveHandler != null)
         {
