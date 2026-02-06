@@ -13,6 +13,9 @@ public class MenuLevels : MonoBehaviour
     private JSONSaveHandler saveHandler;
     private SceneLoadManager sceneLoadManager;
 
+    [SerializeField] private UIWarning warningSystem;
+    private const int COSTO_ESTAMINA = 5;
+
     private void Start()
     {
         saveHandler = FindObjectOfType<JSONSaveHandler>();
@@ -53,7 +56,7 @@ public class MenuLevels : MonoBehaviour
 
     public void LevelOne()
     {
-        CargarEscena(1);
+        IntentarCargarNivel(1);
     }
 
     public void LevelTwo()
@@ -61,7 +64,29 @@ public class MenuLevels : MonoBehaviour
         // Doble verificación al hacer clic
         if (levelTwoButton.interactable)
         {
-            CargarEscena(2);
+            IntentarCargarNivel(2);
+        }
+    }
+
+    private void IntentarCargarNivel(int index)
+    {
+        StaminaSystem stamina = FindObjectOfType<StaminaSystem>();
+
+        if (stamina != null)
+        {
+            // Verificamos si tiene suficiente energía
+            if (stamina.currentStamina >= COSTO_ESTAMINA)
+            {
+                // SI TIENE: Usamos la energía y cargamos
+                stamina.UseStamina(COSTO_ESTAMINA);
+                CargarEscena(index);
+            }
+            else
+            {
+                // NO TIENE: Mostramos el aviso de error
+                if (warningSystem != null) warningSystem.MostrarAviso();
+                Debug.Log("No tenés suficiente Stamina para jugar.");
+            }
         }
     }
 
