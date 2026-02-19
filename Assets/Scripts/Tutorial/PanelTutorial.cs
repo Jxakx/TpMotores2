@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Video;
 using TMPro;
+using System.Collections;
 
 public class PanelTutorial : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class PanelTutorial : MonoBehaviour
 
     [Header("Referencias de UI Tutorial")]
     [SerializeField] private GameObject panelPrincipal;
+    [SerializeField] private GameObject videoObjeto;
     [SerializeField] private VideoPlayer videoPlayer;
     [SerializeField] private TextMeshProUGUI textoTutorial;
     [SerializeField] private GameObject botonCerrar;
@@ -15,7 +17,13 @@ public class PanelTutorial : MonoBehaviour
     [Header("Referencias de Gameplay")]
     [SerializeField] private GameObject[] canvasGameplay;
 
+    [Header("Animación")]
+    [SerializeField] private float tiempoAnimacion = 0.25f;
+
     private CartelTutorial cartelActual;
+
+    // NUEVA VARIABLE: Guarda el tamaño que le diste en Unity
+    private Vector3 escalaOriginalVideo;
 
     private void Awake()
     {
@@ -24,7 +32,12 @@ public class PanelTutorial : MonoBehaviour
 
         videoPlayer.isLooping = true;
 
-        // Nos aseguramos de que todo arranque apagado
+        // ¡MAGIA! Memorizamos tu escala personalizada antes de apagar nada
+        if (videoObjeto != null)
+        {
+            escalaOriginalVideo = videoObjeto.transform.localScale;
+        }
+
         panelPrincipal.SetActive(false);
         botonCerrar.SetActive(false);
         textoTutorial.gameObject.SetActive(false);
@@ -38,20 +51,9 @@ public class PanelTutorial : MonoBehaviour
         textoTutorial.text = texto;
         videoPlayer.clip = clip;
 
-        // Forzamos al video a volver a cero
         videoPlayer.time = 0;
         videoPlayer.frame = 0;
 
-        // 1. PRENDEMOS EL PANEL
-        panelPrincipal.SetActive(true);
-
-        // 2. PRENDEMOS EL TEXTO (Aparece junto con el video)
-        textoTutorial.gameObject.SetActive(true);
-
-        // 3. ASEGURAMOS QUE EL BOTÓN ESTÉ APAGADO
-        botonCerrar.SetActive(false);
-
-        // Ocultamos la UI del juego y silenciamos al Player
         foreach (GameObject canvas in canvasGameplay)
         {
             if (canvas != null) canvas.SetActive(false);
@@ -62,11 +64,36 @@ public class PanelTutorial : MonoBehaviour
 
         Time.timeScale = 0f;
         videoPlayer.Play();
+
+        StartCoroutine(AnimacionAparecer());
+    }
+
+    private IEnumerator AnimacionAparecer()
+    {
+        panelPrincipal.SetActive(true);
+        textoTutorial.gameObject.SetActive(true);
+        botonCerrar.SetActive(false);
+
+        videoObjeto.transform.localScale = Vector3.zero;
+        videoObjeto.SetActive(true);
+
+        float tiempo = 0f;
+        while (tiempo < tiempoAnimacion)
+        {
+            tiempo += Time.unscaledDeltaTime;
+            float progreso = tiempo / tiempoAnimacion;
+
+            // Usamos tu escala original en vez de Vector3.one
+            videoObjeto.transform.localScale = Vector3.Lerp(Vector3.zero, escalaOriginalVideo, progreso);
+            yield return null;
+        }
+
+        // Lo dejamos exactamente del tamaño que configuraste
+        videoObjeto.transform.localScale = escalaOriginalVideo;
     }
 
     private void OnVideoLoopComplete(VideoPlayer vp)
     {
-        // 4. TERMINA EL PRIMER LOOP -> APARECE EL BOTÓN
         if (!botonCerrar.activeSelf)
         {
             botonCerrar.SetActive(true);
@@ -75,15 +102,31 @@ public class PanelTutorial : MonoBehaviour
 
     public void CerrarTutorial()
     {
+        StartCoroutine(AnimacionDesaparecer());
+    }
+
+    private IEnumerator AnimacionDesaparecer()
+    {
+        botonCerrar.SetActive(false);
+        textoTutorial.gameObject.SetActive(false);
+
+        float tiempo = 0f;
+        while (tiempo < tiempoAnimacion)
+        {
+            tiempo += Time.unscaledDeltaTime;
+            float progreso = tiempo / tiempoAnimacion;
+
+            // Usamos tu escala original en vez de Vector3.one
+            videoObjeto.transform.localScale = Vector3.Lerp(escalaOriginalVideo, Vector3.zero, progreso);
+            yield return null;
+        }
+
         Time.timeScale = 1f;
         videoPlayer.Stop();
 
-        // 5. APAGAMOS ABSOLUTAMENTE TODO DE FORMA FORZADA
-        botonCerrar.SetActive(false);
-        textoTutorial.gameObject.SetActive(false);
+        videoObjeto.SetActive(false);
         panelPrincipal.SetActive(false);
 
-        // Volvemos a prender la UI del juego
         foreach (GameObject canvas in canvasGameplay)
         {
             if (canvas != null) canvas.SetActive(true);
