@@ -454,5 +454,14 @@ public class Player : MonoBehaviour
             Gizmos.DrawWireCube(controladorPared.position, dimensionCajaPared);
         }
     }
+
+    public void SilenciarAudio()
+    {
+        // Detenemos el sonido de caminar si está sonando
+        if (WalkAudioSource != null && WalkAudioSource.isPlaying)
+        {
+            WalkAudioSource.Stop();
+        }
+    }
 }
 
