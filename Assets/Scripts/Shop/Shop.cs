@@ -8,18 +8,19 @@ public class Shop : MonoBehaviour
     [Header("--- UI ---")]
     [SerializeField] private TextMeshProUGUI coinsText;
     [SerializeField] private TextMeshProUGUI starsText;
+    [SerializeField] private UIWarning warningSinPlata; // <-- NUEVO: Acá va tu cartel rojo
 
     [Header("--- Botones ---")]
     [SerializeField] private Button btnDash;
-    [SerializeField] private Button btnItem2; // Estrella x1
-    [SerializeField] private Button btnItem3; // Estrella x2
-    [SerializeField] private Button btnItem4; // Stamina
+    [SerializeField] private Button btnItem2;
+    [SerializeField] private Button btnItem3;
+    [SerializeField] private Button btnEnergia;
 
     [Header("--- Precios ---")]
     [SerializeField] private int precioDash = 10;
     [SerializeField] private int precioItem2 = 5;
-    [SerializeField] private int precioItem3 = 5;
-    [SerializeField] private int precioEnergia = 5;
+    [SerializeField] private int precioItem3 = 50;
+    [SerializeField] private int precioEnergia = 20;
 
     private JSONSaveHandler saveHandler;
     private int currentCoins;
@@ -31,11 +32,9 @@ public class Shop : MonoBehaviour
 
         if (saveHandler != null)
         {
-            // Cargamos datos al inicio usando los nombres correctos del Paso 1
             currentCoins = saveHandler.GetCoins();
             currentStarsBought = saveHandler.GetBoughtStars();
 
-            // Check del dash
             if (saveHandler.LoadDashState())
             {
                 BloquearBoton(btnDash);
@@ -44,6 +43,7 @@ public class Shop : MonoBehaviour
         UpdateUI();
     }
 
+    // --- COMPRA DE DASH ---
     public void ComprarDash()
     {
         if (saveHandler == null) return;
@@ -51,83 +51,119 @@ public class Shop : MonoBehaviour
 
         if (currentCoins >= precioDash)
         {
-            currentCoins -= precioDash;
-            saveHandler.SavePlayerData(currentCoins, currentStarsBought);
-            saveHandler.SaveDashState(true);
-
-            FindObjectOfType<Player>()?.UnlockDash();
-            UpdateUI();
-            BloquearBoton(btnDash);
+            ConfirmPopup.Instance.MostrarPopup(EjecutarCompraDash);
         }
-    }
-
-    public void ComprarItem2() // 1 Estrella
-    {
-        if (currentCoins >= precioItem2)
+        else
         {
-            currentCoins -= precioItem2;
-            currentStarsBought += 1;
-
-            // Guardamos monedas nuevas y estrellas nuevas
-            saveHandler.SavePlayerData(currentCoins, currentStarsBought);
-
-            UpdateUI();
-            Debug.Log("Estrella comprada. Total compradas: " + currentStarsBought);
+            MostrarErrorDinero(); // Llama al cartel rojo
         }
     }
 
-    public void ComprarItem3() // 2 Estrellas
+    private void EjecutarCompraDash()
     {
-        if (currentCoins >= precioItem3)
-        {
-            currentCoins -= precioItem3;
-            currentStarsBought += 2;
+        currentCoins -= precioDash;
+        saveHandler.SavePlayerData(currentCoins, currentStarsBought);
+        saveHandler.SaveDashState(true);
 
-            saveHandler.SavePlayerData(currentCoins, currentStarsBought);
-
-            UpdateUI();
-        }
+        FindObjectOfType<Player>()?.UnlockDash();
+        UpdateUI();
+        BloquearBoton(btnDash);
     }
 
+    // --- COMPRA DE ENERGÍA ---
     public void ComprarEnergia()
     {
         if (saveHandler == null) return;
 
         if (currentCoins >= precioEnergia)
         {
-            StaminaSystem staminaSystem = FindObjectOfType<StaminaSystem>();
-
-            if (staminaSystem != null)
-            {
-                // Restamos las monedas y guardamos
-                currentCoins -= precioEnergia;
-                saveHandler.SavePlayerData(currentCoins, currentStarsBought);
-
-                // LLAMADA CLAVE: Recargamos los 5 puntos al instante
-                staminaSystem.RechargeStamina(5);
-
-                // Actualizamos la visual de la tienda
-                UpdateUI();
-                Debug.Log("¡Compra exitosa! +5 de energía.");
-            }
-            else
-            {
-                Debug.LogWarning("Ojo: No se encontró el StaminaSystem en esta escena.");
-            }
+            ConfirmPopup.Instance.MostrarPopup(EjecutarCompraEnergia);
         }
         else
         {
-            Debug.Log("Monedas insuficientes para comprar energía.");
+            MostrarErrorDinero(); // Llama al cartel rojo
         }
     }
 
+    private void EjecutarCompraEnergia()
+    {
+        StaminaSystem staminaSystem = FindObjectOfType<StaminaSystem>();
+
+        if (staminaSystem != null)
+        {
+            currentCoins -= precioEnergia;
+            saveHandler.SavePlayerData(currentCoins, currentStarsBought);
+
+            staminaSystem.RechargeStamina(5);
+
+            UpdateUI();
+        }
+    }
+
+    // --- COMPRA 1 ESTRELLA ---
+    public void ComprarItem2()
+    {
+        if (currentCoins >= precioItem2)
+        {
+            ConfirmPopup.Instance.MostrarPopup(EjecutarCompraItem2);
+        }
+        else
+        {
+            MostrarErrorDinero(); // Llama al cartel rojo
+        }
+    }
+
+    private void EjecutarCompraItem2()
+    {
+        currentCoins -= precioItem2;
+        currentStarsBought += 1;
+
+        saveHandler.SavePlayerData(currentCoins, currentStarsBought);
+        UpdateUI();
+    }
+
+    // --- COMPRA 2 ESTRELLAS ---
+    public void ComprarItem3()
+    {
+        if (currentCoins >= precioItem3)
+        {
+            ConfirmPopup.Instance.MostrarPopup(EjecutarCompraItem3);
+        }
+        else
+        {
+            MostrarErrorDinero(); // Llama al cartel rojo
+        }
+    }
+
+    private void EjecutarCompraItem3()
+    {
+        currentCoins -= precioItem3;
+        currentStarsBought += 2;
+
+        saveHandler.SavePlayerData(currentCoins, currentStarsBought);
+        UpdateUI();
+    }
+
+    // --- NUEVA FUNCIÓN: MOSTRAR CARTEL ROJO ---
+    private void MostrarErrorDinero()
+    {
+        if (warningSinPlata != null)
+        {
+            warningSinPlata.MostrarAviso();
+        }
+        else
+        {
+            Debug.LogWarning("Ojo: Te olvidaste de arrastrar el cartel rojo al Inspector de la Tienda.");
+        }
+    }
+
+    // --- ACTUALIZACIÓN VISUAL ---
     private void UpdateUI()
     {
         if (coinsText != null) coinsText.text = "" + currentCoins;
 
         if (starsText != null && saveHandler != null)
         {
-            // OJO ACÁ: Sumamos las del Nivel 1 + las Compradas para mostrar el total
             int starsLevel1 = saveHandler.LoadLevelStars(1);
             int total = starsLevel1 + currentStarsBought;
             starsText.text = "Estrellas Totales: " + total;
@@ -136,11 +172,15 @@ public class Shop : MonoBehaviour
 
     private void BloquearBoton(Button boton)
     {
-        if (boton != null) boton.interactable = false;
+        if (boton != null)
+        {
+            boton.interactable = false;
+        }
     }
 
-    public void VolverAlMenu()
+    // --- BOTÓN BACK ---
+    public void Back()
     {
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene(0);
     }
 }
