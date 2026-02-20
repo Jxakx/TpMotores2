@@ -1957,19 +1957,7 @@ MonoBehaviour:
   - eventID: 2
     callback:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 549932568}
-          m_TargetAssemblyTypeName: JSONSaveHandler, Assembly-CSharp
-          m_MethodName: DeleteData
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+        m_Calls: []
 --- !u!114 &510059873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2013,7 +2001,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 510059874}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 549932565}
+        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+        m_MethodName: BotonBorrarProgreso
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &510059874
 MonoBehaviour:
   m_ObjectHideFlags: 0

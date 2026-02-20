@@ -179,7 +179,8 @@ public class JSONSaveHandler : MonoBehaviour
 
     public void DeleteData()
     {
-        if (File.Exists(filePath)) File.Delete(filePath);
+
+        if (File.Exists(filePath))File.Delete(filePath);
         if (File.Exists(savePath)) File.Delete(savePath);
         PlayerPrefs.DeleteKey(DashKey);
         Debug.Log("Datos borrados");
