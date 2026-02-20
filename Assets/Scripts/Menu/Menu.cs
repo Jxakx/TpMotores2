@@ -50,4 +50,20 @@ public class Menu : MonoBehaviour
         Application.Quit();
 
     }
+
+    public void BotonBorrarProgreso()
+    {
+        ConfirmPopup.Instance.MostrarPopup(EjecutarBorrado);
+    }
+
+    
+    private void EjecutarBorrado()
+    {
+        JSONSaveHandler saveHandler = FindObjectOfType<JSONSaveHandler>();
+        if (saveHandler != null)
+        {
+            saveHandler.DeleteData();
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        }
+    }
 }
