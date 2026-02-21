@@ -110,7 +110,7 @@ public class ButtonController : Controller
     public void SetDashButtonState(bool unlocked)
     {
         // Aquí podés activar/desactivar visualmente el botón de dash
-        GameObject btnDash = GameObject.Find("DashButtonName"); // Cambiá por el nombre real
+        GameObject btnDash = GameObject.Find("DashButton"); // Cambiá por el nombre real
         if (btnDash != null) btnDash.SetActive(unlocked);
     }
 }

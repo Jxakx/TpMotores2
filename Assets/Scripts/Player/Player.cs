@@ -118,9 +118,17 @@ public class Player : MonoBehaviour
         {
             dashUnlocked = true;
         }
-        else if (currentLevel == 2 && saveHandler != null)
+        else
         {
-            dashUnlocked = saveHandler.LoadDashState();
+            // Para cualquier otro nivel, preguntamos al SaveHandler
+            if (saveHandler != null)
+            {
+                dashUnlocked = saveHandler.LoadDashState();
+            }
+            else
+            {
+                dashUnlocked = false; // Por seguridad, si no hay saveHandler, no hay dash
+            }
         }
 
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
@@ -225,11 +233,14 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (controller.IsDashing() && canDash && !isDashing)
+        if (dashUnlocked)
         {
-            StartCoroutine(Dash());
-            particulasDash.Play();
-            dashAudioSource.Play();
+            if (controller.IsDashing() && canDash && !isDashing)
+            {
+                StartCoroutine(Dash());
+                particulasDash.Play();
+                dashAudioSource.Play();
+            }
         }
 
         animator.SetFloat("Horizontal", Mathf.Abs(rb.velocity.x));
@@ -260,14 +271,6 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (!dashUnlocked) return;
-
-        if (controller.IsDashing() && canDash && !isDashing)
-        {
-            StartCoroutine(Dash());
-            particulasDash.Play();
-            dashAudioSource.Play();
-        }
     }
 
     private void Move()
