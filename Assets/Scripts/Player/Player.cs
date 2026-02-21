@@ -87,7 +87,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        Application.targetFrameRate = 100;
+        Application.targetFrameRate = 75;
 
 
         life = maxLife;
