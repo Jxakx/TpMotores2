@@ -26,21 +26,21 @@ public class Player : MonoBehaviour
     [Header("Dash")]
     [SerializeField] float dashSpeed;
     [SerializeField] float dashTime;
-    [SerializeField] float dashCooldown = 3f;  
+    [SerializeField] float dashCooldown = 3f;
     private float dashCooldownTimer = 0f;
     private bool isDashing = false;
     private float starterGravity;
     private bool canDash = true;
-    private bool canMove = true; //También ayuda al knowback cuando choca con algún enemy
-    private bool dashUnlocked = true; // Inicialmente desbloqueado para el nivel 1
+    private bool canMove = true;
+    private bool dashUnlocked = true;
 
     [Header("Knockback")]
-    [SerializeField] public Vector2 knockBackSpeed; //Knockback
-    [SerializeField] private float timeLostControl; //Knockback
+    [SerializeField] public Vector2 knockBackSpeed;
+    [SerializeField] private float timeLostControl;
 
-    [Header("DoubleJump")]
+    [Header("DoubleJump / TripleJump")]
     [SerializeField] private int saltosExtraRestantes;
-    [SerializeField] private int saltosExtra;
+    [SerializeField] private int saltosExtra = 1; // Por defecto 1 (Doble Salto)
 
     [Header("Rebote")]
     [SerializeField] float speedRebound;
@@ -59,13 +59,12 @@ public class Player : MonoBehaviour
     [Header("Animaciones")]
     private Animator animator;
 
-    // Para las partículas cuando corre/camina/dash
     [SerializeField] private ParticleSystem particulasDash;
     [SerializeField] private ParticleSystem particulasCorrer;
     [SerializeField] private ParticleSystem particulasAterrizaje;
     [SerializeField] private ParticleSystem particulasDj;
 
-    private bool wasGrounded = true; // Para que cuando toque el suelo, aparezcan las partículas de aterrizaje
+    private bool wasGrounded = true;
 
     [SerializeField] private BarraDeVida barraDeVida;
 
@@ -99,32 +98,37 @@ public class Player : MonoBehaviour
         {
             checkpointManager.UpdateCheckpointPosition(transform.position);
         }
-        saveHandler = FindObjectOfType<JSONSaveHandler>();
-        coins = saveHandler.LoadData(); // Cargar las monedas al inicio
-        UpdateCoinUI();
-        //dashUnlocked = saveSystem.LoadDashState();
 
-        int currentLevel = SceneManager.GetActiveScene().buildIndex; // Obtener el nivel actual
+        saveHandler = FindObjectOfType<JSONSaveHandler>();
+        if (saveHandler != null)
+        {
+            coins = saveHandler.LoadData();
+
+            // --- CARGAMOS EL TRIPLE SALTO DESDE EL JSON ---
+            if (saveHandler.LoadTripleJumpState())
+            {
+                saltosExtra = 2;
+            }
+        }
+
+        UpdateCoinUI();
+
+        int currentLevel = SceneManager.GetActiveScene().buildIndex;
         if (currentLevel == 1)
         {
-            dashUnlocked = true; // En el nivel 1, el dash siempre está desbloqueado
+            dashUnlocked = true;
         }
-        else if (currentLevel == 2)
+        else if (currentLevel == 2 && saveHandler != null)
         {
-            dashUnlocked = saveHandler.LoadDashState(); // En el nivel 2, cargar desde el sistema de guardado
+            dashUnlocked = saveHandler.LoadDashState();
         }
 
-        // Reactiva el choque entre Player y Enemy siempre (solucion al error que decia el profe que una vez transpasó los enemigos)
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
 
-        // Cargar el estado del dash
-        //dashUnlocked = saveSystem.LoadDashState();
-
-        // Configurar el estado del botón de dash
-        ButtonController controller = FindObjectOfType<ButtonController>();
-        if (controller != null)
+        ButtonController controllerObj = FindObjectOfType<ButtonController>();
+        if (controllerObj != null)
         {
-            controller.SetDashButtonState(dashUnlocked);
+            controllerObj.SetDashButtonState(dashUnlocked);
         }
     }
 
@@ -138,7 +142,7 @@ public class Player : MonoBehaviour
             dashCooldownTimer -= Time.deltaTime;
             if (dashCooldownTimer <= 0)
             {
-                canDash = true; 
+                canDash = true;
             }
         }
 
@@ -153,10 +157,9 @@ public class Player : MonoBehaviour
 
         animator.SetBool("enSuelo", isGrounded);
 
-        // Determina si se debe deslizar en la pared
         if (enPared && !isGrounded)
         {
-            if (controller.GetMoveDir().x != 0) // Solo deslizar si se está moviendo
+            if (controller.GetMoveDir().x != 0)
             {
                 deslizando = true;
                 animator.SetBool("Deslizando", deslizando);
@@ -201,7 +204,7 @@ public class Player : MonoBehaviour
         {
             if (!particulasCorrer.isPlaying)
             {
-                particulasCorrer.Play();  // Iniciar partículas cuando corra
+                particulasCorrer.Play();
             }
 
             if (!WalkAudioSource.isPlaying)
@@ -213,7 +216,7 @@ public class Player : MonoBehaviour
         {
             if (particulasCorrer.isPlaying)
             {
-                particulasCorrer.Stop();  // Detener partículas cuando no corra
+                particulasCorrer.Stop();
             }
 
             if (WalkAudioSource.isPlaying)
@@ -229,7 +232,6 @@ public class Player : MonoBehaviour
             dashAudioSource.Play();
         }
 
-        // Actualizar parámetros de animación
         animator.SetFloat("Horizontal", Mathf.Abs(rb.velocity.x));
         animator.SetBool("isDoubleJumping", false);
         animator.SetFloat("VelocidadY", rb.velocity.y);
@@ -258,7 +260,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (!dashUnlocked) return; // Evita que el dash se use si no está desbloqueado
+        if (!dashUnlocked) return;
 
         if (controller.IsDashing() && canDash && !isDashing)
         {
@@ -315,7 +317,6 @@ public class Player : MonoBehaviour
         canMove = false;
         canDash = false;
         rb.gravityScale = 0;
-        // se mantiene rb.velocity.y en vez de poner 0
         rb.velocity = new Vector2(dashSpeed * transform.localScale.x, rb.velocity.y);
 
         yield return new WaitForSeconds(dashTime);
@@ -332,15 +333,15 @@ public class Player : MonoBehaviour
     public void Rebound()
     {
         rb.velocity = new Vector2(rb.velocity.x, speedRebound);
-    } 
-    
+    }
+
     public void TakeDamage(int value, Vector2 posicion)
     {
         life -= value;
         barraDeVida.CambiarVidaActual(life);
         animator.SetTrigger("Golpe");
-        StartCoroutine(LostControl()); //Perder el control
-        StartCoroutine(CollisionDesactive()); //Desactivar Colisiones
+        StartCoroutine(LostControl());
+        StartCoroutine(CollisionDesactive());
         Knockback(posicion);
 
         if (life <= 0)
@@ -350,13 +351,13 @@ public class Player : MonoBehaviour
             gamePlayCanvas.Onlose();
         }
     }
-    private IEnumerator CollisionDesactive() //Knowback (Invensibilidad por un tiempito)
+    private IEnumerator CollisionDesactive()
     {
-        Physics2D.IgnoreLayerCollision(6, 8, true); //Desactiva las colisiones del player y los enemigos cuando ocurra el knockback
+        Physics2D.IgnoreLayerCollision(6, 8, true);
         yield return new WaitForSeconds(timeLostControl);
         Physics2D.IgnoreLayerCollision(6, 8, false);
     }
-    private IEnumerator LostControl() //Knowback
+    private IEnumerator LostControl()
     {
         canMove = false;
         yield return new WaitForSeconds(timeLostControl);
@@ -365,33 +366,27 @@ public class Player : MonoBehaviour
 
     public void ResetPlayerCollisions()
     {
-        Physics2D.IgnoreLayerCollision(6, 8, false);  // Asegúrate de que las colisiones se restauran
+        Physics2D.IgnoreLayerCollision(6, 8, false);
     }
 
     public void Curar(int cantidadCuracion)
     {
         life += cantidadCuracion;
 
-        // Limitar la vida para que no sobrepase el máximo
         if (life > maxLife)
         {
             life = maxLife;
         }
 
-        // Actualizar la barra de vida
         barraDeVida.CambiarVidaActual(life);
     }
 
     private void Dead()
     {
-        // Llamada al Interstitial
         if (AdsManager.Instance != null)
         {
             AdsManager.Instance.ShowInterstitial();
         }
-
-        //Time.timeScale = 0;
-        //Destroy(GetComponent<Player>(), 1);
     }
 
 
@@ -399,7 +394,6 @@ public class Player : MonoBehaviour
     {
         if (checkpointManager != null)
         {
-            // Desactiva momentáneamente el Rigidbody para evitar efectos residuales
             rb.velocity = Vector2.zero;
             transform.position = checkpointManager.GetCheckpointPosition();
             life = maxLife;
@@ -413,7 +407,6 @@ public class Player : MonoBehaviour
         coins++;
         if (saveHandler != null)
         {
-            // Usamos el método nuevo que creamos en el paso 1
             saveHandler.AddCoins(1);
         }
         UpdateCoinUI();
@@ -437,14 +430,22 @@ public class Player : MonoBehaviour
     public void UnlockDash()
     {
         dashUnlocked = true;
-        saveHandler.SaveDashState(dashUnlocked); // Guardar el estado del dash desbloqueado
+        saveHandler.SaveDashState(dashUnlocked);
 
-        ButtonController controller = FindObjectOfType<ButtonController>();
-        if (controller != null)
+        ButtonController controllerObj = FindObjectOfType<ButtonController>();
+        if (controllerObj != null)
         {
-            controller.SetDashButtonState(dashUnlocked); // Actualizar el botón de dash
+            controllerObj.SetDashButtonState(dashUnlocked);
         }
     }
+
+    // --- NUEVO: FUNCIÓN DEL TRIPLE SALTO ---
+    public void UnlockTripleJump()
+    {
+        saltosExtra = 2; // Le habilitamos 2 saltos en el aire (Triple Salto)
+        saltosExtraRestantes = saltosExtra; // Se lo recargamos por si está en pleno vuelo
+    }
+
     private void OnDrawGizmos()
     {
         if (floorController != null)
@@ -457,11 +458,9 @@ public class Player : MonoBehaviour
 
     public void SilenciarAudio()
     {
-        // Detenemos el sonido de caminar si está sonando
         if (WalkAudioSource != null && WalkAudioSource.isPlaying)
         {
             WalkAudioSource.Stop();
         }
     }
 }
-

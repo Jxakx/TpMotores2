@@ -1138,7 +1138,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 885397394}
         m_TargetAssemblyTypeName: Shop, Assembly-CSharp
-        m_MethodName: ComprarItem3
+        m_MethodName: ComprarTripleSalto
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2063,11 +2063,11 @@ MonoBehaviour:
   warningSinPlata: {fileID: 936921512}
   btnDash: {fileID: 1005839842630433482}
   btnItem2: {fileID: 94993926}
-  btnItem3: {fileID: 275447777}
+  btnTripleSalto: {fileID: 275447777}
   btnEnergia: {fileID: 272692956}
   precioDash: 2
   precioItem2: 3
-  precioItem3: 3
+  precioTripleSalto: 5
   precioEnergia: 5
 --- !u!114 &885397395
 MonoBehaviour:
@@ -3183,12 +3183,12 @@ GameObject:
   - component: {fileID: 1155991939}
   - component: {fileID: 1155991938}
   m_Layer: 5
-  m_Name: ItemDoubleStar
+  m_Name: ItemTripleStar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1155991937
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3207,9 +3207,9 @@ RectTransform:
   - {fileID: 1620622017}
   m_Father: {fileID: 1616229937}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 778.5091, y: -911.526}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1155991938

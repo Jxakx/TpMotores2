@@ -8,6 +8,7 @@ public class JSONSaveHandler : MonoBehaviour
     private string filePath;
     private string savePath;
     private const string DashKey = "DashUnlocked";
+    private const string TripleJumpKey = "TripleJumpUnlocked";
 
     [System.Serializable]
     public class PlayerData
@@ -183,6 +184,19 @@ public class JSONSaveHandler : MonoBehaviour
         if (File.Exists(filePath))File.Delete(filePath);
         if (File.Exists(savePath)) File.Delete(savePath);
         PlayerPrefs.DeleteKey(DashKey);
+        PlayerPrefs.DeleteKey(TripleJumpKey);
         Debug.Log("Datos borrados");
+    }
+
+    // --- MÉTODOS PARA TRIPLE SALTO ---
+    public void SaveTripleJumpState(bool isUnlocked)
+    {
+        PlayerPrefs.SetInt(TripleJumpKey, isUnlocked ? 1 : 0);
+        PlayerPrefs.Save();
+    }
+
+    public bool LoadTripleJumpState()
+    {
+        return PlayerPrefs.GetInt(TripleJumpKey, 0) == 1;
     }
 }
