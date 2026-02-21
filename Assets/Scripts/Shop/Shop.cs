@@ -8,18 +8,18 @@ public class Shop : MonoBehaviour
     [Header("--- UI ---")]
     [SerializeField] private TextMeshProUGUI coinsText;
     [SerializeField] private TextMeshProUGUI starsText;
-    [SerializeField] private UIWarning warningSinPlata; // <-- NUEVO: Acá va tu cartel rojo
+    [SerializeField] private UIWarning warningSinPlata; // Acá va tu cartel rojo
 
     [Header("--- Botones ---")]
     [SerializeField] private Button btnDash;
-    [SerializeField] private Button btnItem2;
-    [SerializeField] private Button btnItem3;
+    [SerializeField] private Button btnItem2; // Estrella x1
+    [SerializeField] private Button btnTripleSalto; // <-- NUEVO: Botón del Triple Salto
     [SerializeField] private Button btnEnergia;
 
     [Header("--- Precios ---")]
     [SerializeField] private int precioDash = 10;
     [SerializeField] private int precioItem2 = 5;
-    [SerializeField] private int precioItem3 = 50;
+    [SerializeField] private int precioTripleSalto = 100; // <-- NUEVO: Precio del Triple Salto
     [SerializeField] private int precioEnergia = 20;
 
     private JSONSaveHandler saveHandler;
@@ -35,9 +35,16 @@ public class Shop : MonoBehaviour
             currentCoins = saveHandler.GetCoins();
             currentStarsBought = saveHandler.GetBoughtStars();
 
+            // Bloquea el Dash si ya lo tenés
             if (saveHandler.LoadDashState())
             {
                 BloquearBoton(btnDash);
+            }
+
+            // Bloquea el Triple Salto si ya lo tenés
+            if (saveHandler.LoadTripleJumpState())
+            {
+                BloquearBoton(btnTripleSalto);
             }
         }
         UpdateUI();
@@ -122,12 +129,15 @@ public class Shop : MonoBehaviour
         UpdateUI();
     }
 
-    // --- COMPRA 2 ESTRELLAS ---
-    public void ComprarItem3()
+    // --- COMPRA TRIPLE SALTO ---
+    public void ComprarTripleSalto()
     {
-        if (currentCoins >= precioItem3)
+        if (saveHandler == null) return;
+        if (saveHandler.LoadTripleJumpState()) return;
+
+        if (currentCoins >= precioTripleSalto)
         {
-            ConfirmPopup.Instance.MostrarPopup(EjecutarCompraItem3);
+            ConfirmPopup.Instance.MostrarPopup(EjecutarCompraTripleSalto);
         }
         else
         {
@@ -135,13 +145,19 @@ public class Shop : MonoBehaviour
         }
     }
 
-    private void EjecutarCompraItem3()
+    private void EjecutarCompraTripleSalto()
     {
-        currentCoins -= precioItem3;
-        currentStarsBought += 2;
-
+        currentCoins -= precioTripleSalto;
         saveHandler.SavePlayerData(currentCoins, currentStarsBought);
+
+        // Guardamos que se compró en el JSON
+        saveHandler.SaveTripleJumpState(true);
+
+        // Activamos el poder en el Player
+        FindObjectOfType<Player>()?.UnlockTripleJump();
+
         UpdateUI();
+        BloquearBoton(btnTripleSalto); // Bloqueamos para que no lo compre de nuevo
     }
 
     // --- NUEVA FUNCIÓN: MOSTRAR CARTEL ROJO ---
@@ -150,10 +166,6 @@ public class Shop : MonoBehaviour
         if (warningSinPlata != null)
         {
             warningSinPlata.MostrarAviso();
-        }
-        else
-        {
-            Debug.LogWarning("Ojo: Te olvidaste de arrastrar el cartel rojo al Inspector de la Tienda.");
         }
     }
 
