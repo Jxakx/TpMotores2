@@ -3955,7 +3955,7 @@ GameObject:
   - component: {fileID: 1564350103}
   - component: {fileID: 1564350102}
   m_Layer: 5
-  m_Name: DashTXT
+  m_Name: TXT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4000,7 +4000,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: STAR X2
+  m_text: TRIPLE JUMP
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 77d2078d269092e41a78a176a034e59f, type: 2}
   m_sharedMaterial: {fileID: 6365299013209974204, guid: 77d2078d269092e41a78a176a034e59f, type: 2}
@@ -4027,7 +4027,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42.25
+  m_fontSize: 41.3
   m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4063,7 +4063,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -108.00911, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -5419,7 +5419,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Supongo que te cuesta bastante... bueno, toma otras 2.
+  m_text: Supongo que te cuesta bastante... bueno, toma un salto extra.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 77d2078d269092e41a78a176a034e59f, type: 2}
   m_sharedMaterial: {fileID: 6365299013209974204, guid: 77d2078d269092e41a78a176a034e59f, type: 2}
