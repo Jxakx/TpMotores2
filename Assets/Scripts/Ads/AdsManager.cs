@@ -4,7 +4,7 @@ using UnityEngine.Advertisements;
 public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityAdsLoadListener, IUnityAdsShowListener
 {
     [Header("Configuración")]
-    [SerializeField] string _androidGameId = "TU_GAME_ID_AQUI"; // <--- OJO ACÁ: Pone tu ID del Dashboard si lo tenés, sino dejalo vacio para probar
+    [SerializeField] string _androidGameId = "TU_GAME_ID_AQUI"; // <--- OJO ACÁ: Pone tu ID del Dashboard
     [SerializeField] bool _testMode = true;
 
     [Header("IDs de Anuncios (Android)")]
@@ -16,7 +16,6 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
 
     void Awake()
     {
-        // Singleton básico para poder llamarlo desde cualquier lado
         if (Instance == null)
         {
             Instance = this;
@@ -31,8 +30,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
 
     public void InitializeAds()
     {
-        // Si no pusiste ID, intentamos iniciar igual (a veces Unity lo agarra solo si está linkeado)
-        if (string.IsNullOrEmpty(_androidGameId)) _androidGameId = "1234567"; // ID Dummy por si acaso
+        if (string.IsNullOrEmpty(_androidGameId)) _androidGameId = "1234567";
 
         Advertisement.Initialize(_androidGameId, _testMode, this);
     }
@@ -42,8 +40,6 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
     {
         Advertisement.Banner.SetPosition(BannerPosition.BOTTOM_CENTER);
         Advertisement.Banner.Load(_bannerId);
-        // Nota: Load también hace el Show automáticamente en versiones nuevas, 
-        // pero por seguridad usamos las opciones de carga.
         Advertisement.Banner.Show(_bannerId);
     }
 
@@ -56,10 +52,12 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
     public void ShowInterstitial()
     {
         Debug.Log("Cargando Interstitial...");
+        // ¡CONGELAMOS EL TIEMPO ACÁ DIRECTAMENTE! (Así queda más prolijo)
+        Time.timeScale = 0f;
         Advertisement.Load(_interstitialId, this);
     }
 
-    // --- 3. REWARDED (Stamina/Vida - Este ya lo usabas) ---
+    // --- 3. REWARDED (Stamina/Vida) ---
     public void ShowRewarded()
     {
         Debug.Log("Cargando Rewarded...");
@@ -81,7 +79,6 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
     {
         Debug.Log($"Anuncio cargado: {adUnitId}");
 
-        // Si no es Banner, hay que mostrarlo explícitamente cuando termina de cargar
         if (adUnitId.Equals(_interstitialId))
         {
             Advertisement.Show(_interstitialId, this);
@@ -92,22 +89,41 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
         }
     }
 
+    // --- SALVAVIDAS: SI FALLA, DESCONGELAMOS EL JUEGO ---
     public void OnUnityAdsFailedToLoad(string adUnitId, UnityAdsLoadError error, string message)
     {
         Debug.Log($"Error cargando Ad {adUnitId}: {error} - {message}");
+
+        if (adUnitId.Equals(_interstitialId))
+        {
+            Time.timeScale = 1f; // Salva el soft-lock si no hay internet
+        }
     }
 
-    public void OnUnityAdsShowFailure(string adUnitId, UnityAdsShowError error, string message) { }
+    public void OnUnityAdsShowFailure(string adUnitId, UnityAdsShowError error, string message)
+    {
+        if (adUnitId.Equals(_interstitialId))
+        {
+            Time.timeScale = 1f; // Salva el soft-lock si falla al mostrarse
+        }
+    }
+
     public void OnUnityAdsShowStart(string adUnitId) { }
     public void OnUnityAdsShowClick(string adUnitId) { }
 
+    // --- ACÁ ES DONDE SUCEDE LA MAGIA DE REANUDAR ---
     public void OnUnityAdsShowComplete(string adUnitId, UnityAdsShowCompletionState showCompletionState)
     {
+        // Si el anuncio que se acaba de cerrar es el de morir...
+        if (adUnitId.Equals(_interstitialId))
+        {
+            Debug.Log("Interstitial cerrado, reanudando el juego...");
+            Time.timeScale = 1f; // ¡Descongelamos el juego!
+        }
+
         if (adUnitId.Equals(_rewardedId) && showCompletionState.Equals(UnityAdsShowCompletionState.COMPLETED))
         {
             Debug.Log("¡Premio Otorgado!");
-            // ACÁ VA TU LÓGICA DE DAR PREMIO (Stamina, Vida, etc)
-            // Podés usar eventos o llamar directo a un manager.
         }
     }
 }
