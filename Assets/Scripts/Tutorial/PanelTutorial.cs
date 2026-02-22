@@ -51,14 +51,7 @@ public class PanelTutorial : MonoBehaviour
         videoPlayer.time = 0;
         videoPlayer.frame = 0;
 
-        // --- SOLUCIÓN: 1ro Frenamos al jugador ---
-        ButtonController btnController = FindObjectOfType<ButtonController>();
-        if (btnController != null)
-        {
-            btnController.stopMovement();
-        }
-
-        // --- SOLUCIÓN: 2do Apagamos el Canvas ---
+        // Solución a que cuando pasabas por el cartel se seguía moviendo el pj
         foreach (GameObject canvas in canvasGameplay)
         {
             if (canvas != null) canvas.SetActive(false);
