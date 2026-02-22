@@ -21,8 +21,6 @@ public class PanelTutorial : MonoBehaviour
     [SerializeField] private float tiempoAnimacion = 0.25f;
 
     private CartelTutorial cartelActual;
-
-    // NUEVA VARIABLE: Guarda el tamaño que le diste en Unity
     private Vector3 escalaOriginalVideo;
 
     private void Awake()
@@ -32,7 +30,6 @@ public class PanelTutorial : MonoBehaviour
 
         videoPlayer.isLooping = true;
 
-        // ¡MAGIA! Memorizamos tu escala personalizada antes de apagar nada
         if (videoObjeto != null)
         {
             escalaOriginalVideo = videoObjeto.transform.localScale;
@@ -54,6 +51,14 @@ public class PanelTutorial : MonoBehaviour
         videoPlayer.time = 0;
         videoPlayer.frame = 0;
 
+        // --- SOLUCIÓN: 1ro Frenamos al jugador ---
+        ButtonController btnController = FindObjectOfType<ButtonController>();
+        if (btnController != null)
+        {
+            btnController.stopMovement();
+        }
+
+        // --- SOLUCIÓN: 2do Apagamos el Canvas ---
         foreach (GameObject canvas in canvasGameplay)
         {
             if (canvas != null) canvas.SetActive(false);
@@ -83,12 +88,10 @@ public class PanelTutorial : MonoBehaviour
             tiempo += Time.unscaledDeltaTime;
             float progreso = tiempo / tiempoAnimacion;
 
-            // Usamos tu escala original en vez de Vector3.one
             videoObjeto.transform.localScale = Vector3.Lerp(Vector3.zero, escalaOriginalVideo, progreso);
             yield return null;
         }
 
-        // Lo dejamos exactamente del tamaño que configuraste
         videoObjeto.transform.localScale = escalaOriginalVideo;
     }
 
@@ -116,7 +119,6 @@ public class PanelTutorial : MonoBehaviour
             tiempo += Time.unscaledDeltaTime;
             float progreso = tiempo / tiempoAnimacion;
 
-            // Usamos tu escala original en vez de Vector3.one
             videoObjeto.transform.localScale = Vector3.Lerp(escalaOriginalVideo, Vector3.zero, progreso);
             yield return null;
         }
