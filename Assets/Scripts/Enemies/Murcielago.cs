@@ -29,7 +29,7 @@ public class Murcielago : Entity
 
     public void Girar(Vector3 objetivo)
     {
-        if(transform.position.x < objetivo.x)
+        if (transform.position.x < objetivo.x)
         {
             spriteRenderer.flipX = true;
         }
@@ -38,5 +38,4 @@ public class Murcielago : Entity
             spriteRenderer.flipX = false;
         }
     }
-
 }

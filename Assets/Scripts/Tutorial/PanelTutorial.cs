@@ -51,7 +51,12 @@ public class PanelTutorial : MonoBehaviour
         videoPlayer.time = 0;
         videoPlayer.frame = 0;
 
-        // Solución a que cuando pasabas por el cartel se seguía moviendo el pj
+        ButtonController btnController = FindObjectOfType<ButtonController>();
+        if (btnController != null)
+        {
+            btnController.stopMovement();
+        }
+
         foreach (GameObject canvas in canvasGameplay)
         {
             if (canvas != null) canvas.SetActive(false);
@@ -60,9 +65,10 @@ public class PanelTutorial : MonoBehaviour
         Player jugador = FindObjectOfType<Player>();
         if (jugador != null) jugador.SilenciarAudio();
 
-        Time.timeScale = 0f;
-        videoPlayer.Play();
+        Time.timeScale = 0.0001f;
+        videoPlayer.timeUpdateMode = VideoTimeUpdateMode.UnscaledGameTime;
 
+        videoPlayer.Play();
         StartCoroutine(AnimacionAparecer());
     }
 
@@ -80,7 +86,6 @@ public class PanelTutorial : MonoBehaviour
         {
             tiempo += Time.unscaledDeltaTime;
             float progreso = tiempo / tiempoAnimacion;
-
             videoObjeto.transform.localScale = Vector3.Lerp(Vector3.zero, escalaOriginalVideo, progreso);
             yield return null;
         }
@@ -111,12 +116,12 @@ public class PanelTutorial : MonoBehaviour
         {
             tiempo += Time.unscaledDeltaTime;
             float progreso = tiempo / tiempoAnimacion;
-
             videoObjeto.transform.localScale = Vector3.Lerp(escalaOriginalVideo, Vector3.zero, progreso);
             yield return null;
         }
 
         Time.timeScale = 1f;
+        yield return null;
         videoPlayer.Stop();
 
         videoObjeto.SetActive(false);
