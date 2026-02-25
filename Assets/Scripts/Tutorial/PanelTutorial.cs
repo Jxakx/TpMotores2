@@ -43,7 +43,6 @@ public class PanelTutorial : MonoBehaviour
         videoPlayer.loopPointReached += OnVideoLoopComplete;
     }
 
-    // Recibe un string en vez de un VideoClip
     public void AbrirTutorial(string nombreVideo, string texto, CartelTutorial cartel)
     {
         cartelActual = cartel;
@@ -63,13 +62,11 @@ public class PanelTutorial : MonoBehaviour
         Player jugador = FindObjectOfType<Player>();
         if (jugador != null) jugador.SilenciarAudio();
 
-        StartCoroutine(RutinaPrepararYMostrar(nombreVideo)); // Pasamos el nombre
+        StartCoroutine(RutinaPrepararYMostrar(nombreVideo));
     }
 
     private IEnumerator RutinaPrepararYMostrar(string nombreVideo)
     {
-        // --- LA MAGIA DE LA REPRODUCCIÓN NATIVA ---
-        // Le damos la ruta exacta del celular donde está el archivo suelto
         videoPlayer.source = VideoSource.Url;
         videoPlayer.url = Application.streamingAssetsPath + "/" + nombreVideo;
 
@@ -80,26 +77,9 @@ public class PanelTutorial : MonoBehaviour
             yield return null;
         }
 
-        Time.timeScale = 0f;
-
-        videoPlayer.Play();
-        StartCoroutine(AnimacionAparecer());
-    }
-
-    private IEnumerator RutinaPrepararYMostrar(VideoClip clip)
-    {
-        // 1. Asignamos el video y lo mandamos a preparar MIENTRAS EL TIEMPO FLUYE NORMAL
-        videoPlayer.clip = clip;
-        videoPlayer.Prepare();
-
-        // 2. Esperamos hasta que el celular termine de cargar el video en la memoria
-        while (!videoPlayer.isPrepared)
-        {
-            yield return null;
-        }
-
-        // 3. ¡Recién ahora pausamos el juego! Así evitamos la cámara lenta.
-        Time.timeScale = 0f;
+        // --- LA COMBINACIÓN MÁGICA ---
+        // Al estar en StreamingAssets y usar 0.0001f, el video fluye perfecto y el juego no se rompe.
+        Time.timeScale = 0.0001f;
 
         videoPlayer.Play();
         StartCoroutine(AnimacionAparecer());
@@ -153,8 +133,6 @@ public class PanelTutorial : MonoBehaviour
             yield return null;
         }
 
-        // --- EL SECRETO ANTI-CONGELAMIENTO ---
-        // 1. Primero apagamos lo visual para que el jugador pueda seguir jugando pase lo que pase
         videoObjeto.SetActive(false);
         panelPrincipal.SetActive(false);
 
@@ -168,13 +146,10 @@ public class PanelTutorial : MonoBehaviour
             cartelActual.IniciarCooldown();
         }
 
-        // 2. Despausamos el juego
         Time.timeScale = 1f;
 
-        // 3. Le damos al celular un respiro de 0.1 segundos REALES
         yield return new WaitForSecondsRealtime(0.1f);
 
-        // 4. Apagamos el video de forma segura usando Pause en vez de Stop
         videoPlayer.Pause();
     }
 

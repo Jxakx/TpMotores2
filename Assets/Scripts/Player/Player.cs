@@ -87,9 +87,6 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        Application.targetFrameRate = 75;
-
-
         life = maxLife;
         barraDeVida.InicializarBarraDeVida(life);
         rb = GetComponent<Rigidbody2D>();
