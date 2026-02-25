@@ -29,6 +29,7 @@ public class PanelTutorial : MonoBehaviour
         else Destroy(gameObject);
 
         videoPlayer.isLooping = true;
+        videoPlayer.timeUpdateMode = VideoTimeUpdateMode.UnscaledGameTime;
 
         if (videoObjeto != null)
         {
@@ -46,10 +47,6 @@ public class PanelTutorial : MonoBehaviour
     {
         cartelActual = cartel;
         textoTutorial.text = texto;
-        videoPlayer.clip = clip;
-
-        videoPlayer.time = 0;
-        videoPlayer.frame = 0;
 
         ButtonController btnController = FindObjectOfType<ButtonController>();
         if (btnController != null)
@@ -65,8 +62,24 @@ public class PanelTutorial : MonoBehaviour
         Player jugador = FindObjectOfType<Player>();
         if (jugador != null) jugador.SilenciarAudio();
 
-        Time.timeScale = 0.0001f;
-        videoPlayer.timeUpdateMode = VideoTimeUpdateMode.UnscaledGameTime;
+        // Llamamos a la corrutina que prepara el video de forma segura
+        StartCoroutine(RutinaPrepararYMostrar(clip));
+    }
+
+    private IEnumerator RutinaPrepararYMostrar(VideoClip clip)
+    {
+        // 1. Asignamos el video y lo mandamos a preparar MIENTRAS EL TIEMPO FLUYE NORMAL
+        videoPlayer.clip = clip;
+        videoPlayer.Prepare();
+
+        // 2. Esperamos hasta que el celular termine de cargar el video en la memoria
+        while (!videoPlayer.isPrepared)
+        {
+            yield return null;
+        }
+
+        // 3. ¡Recién ahora pausamos el juego! Así evitamos la cámara lenta.
+        Time.timeScale = 0f;
 
         videoPlayer.Play();
         StartCoroutine(AnimacionAparecer());
@@ -120,10 +133,8 @@ public class PanelTutorial : MonoBehaviour
             yield return null;
         }
 
-        Time.timeScale = 1f;
-        yield return null;
-        videoPlayer.Stop();
-
+        // --- EL SECRETO ANTI-CONGELAMIENTO ---
+        // 1. Primero apagamos lo visual para que el jugador pueda seguir jugando pase lo que pase
         videoObjeto.SetActive(false);
         panelPrincipal.SetActive(false);
 
@@ -136,6 +147,15 @@ public class PanelTutorial : MonoBehaviour
         {
             cartelActual.IniciarCooldown();
         }
+
+        // 2. Despausamos el juego
+        Time.timeScale = 1f;
+
+        // 3. Le damos al celular un respiro de 0.1 segundos REALES
+        yield return new WaitForSecondsRealtime(0.1f);
+
+        // 4. Apagamos el video de forma segura usando Pause en vez de Stop
+        videoPlayer.Pause();
     }
 
     private void OnDestroy()
