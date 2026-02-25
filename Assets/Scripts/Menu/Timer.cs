@@ -6,30 +6,27 @@ using TMPro;
 public class Timer : MonoBehaviour
 {
     public TextMeshProUGUI timerText;
-    private float timeElapsed = 0f; // Tiempo transcurrido en segundos
-    private float timeLimit = 300f;  // Límite de 5 minutos (300 segundos)
+    private float timeElapsed = 0f;
+    private float timeLimit = 300f;
 
     void Update()
     {
-        // Si el tiempo no ha alcanzado el límite, sigue incrementando
         if (timeElapsed < timeLimit)
         {
-            timeElapsed += Time.deltaTime; // Aumenta el tiempo con cada frame
+            timeElapsed += Time.deltaTime;
             UpdateTimerDisplay();
         }
         else
         {
-            timeElapsed = timeLimit; // Asegura que el cronómetro no pase de los 5 minutos
-            // Aquí puedes poner lo que sucede cuando se alcanza el tiempo (por ejemplo, fin del nivel)
+            timeElapsed = timeLimit;
         }
     }
 
     void UpdateTimerDisplay()
     {
-        int minutes = Mathf.FloorToInt(timeElapsed / 60); // Calcula los minutos
-        int seconds = Mathf.FloorToInt(timeElapsed % 60); // Calcula los segundos restantes
+        int minutes = Mathf.FloorToInt(timeElapsed / 60);
+        int seconds = Mathf.FloorToInt(timeElapsed % 60);
 
-        // Actualiza el texto con el tiempo transcurrido
         timerText.text = string.Format("{0}:{1:00}", minutes, seconds);
     }
 }

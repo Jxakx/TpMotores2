@@ -16,9 +16,9 @@ public class Tronco : Entity
 
     private Transform playerTransform;
 
-    private int shootMode = 0; // 0 para disparo normal, 1 para disparo triple
-    private int tripleShotCount = 0; // Contador para el disparo triple
-    private float tripleShotDelay = 0.2f; // Intervalo entre balas en disparo triple
+    private int shootMode = 0;
+    private int tripleShotCount = 0;
+    private float tripleShotDelay = 0.2f;
     private float lastTripleShotTime;
     public AudioSource shootSound;
 
@@ -32,27 +32,21 @@ public class Tronco : Entity
 
     private void Update()
     {
-        
         playerInRange = Physics2D.Raycast(shootController.position, -transform.right, distance, player) ||
                         Physics2D.Raycast(shootController.position, transform.right, distance, player);
 
-        // Siempre rotar hacia el jugador si está detrás o enfrente
         RotateTowardsPlayer();
 
         if (playerInRange)
         {
-            // Solo dispara si el jugador está en rango y ha pasado suficiente tiempo
             if (Time.time > lastShoot + waitShootTime)
             {
                 lastShoot = Time.time;
                 animator.SetTrigger("Disparar");
-
-                // Solo llamamos a ShootLogic() después del tiempo de espera de la animación
                 Invoke(nameof(ShootLogic), tiempoEsperaDisparo);
             }
         }
 
-        // Si está en modo de disparo triple, manejar los disparos consecutivos
         if (shootMode == 1 && tripleShotCount > 0)
         {
             if (Time.time > lastTripleShotTime + tripleShotDelay)
@@ -61,7 +55,6 @@ public class Tronco : Entity
                 Shoot();
                 tripleShotCount--;
 
-                // Si ya disparó las 3 balas, volver al disparo normal
                 if (tripleShotCount == 0)
                 {
                     shootMode = 0;
@@ -75,13 +68,12 @@ public class Tronco : Entity
         if (shootMode == 0)
         {
             Shoot();
-            shootMode = 1; // Cambiar al modo de disparo triple en el siguiente ciclo
+            shootMode = 1;
             print("Disparo 1");
         }
         else if (shootMode == 1 && tripleShotCount == 0)
         {
-            // Solo iniciar el disparo triple, pero no disparar inmediatamente
-            tripleShotCount = 3; // Disparar 3 balas en total, pero la primera ya no se dispara
+            tripleShotCount = 3;
             lastTripleShotTime = Time.time;
             print("Disparo triple iniciado");
         }
@@ -89,10 +81,8 @@ public class Tronco : Entity
 
     private void RotateTowardsPlayer()
     {
-        // Calcular dirección del jugador
         Vector2 directionToPlayer = playerTransform.position - transform.position;
 
-        // Si el jugador está en el lado opuesto, rotar
         if ((directionToPlayer.x > 0 && transform.localScale.x < 0) || (directionToPlayer.x < 0 && transform.localScale.x > 0))
         {
             Vector3 newScale = transform.localScale;

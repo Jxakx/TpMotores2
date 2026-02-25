@@ -78,10 +78,16 @@ public class ButtonController : Controller
         moviendoIzquierda = false;
     }
 
-    public void stopMovement() // Por si algún otro script lo usa
+    public void stopMovement()
     {
         moviendoDerecha = false;
         moviendoIzquierda = false;
+        dir = Vector3.zero; // <-- Agregamos esto para forzar la detención total al instante
+    }
+
+    private void OnDisable()
+    {
+        stopMovement();
     }
 
     // --- MÉTODOS OBLIGATORIOS DEL CONTROLLER ---

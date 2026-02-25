@@ -18,12 +18,11 @@ public class Hongo : Entity
     private void FixedUpdate()
     {
         RaycastHit2D informacionSuelo = Physics2D.Raycast(floorController.position, Vector2.down, distance, LayerMask.GetMask("Floor"));
-        
+
         rbHongo.velocity = new Vector2(speed, rbHongo.velocity.y);
 
-        if(informacionSuelo == false)
+        if (informacionSuelo == false)
         {
-            
             Turn();
         }
     }
