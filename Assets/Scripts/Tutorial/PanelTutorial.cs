@@ -43,7 +43,8 @@ public class PanelTutorial : MonoBehaviour
         videoPlayer.loopPointReached += OnVideoLoopComplete;
     }
 
-    public void AbrirTutorial(VideoClip clip, string texto, CartelTutorial cartel)
+    // Recibe un string en vez de un VideoClip
+    public void AbrirTutorial(string nombreVideo, string texto, CartelTutorial cartel)
     {
         cartelActual = cartel;
         textoTutorial.text = texto;
@@ -62,8 +63,27 @@ public class PanelTutorial : MonoBehaviour
         Player jugador = FindObjectOfType<Player>();
         if (jugador != null) jugador.SilenciarAudio();
 
-        // Llamamos a la corrutina que prepara el video de forma segura
-        StartCoroutine(RutinaPrepararYMostrar(clip));
+        StartCoroutine(RutinaPrepararYMostrar(nombreVideo)); // Pasamos el nombre
+    }
+
+    private IEnumerator RutinaPrepararYMostrar(string nombreVideo)
+    {
+        // --- LA MAGIA DE LA REPRODUCCIÓN NATIVA ---
+        // Le damos la ruta exacta del celular donde está el archivo suelto
+        videoPlayer.source = VideoSource.Url;
+        videoPlayer.url = Application.streamingAssetsPath + "/" + nombreVideo;
+
+        videoPlayer.Prepare();
+
+        while (!videoPlayer.isPrepared)
+        {
+            yield return null;
+        }
+
+        Time.timeScale = 0f;
+
+        videoPlayer.Play();
+        StartCoroutine(AnimacionAparecer());
     }
 
     private IEnumerator RutinaPrepararYMostrar(VideoClip clip)
