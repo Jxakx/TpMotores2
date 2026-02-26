@@ -28,9 +28,9 @@ public class LevelManager : MonoBehaviour
     {
         if (time <= 40f)
             return 3;
-        else if (time <= 60f)
+        else if (time <= 70f)
             return 2;
-        else if (time <= 90f)
+        else if (time <= 100f)
             return 1;
         else
             return 0;

@@ -48,13 +48,11 @@ public class JSONSaveHandler : MonoBehaviour
 
     // --- MÉTODOS DE MONEDAS Y DATOS DEL JUGADOR ---
 
-    // Este es el que usa tu Player (el "viejo" nombre)
     public int LoadData()
     {
         return LoadPlayerData().coins;
     }
 
-    // Este es el que usa tu Player para guardar monedas
     public void SaveData(int coins)
     {
         PlayerData current = LoadPlayerData();
@@ -62,13 +60,11 @@ public class JSONSaveHandler : MonoBehaviour
         SavePlayerData(current.coins, current.starsBought);
     }
 
-    // Este es el "nuevo" que usan los scripts corregidos
     public int GetCoins()
     {
         return LoadData();
     }
 
-    // Este es el "nuevo" para sumar monedas
     public void AddCoins(int amount)
     {
         int current = LoadData();
@@ -129,7 +125,6 @@ public class JSONSaveHandler : MonoBehaviour
         }
     }
 
-    // OJO: Cambié el nombre para que coincida con lo que buscan Shop.cs y MenuLevels.cs
     public int LoadLevelStars(int levelIndex)
     {
         return LoadStars(levelIndex);
