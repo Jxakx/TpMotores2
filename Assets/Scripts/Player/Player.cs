@@ -403,10 +403,24 @@ public class Player : MonoBehaviour
 
     private void Dead()
     {
-        if (AdsManager.Instance != null)
+        // 1. Cargamos el número de muertes que tenemos guardado (si no hay nada, empieza en 0)
+        int muertesGuardadas = PlayerPrefs.GetInt("ContadorMuertes", 0);
+
+        // 2. Sumamos la nueva muerte
+        muertesGuardadas++;
+
+        // 3. Verificamos si toca anuncio
+        if (muertesGuardadas % 2 == 0)
         {
-            AdsManager.Instance.ShowInterstitial();
+            if (AdsManager.Instance != null)
+            {
+                AdsManager.Instance.ShowInterstitial();
+            }
         }
+
+        // 4. Guardamos el nuevo valor para la próxima vez
+        PlayerPrefs.SetInt("ContadorMuertes", muertesGuardadas);
+        PlayerPrefs.Save();
     }
 
 

@@ -119,7 +119,7 @@ public class StaminaSystem : MonoBehaviour
     {
         if(currentStamina >= maxStamina)
         {
-            timerText.text = "Full Stamina";
+            timerText.text = "Full";
 
             return;
         }

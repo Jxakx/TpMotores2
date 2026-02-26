@@ -114,7 +114,7 @@ public class JSONSaveHandler : MonoBehaviour
         SavePlayerData(current.coins, stars);
     }
 
-    // --- MÉTODOS DE NIVELES (ESTRELLAS GANADAS) ---
+    // MÉTODOS DE NIVELES (ESTRELLAS GANADAS)
 
     public void SaveStars(int levelIndex, int stars)
     {
