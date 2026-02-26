@@ -1,11 +1,11 @@
 using UnityEngine;
-using UnityEngine.Video;
 
 public class CartelTutorial : MonoBehaviour
 {
     [Header("Contenido de ESTE Tutorial")]
-    [SerializeField] private VideoClip videoTutorial;
-    [TextArea(3, 5)] // Esto hace que la cajita de texto en el Inspector sea más grande y cómoda
+    [Tooltip("Escribí el nombre exacto del video con su extensión, ej: tutorial_salto.mp4")]
+    [SerializeField] private string nombreArchivoVideo; // ACÁ ESTÁ EL CAMBIO
+    [TextArea(3, 5)]
     [SerializeField] private string textoTutorial;
 
     [Header("Configuración de Cooldown")]
@@ -16,19 +16,16 @@ public class CartelTutorial : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            // Usamos Time.unscaledTime porque Time.time se detiene cuando pausamos el juego a 0f
             if (Time.unscaledTime >= proximoTiempoPermitido)
             {
-                // Llamamos al cerebro central y le pasamos nuestro video, texto y a nosotros mismos (this)
-                PanelTutorial.Instance.AbrirTutorial(videoTutorial, textoTutorial, this);
+                // Le pasamos el string (texto) en lugar del clip
+                PanelTutorial.Instance.AbrirTutorial(nombreArchivoVideo, textoTutorial, this);
             }
         }
     }
 
-    // Esta función es llamada por el PanelTutorial justo cuando el jugador aprieta "Cerrar"
     public void IniciarCooldown()
     {
-        // Sumamos 4 segundos al tiempo real actual para bloquear el trigger
         proximoTiempoPermitido = Time.unscaledTime + cooldownTiempo;
     }
 }

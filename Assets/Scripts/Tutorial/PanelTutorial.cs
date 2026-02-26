@@ -29,6 +29,7 @@ public class PanelTutorial : MonoBehaviour
         else Destroy(gameObject);
 
         videoPlayer.isLooping = true;
+        videoPlayer.timeUpdateMode = VideoTimeUpdateMode.UnscaledGameTime;
 
         if (videoObjeto != null)
         {
@@ -42,14 +43,10 @@ public class PanelTutorial : MonoBehaviour
         videoPlayer.loopPointReached += OnVideoLoopComplete;
     }
 
-    public void AbrirTutorial(VideoClip clip, string texto, CartelTutorial cartel)
+    public void AbrirTutorial(string nombreVideo, string texto, CartelTutorial cartel)
     {
         cartelActual = cartel;
         textoTutorial.text = texto;
-        videoPlayer.clip = clip;
-
-        videoPlayer.time = 0;
-        videoPlayer.frame = 0;
 
         ButtonController btnController = FindObjectOfType<ButtonController>();
         if (btnController != null)
@@ -65,8 +62,24 @@ public class PanelTutorial : MonoBehaviour
         Player jugador = FindObjectOfType<Player>();
         if (jugador != null) jugador.SilenciarAudio();
 
+        StartCoroutine(RutinaPrepararYMostrar(nombreVideo));
+    }
+
+    private IEnumerator RutinaPrepararYMostrar(string nombreVideo)
+    {
+        videoPlayer.source = VideoSource.Url;
+        videoPlayer.url = Application.streamingAssetsPath + "/" + nombreVideo;
+
+        videoPlayer.Prepare();
+
+        while (!videoPlayer.isPrepared)
+        {
+            yield return null;
+        }
+
+        // --- LA COMBINACIÓN MÁGICA ---
+        // Al estar en StreamingAssets y usar 0.0001f, el video fluye perfecto y el juego no se rompe.
         Time.timeScale = 0.0001f;
-        videoPlayer.timeUpdateMode = VideoTimeUpdateMode.UnscaledGameTime;
 
         videoPlayer.Play();
         StartCoroutine(AnimacionAparecer());
@@ -120,10 +133,6 @@ public class PanelTutorial : MonoBehaviour
             yield return null;
         }
 
-        Time.timeScale = 1f;
-        yield return null;
-        videoPlayer.Stop();
-
         videoObjeto.SetActive(false);
         panelPrincipal.SetActive(false);
 
@@ -136,6 +145,12 @@ public class PanelTutorial : MonoBehaviour
         {
             cartelActual.IniciarCooldown();
         }
+
+        Time.timeScale = 1f;
+
+        yield return new WaitForSecondsRealtime(0.1f);
+
+        videoPlayer.Pause();
     }
 
     private void OnDestroy()
