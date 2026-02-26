@@ -87,6 +87,8 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        Application.targetFrameRate = Mathf.RoundToInt((float)Screen.currentResolution.refreshRateRatio.value) + 5;
+
         life = maxLife;
         barraDeVida.InicializarBarraDeVida(life);
         rb = GetComponent<Rigidbody2D>();
