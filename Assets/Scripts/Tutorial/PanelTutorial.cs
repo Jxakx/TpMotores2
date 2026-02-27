@@ -48,6 +48,9 @@ public class PanelTutorial : MonoBehaviour
         cartelActual = cartel;
         textoTutorial.text = texto;
 
+        // Forzamos a TextMeshPro a reconstruir la malla del texto limpiamente
+        textoTutorial.ForceMeshUpdate();
+
         ButtonController btnController = FindObjectOfType<ButtonController>();
         if (btnController != null)
         {
@@ -77,7 +80,6 @@ public class PanelTutorial : MonoBehaviour
             yield return null;
         }
 
-        // --- LA COMBINACIÓN MÁGICA ---
         // Al estar en StreamingAssets y usar 0.0001f, el video fluye perfecto y el juego no se rompe.
         Time.timeScale = 0.0001f;
 
