@@ -46,8 +46,6 @@ public class JSONSaveHandler : MonoBehaviour
         savePath = Application.persistentDataPath + "/level_data.json";
     }
 
-    // --- MÉTODOS DE MONEDAS Y DATOS DEL JUGADOR ---
-
     public int LoadData()
     {
         return LoadPlayerData().coins;
@@ -98,7 +96,6 @@ public class JSONSaveHandler : MonoBehaviour
         return LoadPlayerData().starsBought;
     }
 
-    // Para compatibilidad si algún script viejo lo busca
     public int LoadStarsBought()
     {
         return GetBoughtStars();
@@ -110,7 +107,6 @@ public class JSONSaveHandler : MonoBehaviour
         SavePlayerData(current.coins, stars);
     }
 
-    // MÉTODOS DE NIVELES (ESTRELLAS GANADAS)
 
     public void SaveStars(int levelIndex, int stars)
     {
@@ -160,8 +156,6 @@ public class JSONSaveHandler : MonoBehaviour
         return total;
     }
 
-    // --- MÉTODOS PARA DASH ---
-
     public void SaveDashState(bool isUnlocked)
     {
         PlayerPrefs.SetInt(DashKey, isUnlocked ? 1 : 0);
@@ -183,7 +177,6 @@ public class JSONSaveHandler : MonoBehaviour
         Debug.Log("Datos borrados");
     }
 
-    // --- MÉTODOS PARA TRIPLE SALTO ---
     public void SaveTripleJumpState(bool isUnlocked)
     {
         PlayerPrefs.SetInt(TripleJumpKey, isUnlocked ? 1 : 0);

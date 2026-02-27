@@ -48,9 +48,6 @@ public class PanelTutorial : MonoBehaviour
         cartelActual = cartel;
         textoTutorial.text = texto;
 
-        // Forzamos a TextMeshPro a reconstruir la malla del texto limpiamente
-        textoTutorial.ForceMeshUpdate();
-
         ButtonController btnController = FindObjectOfType<ButtonController>();
         if (btnController != null)
         {

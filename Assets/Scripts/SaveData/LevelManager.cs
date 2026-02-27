@@ -24,6 +24,7 @@ public class LevelManager : MonoBehaviour
         saveHandler.SaveStars(levelIndex, starsEarned);
     }
 
+    //Se calcula el tiempo en que se gana cada estrella
     int CalculateStars(float time)
     {
         if (time <= 40f)

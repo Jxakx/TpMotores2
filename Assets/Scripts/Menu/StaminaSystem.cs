@@ -65,14 +65,6 @@ public class StaminaSystem : MonoBehaviour
             UpdateTimerUI();
             SaveStamina();
 
-            //timer += Time.deltaTime;
-
-            //if(timer >= timeToChargeStamina)
-            //{
-            //    currentStamina += 1;
-            //    timer = 0;
-            //}
-
             yield return new WaitForEndOfFrame();
 
         }
